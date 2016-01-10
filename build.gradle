@@ -1,32 +1,31 @@
-
 // For those who want the bleeding edge
 buildscript {
     repositories {
-		mavenCentral()
+        mavenCentral()
         jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-		maven {
-			// Required for the curseforge task
-			name = "gradle"
-			url "https://plugins.gradle.org/m2/"
-		}
-		maven {
+        maven {
+            // Required for the curseforge task
+            name = "gradle"
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
-		classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.5" // Required for the curseforge task
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.5" // Required for the curseforge task
     }
 }
 
 repositories {
     maven {
-		// Required for JEI
+        // Required for JEI
         name 'DVS1 Maven FS'
         url 'http://dvs1.progwml6.com/files/maven'
     }
@@ -41,25 +40,25 @@ sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
 version = "${minecraft_version}-${mod_version}.${System.getenv("BUILD_NUMBER") ?: 0}"
-group= mod_group
+group = mod_group
 archivesBaseName = mod_artifact_basename
 
 minecraft {
     version = minecraft_version + "-" + forge_version
     runDir = "run"
-	
-	useDepAts = true // Required for JEI
-	
-	// Set mod version in code prior to compilation
-	replaceIn "reference/Reference.java"
+
+    useDepAts = true // Required for JEI
+
+    // Set mod version in code prior to compilation
+    replaceIn "reference/Reference.java"
     replace "@MOD_VERSION@", "${mod_version}.${System.getenv("BUILD_NUMBER") ?: 0}"
-	
-	// Set the jar signature in code prior to compilation, if it exists as a build property
+
+    // Set the jar signature in code prior to compilation, if it exists as a build property
     if (project.hasProperty("ee3_sha1_signature")) {
         replace "@FINGERPRINT@", project.ee3_sha1_signature
     }
 
-	// Set the api version in code prior to compilation for all api packages
+    // Set the api version in code prior to compilation for all api packages
     replaceIn "api/package-info.java"
     replace "@API_VERSION@", mod_api_version
 
@@ -80,8 +79,8 @@ minecraft {
 
     replaceIn "api/util/package-info.java"
     replace "@API_VERSION@", mod_api_version
-    
-	// Specify the mcp mappings to use
+
+    // Specify the mcp mappings to use
     mappings = mcp_mappings_version
 }
 
@@ -90,27 +89,27 @@ dependencies {
 }
 
 processResources
-{
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-	
-	// exclude xcf files, as they are for development only
-    exclude '**/*.xcf'
+        {
+            // this will ensure that this task is redone when the versions change.
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
+            // exclude xcf files, as they are for development only
+            exclude '**/*.xcf'
+
+            // replace stuff in mcmod.info, nothing else
+            from(sourceSets.main.resources.srcDirs) {
+                include 'mcmod.info'
+
+                // replace version and mcversion
+                expand 'version': project.version, 'mcversion': project.minecraft.version
+            }
+
+            // copy everything else, thats not the mcmod.info
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }
 
 task devJar(type: Jar, dependsOn: 'classes') {
     from(sourceSets.main.output) {
@@ -126,11 +125,11 @@ artifacts {
 }
 
 task createChangelog(type: JenkinsChangelog) {
-	onlyIf {
-		return (("${System.getenv().JOB_NAME}" != null) && project.hasProperty("jenkins_server") && project.hasProperty("jenkins_password"))
-	}
-	
-	outputs.upToDateWhen { false } // never up to date
+    onlyIf {
+        return (("${System.getenv().JOB_NAME}" != null) && project.hasProperty("jenkins_server") && project.hasProperty("jenkins_password"))
+    }
+
+    outputs.upToDateWhen { false } // never up to date
     serverRoot = project.hasProperty('jenkins_server') ? project.getProperty('jenkins_server') : "";
     jobName = System.env['JOB_NAME'] ?: ""
     targetBuild = System.env['BUILD_NUMBER'] ?: 0;
@@ -146,7 +145,7 @@ task signJar(type: SignJar, dependsOn: ["jar", "devJar"]) {
 
     keyStore = project.hasProperty('keystore_location') ? project.getProperty('keystore_location') : "";
     storePass = project.hasProperty('keystore_password') ? project.getProperty('keystore_password') : "";
-	alias = project.hasProperty('ee3_keystore_alias') ? project.getProperty('ee3_keystore_alias') : "";
+    alias = project.hasProperty('ee3_keystore_alias') ? project.getProperty('ee3_keystore_alias') : "";
     keyPass = project.hasProperty('keystore_password') ? project.getProperty('keystore_password') : "";
     inputFile = jar.archivePath
     outputFile = jar.archivePath
@@ -156,17 +155,17 @@ uploadArchives.dependsOn signJar
 build.dependsOn signJar
 
 curseforge {
-	apiKey = project.hasProperty('ee3_curseforge_apikey') ? project.ee3_curseforge_apikey : ''
-	project {
-		id = project.hasProperty('ee3_curseforge_projectid') ? project.ee3_curseforge_projectid : '0'
-		releaseType = mod_release_type
-		changelogType = 'text'
-		changelog = file("build/libs/${project.archivesBaseName}-${project.version}-changelog.txt")
-		addArtifact devJar
-		relations {
-			optionalLibrary 'jei'
-		}
-	}
+    apiKey = project.hasProperty('ee3_curseforge_apikey') ? project.ee3_curseforge_apikey : ''
+    project {
+        id = project.hasProperty('ee3_curseforge_projectid') ? project.ee3_curseforge_projectid : '0'
+        releaseType = mod_release_type
+        changelogType = 'text'
+        changelog = file("build/libs/${project.archivesBaseName}-${project.version}-changelog.txt")
+        addArtifact devJar
+        relations {
+            optionalLibrary 'jei'
+        }
+    }
 }
 
 uploadArchives {
