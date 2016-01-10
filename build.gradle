@@ -9,28 +9,33 @@ buildscript {
             url = "http://files.minecraftforge.net/maven"
         }
 		maven {
+			// Required for the curseforge task
+			name = "gradle"
+			url "https://plugins.gradle.org/m2/"
+		}
+		maven {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+		classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.0.5" // Required for the curseforge task
     }
 }
 
 repositories {
     maven {
+		// Required for JEI
         name 'DVS1 Maven FS'
         url 'http://dvs1.progwml6.com/files/maven'
     }
-    maven {
-        name 'forge'
-        url 'http://files.minecraftforge.net/maven'
-    }
 }
 
+apply plugin: 'java'
+apply plugin: 'maven'
 apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'curseforge'
+apply plugin: 'com.matthewprenger.cursegradle' // Required for the curseforge task
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -43,7 +48,7 @@ minecraft {
     version = minecraft_version + "-" + forge_version
     runDir = "run"
 	
-	useDepAts = true
+	useDepAts = true // Required for JEI
 	
 	// Set mod version in code prior to compilation
 	replaceIn "reference/Reference.java"
@@ -120,32 +125,18 @@ artifacts {
     archives devJar
 }
 
-task changelog(type: JenkinsChangelog) {
+task createChangelog(type: JenkinsChangelog) {
 	onlyIf {
-		project.hasProperty('project.jenkins_server')
+		return (("${System.getenv().JOB_NAME}" != null) && project.hasProperty("jenkins_server") && project.hasProperty("jenkins_password"))
 	}
-}
-
-import net.minecraftforge.gradle.delayed.*
-import net.minecraftforge.gradle.tasks.dev.ChangelogTask
-
-task createChangelog(type: ChangelogTask) {
-
-    if (("${System.getenv().JOB_NAME}" != null) && project.hasProperty("jenkins_server") && project.hasProperty("jenkins_password")) {
-        def jobName = "${System.getenv().JOB_NAME}"
-        def buildNumber = "${System.getenv().BUILD_NUMBER}"
-
-        setServerRoot(new DelayedString(project, project.jenkins_server))
-        setJobName(new DelayedString(project, jobName.toString()))
-        setAuthName(new DelayedString(project, project.jenkins_user))
-        setAuthPassword(new DelayedString(project, project.jenkins_password))
-        setTargetBuild({ buildNumber.toString() });
-        setOutput(new DelayedFile(project, 'build/libs/' + project.archivesBaseName + '-' + project.version + '-changelog.txt'));
-    }
-
-    onlyIf {
-        return (("${System.getenv().JOB_NAME}" != null) && project.hasProperty("jenkins_server") && project.hasProperty("jenkins_password"))
-    }
+	
+	outputs.upToDateWhen { false } // never up to date
+    serverRoot = project.hasProperty('jenkins_server') ? project.getProperty('jenkins_server') : "";
+    jobName = System.env['JOB_NAME'] ?: ""
+    targetBuild = System.env['BUILD_NUMBER'] ?: 0;
+    authName = project.hasProperty('jenkins_user') ? project.getProperty('jenkins_user') : "";
+    authPassword = project.hasProperty('jenkins_password') ? project.getProperty('jenkins_password') : "";
+    output = "build/libs/${project.archivesBaseName}-${project.version}-changelog.txt"
 }
 
 task signJar(type: SignJar, dependsOn: ["jar", "devJar"]) {
@@ -153,10 +144,10 @@ task signJar(type: SignJar, dependsOn: ["jar", "devJar"]) {
         project.hasProperty('keystore_location')
     }
 
-    keyStore = project.keystore_location
-    storePass = project.keystore_password
-	alias = project.ee3_keystore_alias
-    keyPass = project.keystore_password
+    keyStore = project.hasProperty('keystore_location') ? project.getProperty('keystore_location') : "";
+    storePass = project.hasProperty('keystore_password') ? project.getProperty('keystore_password') : "";
+	alias = project.hasProperty('ee3_keystore_alias') ? project.getProperty('ee3_keystore_alias') : "";
+    keyPass = project.hasProperty('keystore_password') ? project.getProperty('keystore_password') : "";
     inputFile = jar.archivePath
     outputFile = jar.archivePath
 }
@@ -164,16 +155,18 @@ task signJar(type: SignJar, dependsOn: ["jar", "devJar"]) {
 uploadArchives.dependsOn signJar
 build.dependsOn signJar
 
-curse {
-    dependsOn 'reobf'
-    onlyIf { return project.hasProperty('ee3_curseforge_apikey') }
-
-    projectId = project.hasProperty('ee3_curseforge_projectid') ? project.ee3_curseforge_projectid : ''
-    apiKey = project.hasProperty('ee3_curseforge_apikey') ? project.ee3_curseforge_apikey : ''
-    changelog = project.hasProperty('changelog') ? project.changelog : ''
-    releaseType = mod_release_type
-
-    additionalArtifact devJar
+curseforge {
+	apiKey = project.hasProperty('ee3_curseforge_apikey') ? project.ee3_curseforge_apikey : ''
+	project {
+		id = project.hasProperty('ee3_curseforge_projectid') ? project.ee3_curseforge_projectid : '0'
+		releaseType = mod_release_type
+		changelogType = 'text'
+		changelog = file("build/libs/${project.archivesBaseName}-${project.version}-changelog.txt")
+		addArtifact devJar
+		relations {
+			optionalLibrary 'jei'
+		}
+	}
 }
 
 uploadArchives {
