@@ -1,12 +1,12 @@
 package com.pahimar.ee3.api.array;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public interface ICustomAlchemyArrayRender
 {
     @SideOnly(Side.CLIENT)
-    public abstract void doCustomRendering(TileEntity tileEntity, double x, double y, double z, int arraySize, ForgeDirection orientation, ForgeDirection rotation, float tick);
+    public abstract void doCustomRendering(TileEntity tileEntity, double x, double y, double z, int arraySize, EnumFacing facing, EnumFacing rotation, float tick);
 }

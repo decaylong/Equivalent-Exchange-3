@@ -7,8 +7,8 @@ import net.minecraft.util.IChatComponent;
 
 import java.lang.reflect.Type;
 
-public final class EnergyValue implements Comparable<EnergyValue>, JsonDeserializer<EnergyValue>, JsonSerializer<EnergyValue>
-{
+public final class EnergyValue implements Comparable<EnergyValue>, JsonDeserializer<EnergyValue>, JsonSerializer<EnergyValue> {
+
     private static final Gson jsonSerializer = (new GsonBuilder()).registerTypeAdapter(EnergyValue.class, new EnergyValue()).create();
     private float energyValue;
 
@@ -20,6 +20,41 @@ public final class EnergyValue implements Comparable<EnergyValue>, JsonDeseriali
     public EnergyValue(float energyValue)
     {
         this.energyValue = energyValue;
+    }
+
+    public static NBTTagCompound writeEnergyValueToNBT(EnergyValue energyValue) {
+        NBTTagCompound nbtTagCompound = new NBTTagCompound();
+        energyValue.writeToNBT(nbtTagCompound);
+        return nbtTagCompound;
+    }
+
+    public static EnergyValue loadEnergyValueFromNBT(NBTTagCompound nbtTagCompound) {
+        if (nbtTagCompound.hasKey("energyValue")) {
+            float energyValue = nbtTagCompound.getFloat("energyValue");
+
+            return new EnergyValue(energyValue);
+        }
+
+        return null;
+    }
+
+    /**
+     * Deserializes an EmcValue object from the given serialized json String
+     *
+     * @param jsonEnergyValue Json encoded String representing a EmcValue object
+     * @return The EmcValue that was encoded as json, or null if a valid EmcValue could not be decoded from given String
+     */
+    @SuppressWarnings("unused")
+    public static EnergyValue createFromJson(String jsonEnergyValue) {
+        try {
+            return jsonSerializer.fromJson(jsonEnergyValue, EnergyValue.class);
+        } catch (JsonSyntaxException exception) {
+            exception.printStackTrace();
+        } catch (JsonParseException exception) {
+            exception.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
@@ -69,50 +104,6 @@ public final class EnergyValue implements Comparable<EnergyValue>, JsonDeseriali
         {
             this.energyValue = nbtTagCompound.getFloat("energyValue");
         }
-    }
-
-    public static NBTTagCompound writeEnergyValueToNBT(EnergyValue energyValue)
-    {
-        NBTTagCompound nbtTagCompound = new NBTTagCompound();
-        energyValue.writeToNBT(nbtTagCompound);
-        return nbtTagCompound;
-    }
-
-    public static EnergyValue loadEnergyValueFromNBT(NBTTagCompound nbtTagCompound)
-    {
-        if (nbtTagCompound.hasKey("energyValue"))
-        {
-            float energyValue = nbtTagCompound.getFloat("energyValue");
-
-            return new EnergyValue(energyValue);
-        }
-
-        return null;
-    }
-
-    /**
-     * Deserializes an EmcValue object from the given serialized json String
-     *
-     * @param jsonEnergyValue Json encoded String representing a EmcValue object
-     * @return The EmcValue that was encoded as json, or null if a valid EmcValue could not be decoded from given String
-     */
-    @SuppressWarnings("unused")
-    public static EnergyValue createFromJson(String jsonEnergyValue)
-    {
-        try
-        {
-            return jsonSerializer.fromJson(jsonEnergyValue, EnergyValue.class);
-        }
-        catch (JsonSyntaxException exception)
-        {
-            exception.printStackTrace();
-        }
-        catch (JsonParseException exception)
-        {
-            exception.printStackTrace();
-        }
-
-        return null;
     }
 
     /**

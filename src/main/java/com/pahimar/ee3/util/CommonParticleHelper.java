@@ -2,7 +2,7 @@ package com.pahimar.ee3.util;
 
 import com.pahimar.ee3.network.PacketHandler;
 import com.pahimar.ee3.network.message.MessageSingleParticleEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public class CommonParticleHelper
 {

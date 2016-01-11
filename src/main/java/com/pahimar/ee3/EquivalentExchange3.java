@@ -17,7 +17,6 @@ import com.pahimar.ee3.reference.Messages;
 import com.pahimar.ee3.reference.Reference;
 import com.pahimar.ee3.reference.Settings;
 import com.pahimar.ee3.test.EnergyValueMappingsTestSuite;
-import com.pahimar.ee3.util.FluidHelper;
 import com.pahimar.ee3.util.LogHelper;
 import com.pahimar.ee3.util.SerializationHelper;
 import com.pahimar.ee3.util.TileEntityDataHelper;
@@ -39,151 +38,110 @@ public class EquivalentExchange3
     public static IProxy proxy;
 
     @Mod.EventHandler
-    public void invalidFingerprint(FMLFingerprintViolationEvent event)
-    {
-        if (Reference.FINGERPRINT.equals("@FINGERPRINT@"))
-        {
+    public void invalidFingerprint(FMLFingerprintViolationEvent event) {
+
+        if (Reference.FINGERPRINT.equals("@FINGERPRINT@")) {
             LogHelper.info(Messages.NO_FINGERPRINT_MESSAGE);
-        }
-        else
-        {
+        } else {
             LogHelper.warn(Messages.INVALID_FINGERPRINT_MESSAGE);
         }
     }
 
     @Mod.EventHandler
-    public void onServerStarting(FMLServerStartingEvent event)
-    {
+    public void onServerStarting(FMLServerStartingEvent event) {
+
         SerializationHelper.initModDataDirectories();
-
         TransmutationKnowledgeRegistry.getInstance();
-
         AbilityRegistry.getInstance().loadAbilityRegistryFromFile(Settings.Abilities.onlyLoadFile);
-
         event.registerServerCommand(new CommandEE());
     }
 
     @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) {
+
         ConfigurationHandler.init(event.getSuggestedConfigurationFile());
-
         Files.Global.init(event);
-
         PacketHandler.init();
-
         proxy.registerKeybindings();
-
         ModItems.init();
-
         ModBlocks.init();
-
-        FluidHelper.registerFluids();
-
         EnergyValues.addDefaultEnergyValues();
-
         AlchemyArrays.registerAlchemyArrays();
     }
 
     @Mod.EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        // Register the GUI Handler
+    public void init(FMLInitializationEvent event) {
+
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-
-        // Initialize mod tile entities
         TileEntities.init();
-
-        // Initialize custom rendering and pre-load textures (Client only)
         proxy.initRenderingAndTextures();
-
-        // Register the Items Event Handler
         proxy.registerEventHandlers();
-
         CraftingHandler.init();
         Recipes.init();
-
-        // Register our fuels
         GameRegistry.registerFuelHandler(new FuelHandler());
-
-        // Register the Waila data provider
-        FMLInterModComms.sendMessage("Waila", "register", "com.pahimar.ee3.waila.WailaDataProvider.callbackRegister");
     }
 
     @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event)
-    {
+    public void postInit(FMLPostInitializationEvent event) {
+
         CachedOreDictionary.getInstance();
         Abilities.initNotLearnables();
     }
 
     @Mod.EventHandler
-    public void onServerStopping(FMLServerStoppingEvent event)
-    {
-        WorldEventHandler.hasInitilialized = false;
+    public void onServerStopping(FMLServerStoppingEvent event) {
 
+        WorldEventHandler.hasInitilialized = false;
         EnergyValueRegistry.getInstance().save();
         TransmutationKnowledgeRegistry.getInstance().clear();
         AbilityRegistry.getInstance().save();
     }
 
     @Mod.EventHandler
-    public void handleMissingMappingEvent(FMLMissingMappingsEvent event)
-    {
-        for (FMLMissingMappingsEvent.MissingMapping mapping : event.get())
-        {
-            if (mapping.type == GameRegistry.Type.ITEM)
-            {
-                if (mapping.name.equals("EE3:alchemicalTome"))
-                {
+    public void handleMissingMappingEvent(FMLMissingMappingsEvent event) {
+
+        for (FMLMissingMappingsEvent.MissingMapping mapping : event.get()) {
+            if (mapping.type == GameRegistry.Type.ITEM) {
+                if (mapping.name.equals("EE3:alchemicalTome")) {
                     mapping.remap(ModItems.alchenomicon);
                 }
             }
         }
     }
 
-    public EnergyValueRegistry getEnergyValueRegistry()
-    {
+    public EnergyValueRegistry getEnergyValueRegistry() {
         return EnergyValueRegistry.getInstance();
     }
 
-    public RecipeRegistry getRecipeRegistry()
-    {
+    public RecipeRegistry getRecipeRegistry() {
         return RecipeRegistry.getInstance();
     }
 
-    public AludelRecipeManager getAludelRecipeManager()
-    {
+    public AludelRecipeManager getAludelRecipeManager() {
         return AludelRecipeManager.getInstance();
     }
 
-    public AbilityRegistry getAbilityRegistry()
-    {
+    public AbilityRegistry getAbilityRegistry() {
         return AbilityRegistry.getInstance();
     }
 
-    public AlchemyArrayRegistry getAlchemyArrayRegistry()
-    {
+    public AlchemyArrayRegistry getAlchemyArrayRegistry() {
         return AlchemyArrayRegistry.getInstance();
     }
 
-    public TransmutationKnowledgeRegistry getTransmutationKnowledgeRegistry()
-    {
+    public TransmutationKnowledgeRegistry getTransmutationKnowledgeRegistry() {
         return TransmutationKnowledgeRegistry.getInstance();
     }
 
-    public TileEntityDataHelper getTileEntityDataHelper()
-    {
+    public TileEntityDataHelper getTileEntityDataHelper() {
         return TileEntityDataHelper.getInstance();
     }
 
-    public void runEnergyValueMappingTest(File file)
-    {
+    public void runEnergyValueMappingTest(File file) {
         runEnergyValueMappingTest(file, false);
     }
 
-    public void runEnergyValueMappingTest(File file, boolean strict)
-    {
+    public void runEnergyValueMappingTest(File file, boolean strict) {
         new EnergyValueMappingsTestSuite(file).runTestSuite(strict);
     }
 }

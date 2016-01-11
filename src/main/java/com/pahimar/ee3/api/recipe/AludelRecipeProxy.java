@@ -1,14 +1,21 @@
 package com.pahimar.ee3.api.recipe;
 
 import com.pahimar.ee3.EquivalentExchange3;
-import cpw.mods.fml.common.Mod;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Mod;
 
 // TODO Clean this up and make it more nice for modders. Consider this very volatile for the time being
+// TODO Allow modders a way to remove recipes from the Aludel
 public class AludelRecipeProxy
 {
     @Mod.Instance("EE3")
     private static Object ee3Mod;
+
+    private static void init() {
+        if (ee3Mod != null) {
+            EE3Wrapper.ee3mod = (EquivalentExchange3) ee3Mod;
+        }
+    }
 
     public void addRecipe(ItemStack recipeOutput, ItemStack recipeInputStack, ItemStack recipeInputDust)
     {
@@ -32,17 +39,8 @@ public class AludelRecipeProxy
         return null;
     }
 
-
     private static class EE3Wrapper
     {
         private static EquivalentExchange3 ee3mod;
-    }
-
-    private static void init()
-    {
-        if (ee3Mod != null)
-        {
-            EE3Wrapper.ee3mod = (EquivalentExchange3) ee3Mod;
-        }
     }
 }

@@ -1,29 +1,23 @@
 package com.pahimar.ee3.api.event;
 
-import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.eventhandler.Event;
 
-public class TabletTransmutationEvent extends Event
-{
+public class TabletTransmutationEvent extends Event {
     public final EntityPlayer entityPlayer;
-    public final int x;
-    public final int y;
-    public final int z;
+    public final BlockPos blockPos;
     public final ItemStack itemStack;
 
-    public TabletTransmutationEvent(EntityPlayer entityPlayer, int x, int y, int z, ItemStack itemStack)
-    {
+    public TabletTransmutationEvent(EntityPlayer entityPlayer, BlockPos blockPos, ItemStack itemStack) {
         this.entityPlayer = entityPlayer;
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.blockPos = blockPos;
         this.itemStack = itemStack;
     }
 
     @Override
-    public boolean isCancelable()
-    {
+    public boolean isCancelable() {
         return true;
     }
 }
