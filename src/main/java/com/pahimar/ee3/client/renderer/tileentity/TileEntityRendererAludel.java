@@ -46,7 +46,7 @@ public class TileEntityRendererAludel extends TileEntitySpecialRenderer
             GL11.glPushMatrix();
 
             // Scale, Translate, Rotate
-            scaleTranslateRotate(x, y, z, tileEntityAludel.getOrientation());
+            scaleTranslateRotate(x, y, z, tileEntityAludel.getFacing());
 
             // Bind texture
             this.bindTexture(Textures.Model.ALUDEL);

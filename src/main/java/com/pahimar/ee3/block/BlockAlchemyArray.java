@@ -80,7 +80,7 @@ public class BlockAlchemyArray extends BlockTileEntityEE
         {
             TileEntityAlchemyArray tileEntityAlchemyArray = (TileEntityAlchemyArray) iBlockAccess.getTileEntity(x, y, z);
 
-            switch (tileEntityAlchemyArray.getOrientation())
+            switch (tileEntityAlchemyArray.getFacing())
             {
                 case DOWN:
                 {
@@ -167,27 +167,22 @@ public class BlockAlchemyArray extends BlockTileEntityEE
             TileEntityAlchemyArray tileEntityAlchemyArray = (TileEntityAlchemyArray) world.getTileEntity(x, y, z);
             boolean invalidateAlchemyArray = false;
 
-            if (tileEntityAlchemyArray.getOrientation() == ForgeDirection.UP && !world.isSideSolid(x, y - 1, z, ForgeDirection.UP, true))
+            if (tileEntityAlchemyArray.getFacing() == ForgeDirection.UP && !world.isSideSolid(x, y - 1, z, ForgeDirection.UP, true))
             {
                 invalidateAlchemyArray = true;
-            }
-            else if (tileEntityAlchemyArray.getOrientation() == ForgeDirection.DOWN && !world.isSideSolid(x, y + 1, z, ForgeDirection.DOWN, true))
+            } else if (tileEntityAlchemyArray.getFacing() == ForgeDirection.DOWN && !world.isSideSolid(x, y + 1, z, ForgeDirection.DOWN, true))
             {
                 invalidateAlchemyArray = true;
-            }
-            else if (tileEntityAlchemyArray.getOrientation() == ForgeDirection.NORTH && !world.isSideSolid(x, y, z + 1, ForgeDirection.NORTH, true))
+            } else if (tileEntityAlchemyArray.getFacing() == ForgeDirection.NORTH && !world.isSideSolid(x, y, z + 1, ForgeDirection.NORTH, true))
             {
                 invalidateAlchemyArray = true;
-            }
-            else if (tileEntityAlchemyArray.getOrientation() == ForgeDirection.SOUTH && !world.isSideSolid(x, y, z - 1, ForgeDirection.SOUTH, true))
+            } else if (tileEntityAlchemyArray.getFacing() == ForgeDirection.SOUTH && !world.isSideSolid(x, y, z - 1, ForgeDirection.SOUTH, true))
             {
                 invalidateAlchemyArray = true;
-            }
-            else if (tileEntityAlchemyArray.getOrientation() == ForgeDirection.EAST && !world.isSideSolid(x - 1, y, z, ForgeDirection.EAST, true))
+            } else if (tileEntityAlchemyArray.getFacing() == ForgeDirection.EAST && !world.isSideSolid(x - 1, y, z, ForgeDirection.EAST, true))
             {
                 invalidateAlchemyArray = true;
-            }
-            else if (tileEntityAlchemyArray.getOrientation() == ForgeDirection.WEST && !world.isSideSolid(x + 1, y, z, ForgeDirection.WEST, true))
+            } else if (tileEntityAlchemyArray.getFacing() == ForgeDirection.WEST && !world.isSideSolid(x + 1, y, z, ForgeDirection.WEST, true))
             {
                 invalidateAlchemyArray = true;
             }

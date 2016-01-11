@@ -39,7 +39,7 @@ public class TileEntityDataHelper
     {
         if (!world.isRemote && world.getTileEntity(xCoord, yCoord, zCoord) instanceof TileEntityEE)
         {
-            return ((TileEntityEE) world.getTileEntity(xCoord, yCoord, zCoord)).getOrientation();
+            return ((TileEntityEE) world.getTileEntity(xCoord, yCoord, zCoord)).getFacing();
         }
 
         return null;

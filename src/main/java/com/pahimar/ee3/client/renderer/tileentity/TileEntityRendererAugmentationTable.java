@@ -21,7 +21,7 @@ public class TileEntityRendererAugmentationTable extends TileEntitySpecialRender
         if (tileEntity instanceof TileEntityAugmentationTable)
         {
             TileEntityAugmentationTable tileEntityAugmentationTable = (TileEntityAugmentationTable) tileEntity;
-            ForgeDirection direction = tileEntityAugmentationTable.getOrientation();
+            ForgeDirection direction = tileEntityAugmentationTable.getFacing();
 
             GL11.glPushMatrix();
 

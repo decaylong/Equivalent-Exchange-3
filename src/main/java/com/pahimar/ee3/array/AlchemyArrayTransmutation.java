@@ -57,7 +57,7 @@ public class AlchemyArrayTransmutation extends AlchemyArrayEE implements IInvent
                 TileEntityAlchemyArray tileEntityAlchemyArray = (TileEntityAlchemyArray) world.getTileEntity(arrayX, arrayY, arrayZ);
 
                 // First, see if we can make a Transmutation Tablet
-                if (tileEntityAlchemyArray.getOrientation() == ForgeDirection.UP && tileEntityAlchemyArray.getSize() == 2 && areBlocksValidForTransmutationTablet(world, arrayX, arrayY, arrayZ))
+                if (tileEntityAlchemyArray.getFacing() == ForgeDirection.UP && tileEntityAlchemyArray.getSize() == 2 && areBlocksValidForTransmutationTablet(world, arrayX, arrayY, arrayZ))
                 {
                     world.setBlock(arrayX - 1, arrayY - 1, arrayZ - 1, ModBlocks.ashInfusedStoneSlab, 1, 3);
                     world.setBlock(arrayX, arrayY - 1, arrayZ - 1, ModBlocks.ashInfusedStoneSlab, 2, 3);
@@ -73,7 +73,7 @@ public class AlchemyArrayTransmutation extends AlchemyArrayEE implements IInvent
 
                     if (world.getTileEntity(arrayX, arrayY - 1, arrayZ) instanceof TileEntityTransmutationTablet)
                     {
-                        ((TileEntityTransmutationTablet) world.getTileEntity(arrayX, arrayY - 1, arrayZ)).setOrientation(tileEntityAlchemyArray.getOrientation());
+                        ((TileEntityTransmutationTablet) world.getTileEntity(arrayX, arrayY - 1, arrayZ)).setFacing(tileEntityAlchemyArray.getFacing());
                         ((TileEntityTransmutationTablet) world.getTileEntity(arrayX, arrayY - 1, arrayZ)).setRotation(tileEntityAlchemyArray.getRotation());
                     }
 

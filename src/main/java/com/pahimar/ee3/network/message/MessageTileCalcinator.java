@@ -2,12 +2,10 @@ package com.pahimar.ee3.network.message;
 
 import com.pahimar.ee3.tileentity.TileEntityCalcinator;
 import com.pahimar.ee3.tileentity.TileEntityEE;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 
 import java.util.UUID;
 
@@ -28,7 +26,7 @@ public class MessageTileCalcinator implements IMessage, IMessageHandler<MessageT
         this.x = tileEntityCalcinator.xCoord;
         this.y = tileEntityCalcinator.yCoord;
         this.z = tileEntityCalcinator.zCoord;
-        this.orientation = (byte) tileEntityCalcinator.getOrientation().ordinal();
+        this.orientation = (byte) tileEntityCalcinator.getFacing().ordinal();
         this.state = (byte) tileEntityCalcinator.getState();
         this.customName = tileEntityCalcinator.getCustomName();
         this.ownerUUID = tileEntityCalcinator.getOwnerUUID();
@@ -95,7 +93,7 @@ public class MessageTileCalcinator implements IMessage, IMessageHandler<MessageT
 
         if (tileEntity instanceof TileEntityCalcinator)
         {
-            ((TileEntityEE) tileEntity).setOrientation(message.orientation);
+            ((TileEntityEE) tileEntity).setFacing(message.orientation);
             ((TileEntityEE) tileEntity).setState(message.state);
             ((TileEntityEE) tileEntity).setCustomName(message.customName);
             ((TileEntityEE) tileEntity).setOwnerUUID(message.ownerUUID);
@@ -111,6 +109,6 @@ public class MessageTileCalcinator implements IMessage, IMessageHandler<MessageT
     @Override
     public String toString()
     {
-        return String.format("MessageTileEntityCalcinator - x:%s, y:%s, z:%s, orientation:%s, state:%s, customName:%s, ownerUUID:%s, leftStackSize: %s, leftStackMeta: %s, rightStackSize: %s, rightStackMeta: %s", x, y, z, orientation, state, customName, ownerUUID, leftStackSize, leftStackMeta, rightStackSize, rightStackMeta);
+        return String.format("MessageTileEntityCalcinator - x:%s, y:%s, z:%s, facing:%s, state:%s, customName:%s, ownerUUID:%s, leftStackSize: %s, leftStackMeta: %s, rightStackSize: %s, rightStackMeta: %s", x, y, z, orientation, state, customName, ownerUUID, leftStackSize, leftStackMeta, rightStackSize, rightStackMeta);
     }
 }

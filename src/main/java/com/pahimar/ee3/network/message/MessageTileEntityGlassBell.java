@@ -30,7 +30,7 @@ public class MessageTileEntityGlassBell implements IMessage, IMessageHandler<Mes
         this.x = tileEntityGlassBell.xCoord;
         this.y = tileEntityGlassBell.yCoord;
         this.z = tileEntityGlassBell.zCoord;
-        this.orientation = (byte) tileEntityGlassBell.getOrientation().ordinal();
+        this.orientation = (byte) tileEntityGlassBell.getFacing().ordinal();
         this.state = (byte) tileEntityGlassBell.getState();
         this.customName = tileEntityGlassBell.getCustomName();
         this.ownerUUID = tileEntityGlassBell.getOwnerUUID();
@@ -88,7 +88,7 @@ public class MessageTileEntityGlassBell implements IMessage, IMessageHandler<Mes
 
         if (tileEntity instanceof TileEntityGlassBell)
         {
-            ((TileEntityGlassBell) tileEntity).setOrientation(message.orientation);
+            ((TileEntityGlassBell) tileEntity).setFacing(message.orientation);
             ((TileEntityGlassBell) tileEntity).setState(message.state);
             ((TileEntityGlassBell) tileEntity).setCustomName(message.customName);
             ((TileEntityGlassBell) tileEntity).setOwnerUUID(message.ownerUUID);
@@ -104,6 +104,6 @@ public class MessageTileEntityGlassBell implements IMessage, IMessageHandler<Mes
     @Override
     public String toString()
     {
-        return String.format("MessageTileEntityGlassBell - x:%s, y:%s, z:%s, orientation:%s, state:%s, customName:%s, ownerUUID:%s, outputItemStack: %s", x, y, z, orientation, state, customName, ownerUUID, outputItemStack.toString());
+        return String.format("MessageTileEntityGlassBell - x:%s, y:%s, z:%s, facing:%s, state:%s, customName:%s, ownerUUID:%s, outputItemStack: %s", x, y, z, orientation, state, customName, ownerUUID, outputItemStack.toString());
     }
 }

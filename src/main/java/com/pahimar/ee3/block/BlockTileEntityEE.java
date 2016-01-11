@@ -86,7 +86,7 @@ public abstract class BlockTileEntityEE extends BlockContainer
                 ((TileEntityEE) world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
             }
 
-            ((TileEntityEE) world.getTileEntity(x, y, z)).setOrientation(direction);
+            ((TileEntityEE) world.getTileEntity(x, y, z)).setFacing(direction);
         }
     }
 

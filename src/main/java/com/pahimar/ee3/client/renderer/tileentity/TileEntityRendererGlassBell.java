@@ -51,7 +51,7 @@ public class TileEntityRendererGlassBell extends TileEntitySpecialRenderer
             GL11.glPushMatrix();
 
             // Scale, Translate, Rotate
-            renderGlassBellByOrientation(x, y, z, tileEntityGlassBell.getOrientation());
+            renderGlassBellByOrientation(x, y, z, tileEntityGlassBell.getFacing());
 
             // Bind texture
             this.bindTexture(Textures.Model.GLASS_BELL);
@@ -75,7 +75,7 @@ public class TileEntityRendererGlassBell extends TileEntitySpecialRenderer
                 ghostEntityItem.hoverStart = 0.0F;
                 ghostEntityItem.setEntityItemStack(tileEntityGlassBell.outputItemStack);
 
-                translateGhostItemByOrientation(ghostEntityItem.getEntityItem(), x, y, z, tileEntityGlassBell.getOrientation());
+                translateGhostItemByOrientation(ghostEntityItem.getEntityItem(), x, y, z, tileEntityGlassBell.getFacing());
                 GL11.glScalef(scaleFactor, scaleFactor, scaleFactor);
                 GL11.glRotatef(rotationAngle, 0.0F, 1.0F, 0.0F);
 

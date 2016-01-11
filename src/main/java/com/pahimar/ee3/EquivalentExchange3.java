@@ -21,26 +21,24 @@ import com.pahimar.ee3.util.FluidHelper;
 import com.pahimar.ee3.util.LogHelper;
 import com.pahimar.ee3.util.SerializationHelper;
 import com.pahimar.ee3.util.TileEntityDataHelper;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.*;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.io.File;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, certificateFingerprint = Reference.FINGERPRINT, version = Reference.MOD_VERSION, dependencies = Reference.DEPENDENCIES, guiFactory = Reference.GUI_FACTORY_CLASS)
 public class EquivalentExchange3
 {
-    @Instance(Reference.MOD_ID)
+    @Mod.Instance(Reference.MOD_ID)
     public static EquivalentExchange3 instance;
 
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
     public static IProxy proxy;
 
-    @EventHandler
+    @Mod.EventHandler
     public void invalidFingerprint(FMLFingerprintViolationEvent event)
     {
         if (Reference.FINGERPRINT.equals("@FINGERPRINT@"))
@@ -53,7 +51,7 @@ public class EquivalentExchange3
         }
     }
 
-    @EventHandler
+    @Mod.EventHandler
     public void onServerStarting(FMLServerStartingEvent event)
     {
         SerializationHelper.initModDataDirectories();
@@ -65,7 +63,7 @@ public class EquivalentExchange3
         event.registerServerCommand(new CommandEE());
     }
 
-    @EventHandler
+    @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         ConfigurationHandler.init(event.getSuggestedConfigurationFile());
@@ -87,7 +85,7 @@ public class EquivalentExchange3
         AlchemyArrays.registerAlchemyArrays();
     }
 
-    @EventHandler
+    @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
         // Register the GUI Handler
@@ -112,14 +110,14 @@ public class EquivalentExchange3
         FMLInterModComms.sendMessage("Waila", "register", "com.pahimar.ee3.waila.WailaDataProvider.callbackRegister");
     }
 
-    @EventHandler
+    @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
         CachedOreDictionary.getInstance();
         Abilities.initNotLearnables();
     }
 
-    @EventHandler
+    @Mod.EventHandler
     public void onServerStopping(FMLServerStoppingEvent event)
     {
         WorldEventHandler.hasInitilialized = false;
@@ -129,7 +127,7 @@ public class EquivalentExchange3
         AbilityRegistry.getInstance().save();
     }
 
-    @EventHandler
+    @Mod.EventHandler
     public void handleMissingMappingEvent(FMLMissingMappingsEvent event)
     {
         for (FMLMissingMappingsEvent.MissingMapping mapping : event.get())

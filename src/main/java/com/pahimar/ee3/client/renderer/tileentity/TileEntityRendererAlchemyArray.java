@@ -30,7 +30,7 @@ public class TileEntityRendererAlchemyArray extends TileEntitySpecialRenderer
                 {
                     if (alchemyArray instanceof ICustomAlchemyArrayRender)
                     {
-                        ((ICustomAlchemyArrayRender) alchemyArray).doCustomRendering(tileEntity, x, y, z, tileEntityAlchemyArray.getSize(), tileEntityAlchemyArray.getOrientation(), tileEntityAlchemyArray.getRotation(), tick);
+                        ((ICustomAlchemyArrayRender) alchemyArray).doCustomRendering(tileEntity, x, y, z, tileEntityAlchemyArray.getSize(), tileEntityAlchemyArray.getFacing(), tileEntityAlchemyArray.getRotation(), tick);
                     }
                     else
                     {
@@ -67,7 +67,7 @@ public class TileEntityRendererAlchemyArray extends TileEntitySpecialRenderer
                         GL11.glDepthMask(false);
                         GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
 
-                        if (tileEntityAlchemyArray.getOrientation() == ForgeDirection.UP)
+                        if (tileEntityAlchemyArray.getFacing() == ForgeDirection.UP)
                         {
                             if (tileEntityAlchemyArray.getRotation() == ForgeDirection.NORTH)
                             {
@@ -88,8 +88,7 @@ public class TileEntityRendererAlchemyArray extends TileEntitySpecialRenderer
 
                             yShift = 0.001d;
                             xRotate = -1;
-                        }
-                        else if (tileEntityAlchemyArray.getOrientation() == ForgeDirection.DOWN)
+                        } else if (tileEntityAlchemyArray.getFacing() == ForgeDirection.DOWN)
                         {
                             if (tileEntityAlchemyArray.getRotation() == ForgeDirection.NORTH)
                             {
@@ -110,8 +109,7 @@ public class TileEntityRendererAlchemyArray extends TileEntitySpecialRenderer
 
                             yShift = 0.999d;
                             xRotate = 1;
-                        }
-                        else if (tileEntityAlchemyArray.getOrientation() == ForgeDirection.NORTH)
+                        } else if (tileEntityAlchemyArray.getFacing() == ForgeDirection.NORTH)
                         {
                             if (tileEntityAlchemyArray.getRotation() == ForgeDirection.UP)
                             {
@@ -132,8 +130,7 @@ public class TileEntityRendererAlchemyArray extends TileEntitySpecialRenderer
 
                             zRotate = 1;
                             zShift = 0.999d;
-                        }
-                        else if (tileEntityAlchemyArray.getOrientation() == ForgeDirection.SOUTH)
+                        } else if (tileEntityAlchemyArray.getFacing() == ForgeDirection.SOUTH)
                         {
                             if (tileEntityAlchemyArray.getRotation() == ForgeDirection.UP)
                             {
@@ -154,8 +151,7 @@ public class TileEntityRendererAlchemyArray extends TileEntitySpecialRenderer
 
                             zRotate = -1;
                             zShift = 0.001d;
-                        }
-                        else if (tileEntityAlchemyArray.getOrientation() == ForgeDirection.EAST)
+                        } else if (tileEntityAlchemyArray.getFacing() == ForgeDirection.EAST)
                         {
                             if (tileEntityAlchemyArray.getRotation() == ForgeDirection.UP)
                             {
@@ -176,8 +172,7 @@ public class TileEntityRendererAlchemyArray extends TileEntitySpecialRenderer
 
                             yRotate = 1;
                             xShift = 0.001d;
-                        }
-                        else if (tileEntityAlchemyArray.getOrientation() == ForgeDirection.WEST)
+                        } else if (tileEntityAlchemyArray.getFacing() == ForgeDirection.WEST)
                         {
                             if (tileEntityAlchemyArray.getRotation() == ForgeDirection.UP)
                             {
@@ -203,7 +198,7 @@ public class TileEntityRendererAlchemyArray extends TileEntitySpecialRenderer
                         GL11.glPushMatrix();
                         GL11.glTranslated(x + xShift, y + yShift, z + zShift);
                         GL11.glScalef(1f * scale, 1f * scale, 1f * scale);
-                        GL11.glRotatef(rotationAngle, tileEntityAlchemyArray.getOrientation().offsetX, tileEntityAlchemyArray.getOrientation().offsetY, tileEntityAlchemyArray.getOrientation().offsetZ);
+                        GL11.glRotatef(rotationAngle, tileEntityAlchemyArray.getFacing().offsetX, tileEntityAlchemyArray.getFacing().offsetY, tileEntityAlchemyArray.getFacing().offsetZ);
                         GL11.glRotatef(90, xRotate, yRotate, zRotate);
                         RenderUtils.renderQuad(alchemyArray.getTexture());
                         GL11.glPopMatrix();

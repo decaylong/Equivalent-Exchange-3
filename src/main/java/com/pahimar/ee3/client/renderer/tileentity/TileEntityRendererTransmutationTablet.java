@@ -65,7 +65,7 @@ public class TileEntityRendererTransmutationTablet extends TileEntitySpecialRend
                 GL11.glPushMatrix();
                 GL11.glTranslated(x + 0.5d, y + 0.63d, z + 0.5d);
                 GL11.glScalef(2f, 2f, 2f);
-                GL11.glRotatef(rotationAngle, tileEntityTransmutationTablet.getOrientation().offsetX, tileEntityTransmutationTablet.getOrientation().offsetY, tileEntityTransmutationTablet.getOrientation().offsetZ);
+                GL11.glRotatef(rotationAngle, tileEntityTransmutationTablet.getFacing().offsetX, tileEntityTransmutationTablet.getFacing().offsetY, tileEntityTransmutationTablet.getFacing().offsetZ);
                 GL11.glRotatef(90, -1, 0, 0);
                 RenderUtils.renderQuad(Textures.AlchemyArray.TRANSMUTATION_ALCHEMY_ARRAY);
                 GL11.glPopMatrix();

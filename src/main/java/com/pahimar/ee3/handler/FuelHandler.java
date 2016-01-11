@@ -4,10 +4,10 @@ import com.pahimar.ee3.init.ModBlocks;
 import com.pahimar.ee3.init.ModItems;
 import com.pahimar.ee3.item.ItemAlchemicalFuel;
 import com.pahimar.ee3.item.ItemBlockAlchemicalFuel;
-import cpw.mods.fml.common.IFuelHandler;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.fml.common.IFuelHandler;
 
 public class FuelHandler implements IFuelHandler
 {

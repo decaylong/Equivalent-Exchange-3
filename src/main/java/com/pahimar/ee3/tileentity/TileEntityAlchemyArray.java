@@ -447,7 +447,7 @@ public class TileEntityAlchemyArray extends TileEntityEE implements ISidedInvent
             {
                 TileEntityDummyArray tileEntityDummyArray = (TileEntityDummyArray) this.worldObj.getTileEntity(x, y, z);
 
-                return tileEntityDummyArray.getOrientation() == this.orientation &&
+                return tileEntityDummyArray.getFacing() == this.orientation &&
                         tileEntityDummyArray.getTrueXCoord() == this.xCoord &&
                         tileEntityDummyArray.getTrueYCoord() == this.yCoord &&
                         tileEntityDummyArray.getTrueZCoord() == this.zCoord;

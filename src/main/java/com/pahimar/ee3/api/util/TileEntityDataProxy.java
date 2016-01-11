@@ -1,9 +1,9 @@
 package com.pahimar.ee3.api.util;
 
 import com.pahimar.ee3.EquivalentExchange3;
-import cpw.mods.fml.common.Mod;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.UUID;
 
@@ -84,16 +84,15 @@ public class TileEntityDataProxy
         return null;
     }
 
-    private static class EE3Wrapper
-    {
-        private static EquivalentExchange3 ee3mod;
-    }
-
     private static void init()
     {
         if (ee3Mod != null)
         {
             EE3Wrapper.ee3mod = (EquivalentExchange3) ee3Mod;
         }
+    }
+
+    private static class EE3Wrapper {
+        private static EquivalentExchange3 ee3mod;
     }
 }

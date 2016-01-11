@@ -123,7 +123,7 @@ public class BlockGlassBell extends BlockTileEntityEE
         {
             TileEntityGlassBell tileGlassBell = (TileEntityGlassBell) iBlockAccess.getTileEntity(x, y, z);
 
-            switch (tileGlassBell.getOrientation())
+            switch (tileGlassBell.getFacing())
             {
                 case DOWN:
                 {

@@ -32,7 +32,7 @@ public class MessageTileEntityAludel implements IMessage, IMessageHandler<Messag
         this.x = tileEntityAludel.xCoord;
         this.y = tileEntityAludel.yCoord;
         this.z = tileEntityAludel.zCoord;
-        this.orientation = (byte) tileEntityAludel.getOrientation().ordinal();
+        this.orientation = (byte) tileEntityAludel.getFacing().ordinal();
         this.state = (byte) tileEntityAludel.getState();
         this.customName = tileEntityAludel.getCustomName();
         this.ownerUUID = tileEntityAludel.getOwnerUUID();
@@ -110,7 +110,7 @@ public class MessageTileEntityAludel implements IMessage, IMessageHandler<Messag
 
         if (tileEntity instanceof TileEntityAludel)
         {
-            ((TileEntityAludel) tileEntity).setOrientation(message.orientation);
+            ((TileEntityAludel) tileEntity).setFacing(message.orientation);
             ((TileEntityAludel) tileEntity).setState(message.state);
             ((TileEntityAludel) tileEntity).setCustomName(message.customName);
             ((TileEntityAludel) tileEntity).setOwnerUUID(message.ownerUUID);
@@ -138,6 +138,6 @@ public class MessageTileEntityAludel implements IMessage, IMessageHandler<Messag
     @Override
     public String toString()
     {
-        return String.format("MessageTileEntityAludel - x:%s, y:%s, z:%s, orientation:%s, state:%s, customName:%s, ownerUUID:%s, itemId: %s, metaData: %s, stackSize: %s, itemColor: %s", x, y, z, orientation, state, customName, ownerUUID, itemId, metaData, stackSize, itemColor);
+        return String.format("MessageTileEntityAludel - x:%s, y:%s, z:%s, facing:%s, state:%s, customName:%s, ownerUUID:%s, itemId: %s, metaData: %s, stackSize: %s, itemColor: %s", x, y, z, orientation, state, customName, ownerUUID, itemId, metaData, stackSize, itemColor);
     }
 }

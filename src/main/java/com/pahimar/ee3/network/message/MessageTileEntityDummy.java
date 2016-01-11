@@ -30,7 +30,7 @@ public class MessageTileEntityDummy implements IMessage, IMessageHandler<Message
         this.x = tileEntityDummyArray.xCoord;
         this.y = tileEntityDummyArray.yCoord;
         this.z = tileEntityDummyArray.zCoord;
-        this.orientation = (byte) tileEntityDummyArray.getOrientation().ordinal();
+        this.orientation = (byte) tileEntityDummyArray.getFacing().ordinal();
         this.state = (byte) tileEntityDummyArray.getState();
         this.customName = tileEntityDummyArray.getCustomName();
         this.ownerUUID = tileEntityDummyArray.getOwnerUUID();
@@ -112,7 +112,7 @@ public class MessageTileEntityDummy implements IMessage, IMessageHandler<Message
 
         if (tileEntity instanceof TileEntityEE)
         {
-            ((TileEntityEE) tileEntity).setOrientation(message.orientation);
+            ((TileEntityEE) tileEntity).setFacing(message.orientation);
             ((TileEntityEE) tileEntity).setState(message.state);
             ((TileEntityEE) tileEntity).setCustomName(message.customName);
             ((TileEntityEE) tileEntity).setOwnerUUID(message.ownerUUID);

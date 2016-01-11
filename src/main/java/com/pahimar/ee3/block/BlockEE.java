@@ -90,7 +90,7 @@ public class BlockEE extends Block
                 ((TileEntityEE) world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
             }
 
-            ((TileEntityEE) world.getTileEntity(x, y, z)).setOrientation(direction);
+            ((TileEntityEE) world.getTileEntity(x, y, z)).setFacing(direction);
         }
     }
 

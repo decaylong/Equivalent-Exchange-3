@@ -228,7 +228,7 @@ public class DrawBlockHighlightEventHandler
 
         if (tileEntity instanceof TileEntityEE)
         {
-            if (((TileEntityEE) tileEntity).getOrientation() != sideHit)
+            if (((TileEntityEE) tileEntity).getFacing() != sideHit)
             {
                 shouldRender = false;
             }

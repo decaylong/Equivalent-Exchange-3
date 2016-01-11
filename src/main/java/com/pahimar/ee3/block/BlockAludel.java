@@ -63,7 +63,7 @@ public class BlockAludel extends BlockTileEntityEE
         {
             if (((TileEntityAludel) tile).getState() == 1)
             {
-                switch (((TileEntityAludel) tile).getOrientation())
+                switch (((TileEntityAludel) tile).getFacing())
                 {
                     case NORTH:
                         world.spawnParticle(Particles.FLAME, (double) x + 0.5F, (double) y + 0.33F, (double) z + 0.175F, 0.0D, 0.0D, 0.0D);

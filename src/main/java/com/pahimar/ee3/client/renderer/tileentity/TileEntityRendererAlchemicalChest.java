@@ -26,7 +26,7 @@ public class TileEntityRendererAlchemicalChest extends TileEntitySpecialRenderer
 
             if (tileEntityAlchemicalChest.getWorldObj() != null)
             {
-                direction = tileEntityAlchemicalChest.getOrientation();
+                direction = tileEntityAlchemicalChest.getFacing();
             }
 
             if (tileEntityAlchemicalChest.getState() == 0)
