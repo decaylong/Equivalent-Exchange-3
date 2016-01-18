@@ -5,13 +5,12 @@ import com.pahimar.ee3.util.INBTTaggable;
 import net.minecraft.nbt.NBTTagCompound;
 
 // TODO Set the NBT tag names to constants
-public class ChalkSettings implements INBTTaggable
-{
+public class ChalkSettings implements INBTTaggable {
+
+    private final int MAX_SIZE = 5;
     private int index;
     private int size;
     private int rotation;
-
-    private final int MAX_SIZE = 5;
 
     public ChalkSettings()
     {

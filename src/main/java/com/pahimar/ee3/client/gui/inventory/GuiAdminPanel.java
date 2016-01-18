@@ -1,7 +1,7 @@
 package com.pahimar.ee3.client.gui.inventory;
 
 import com.pahimar.ee3.inventory.ContainerAdminPanel;
-import com.pahimar.ee3.network.PacketHandler;
+import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.network.message.MessageGuiElementClicked;
 import com.pahimar.ee3.reference.Textures;
 import com.pahimar.repackage.cofh.lib.gui.GuiBase;
@@ -78,6 +78,6 @@ public class GuiAdminPanel extends GuiBase
     @Override
     public void handleElementButtonClick(String buttonName, int mouseButton)
     {
-        PacketHandler.INSTANCE.sendToServer(new MessageGuiElementClicked(buttonName, mouseButton));
+        Network.INSTANCE.sendToServer(new MessageGuiElementClicked(buttonName, mouseButton));
     }
 }

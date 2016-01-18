@@ -13,20 +13,20 @@ import com.pahimar.ee3.init.ModBlocks;
 import com.pahimar.ee3.reference.RenderIds;
 import com.pahimar.ee3.settings.ChalkSettings;
 import com.pahimar.ee3.tileentity.*;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
+
     public ChalkSettings chalkSettings = new ChalkSettings();
 
     @Override
-    public void registerEventHandlers()
-    {
+    public void registerEventHandlers() {
+
         super.registerEventHandlers();
         FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
         FMLCommonHandler.instance().bus().register(new HUDTickHandler());
@@ -35,8 +35,8 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void registerKeybindings()
-    {
+    public void registerKeybindings() {
+
         ClientRegistry.registerKeyBinding(Keybindings.charge);
         ClientRegistry.registerKeyBinding(Keybindings.extra);
         ClientRegistry.registerKeyBinding(Keybindings.release);
@@ -44,26 +44,23 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void playSound(String soundName, float xCoord, float yCoord, float zCoord, float volume, float pitch)
-    {
+    public void playSound(String soundName, float xCoord, float yCoord, float zCoord, float volume, float pitch) {
         ClientSoundHelper.playSound(soundName, xCoord, yCoord, zCoord, volume, pitch);
     }
 
     @Override
-    public void spawnParticle(String particleName, double xCoord, double yCoord, double zCoord, double xVelocity, double yVelocity, double zVelocity)
-    {
+    public void spawnParticle(String particleName, double xCoord, double yCoord, double zCoord, double xVelocity, double yVelocity, double zVelocity) {
         ClientParticleHelper.spawnParticleAtLocation(particleName, xCoord, yCoord, zCoord, xVelocity, yVelocity, zVelocity);
     }
 
     @Override
-    public ClientProxy getClientProxy()
-    {
+    public ClientProxy getClientProxy() {
         return this;
     }
 
     @Override
-    public void initRenderingAndTextures()
-    {
+    public void initRenderingAndTextures() {
+
         RenderIds.calcinator = RenderingRegistry.getNextAvailableRenderId();
         RenderIds.aludel = RenderingRegistry.getNextAvailableRenderId();
         RenderIds.alchemicalChest = RenderingRegistry.getNextAvailableRenderId();

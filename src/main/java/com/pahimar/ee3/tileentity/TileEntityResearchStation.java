@@ -2,7 +2,7 @@ package com.pahimar.ee3.tileentity;
 
 import com.pahimar.ee3.api.knowledge.TransmutationKnowledgeRegistryProxy;
 import com.pahimar.ee3.knowledge.AbilityRegistry;
-import com.pahimar.ee3.network.PacketHandler;
+import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.network.message.MessageTileEntityResearchStation;
 import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.util.ItemHelper;
@@ -174,7 +174,7 @@ public class TileEntityResearchStation extends TileEntityEE implements IInventor
     @Override
     public Packet getDescriptionPacket()
     {
-        return PacketHandler.INSTANCE.getPacketFrom(new MessageTileEntityResearchStation(this));
+        return Network.INSTANCE.getPacketFrom(new MessageTileEntityResearchStation(this));
     }
 
     @SideOnly(Side.CLIENT)

@@ -8,7 +8,7 @@ import com.pahimar.ee3.handler.*;
 import com.pahimar.ee3.init.*;
 import com.pahimar.ee3.knowledge.AbilityRegistry;
 import com.pahimar.ee3.knowledge.TransmutationKnowledgeRegistry;
-import com.pahimar.ee3.network.PacketHandler;
+import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.proxy.IProxy;
 import com.pahimar.ee3.recipe.AludelRecipeManager;
 import com.pahimar.ee3.recipe.RecipeRegistry;
@@ -61,7 +61,7 @@ public class EquivalentExchange3
 
         ConfigurationHandler.init(event.getSuggestedConfigurationFile());
         Files.Global.init(event);
-        PacketHandler.init();
+        Network.init();
         proxy.registerKeybindings();
         ModItems.init();
         ModBlocks.init();

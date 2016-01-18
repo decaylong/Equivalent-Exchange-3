@@ -11,8 +11,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import java.util.UUID;
 
-public class MessageSoundEvent implements IMessage, IMessageHandler<MessageSoundEvent, IMessage>
-{
+public class MessageSoundEvent implements IMessage {
+
     private long mostSigUUID, leastSigUUID;
     private String soundName;
     private float xCoord, yCoord, zCoord;
@@ -73,19 +73,22 @@ public class MessageSoundEvent implements IMessage, IMessageHandler<MessageSound
         byteBuf.writeFloat(pitch);
     }
 
-    @Override
-    public IMessage onMessage(MessageSoundEvent event, MessageContext context) {
+    public static class MessageHandler implements IMessageHandler<MessageSoundEvent, IMessage> {
 
-        UUID originUUID = new UUID(event.mostSigUUID, event.leastSigUUID);
+        @Override
+        public IMessage onMessage(MessageSoundEvent message, MessageContext ctx) {
 
-        if (Settings.Sounds.soundMode.equalsIgnoreCase("All")) {
-            EquivalentExchange3.proxy.playSound(event.soundName, event.xCoord, event.yCoord, event.zCoord, event.volume, event.pitch);
-        } else if (Settings.Sounds.soundMode.equalsIgnoreCase("Self")) {
-            if (FMLClientHandler.instance().getClient().thePlayer.getUniqueID().equals(originUUID)) {
-                EquivalentExchange3.proxy.playSound(event.soundName, event.xCoord, event.yCoord, event.zCoord, event.volume, event.pitch);
+            UUID originUUID = new UUID(message.mostSigUUID, message.leastSigUUID);
+
+            if (Settings.Sounds.soundMode.equalsIgnoreCase("All")) {
+                EquivalentExchange3.proxy.playSound(message.soundName, message.xCoord, message.yCoord, message.zCoord, message.volume, message.pitch);
+            } else if (Settings.Sounds.soundMode.equalsIgnoreCase("Self")) {
+                if (FMLClientHandler.instance().getClient().thePlayer.getUniqueID().equals(originUUID)) {
+                    EquivalentExchange3.proxy.playSound(message.soundName, message.xCoord, message.yCoord, message.zCoord, message.volume, message.pitch);
+                }
             }
-        }
 
-        return null;
+            return null;
+        }
     }
 }

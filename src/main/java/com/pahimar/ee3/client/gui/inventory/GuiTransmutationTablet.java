@@ -3,7 +3,7 @@ package com.pahimar.ee3.client.gui.inventory;
 import com.pahimar.ee3.client.gui.element.ElementSearchField;
 import com.pahimar.ee3.client.gui.element.ElementStatefulButton;
 import com.pahimar.ee3.inventory.ContainerTransmutationTablet;
-import com.pahimar.ee3.network.PacketHandler;
+import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.network.message.MessageGuiElementClicked;
 import com.pahimar.ee3.network.message.MessageSliderElementUpdated;
 import com.pahimar.ee3.reference.Colors;
@@ -25,25 +25,20 @@ import java.text.DecimalFormat;
 @SideOnly(Side.CLIENT)
 public class GuiTransmutationTablet extends GuiBase
 {
+    private static final int LEFT_MOUSE_BUTTON = 0;
+    private static final int RIGHT_MOUSE_BUTTON = 1;
+    private static final int SORT_BY_DISPLAY_NAME = 0;
+    private static final int SORT_BY_ENERGY_VALUE = 1;
+    private static final int SORT_BY_ID = 2;
+    private static final int SORT_ASCENDING = 0;
+    private static final int SORT_DESCENDING = 1;
+    private static DecimalFormat energyValueDecimalFormat = new DecimalFormat("###,###,###,###,###.###");
+    protected int tickCount;
     private TileEntityTransmutationTablet tileEntityTransmutationTablet;
-
     private ElementTextField searchTextField;
     private ElementStatefulButton sortOptionButton;
     private ElementStatefulButton sortOrderButton;
     private ElementSlider slider;
-    protected int tickCount;
-
-    private static DecimalFormat energyValueDecimalFormat = new DecimalFormat("###,###,###,###,###.###");
-
-    private static final int LEFT_MOUSE_BUTTON = 0;
-    private static final int RIGHT_MOUSE_BUTTON = 1;
-
-    private static final int SORT_BY_DISPLAY_NAME = 0;
-    private static final int SORT_BY_ENERGY_VALUE = 1;
-    private static final int SORT_BY_ID = 2;
-
-    private static final int SORT_ASCENDING = 0;
-    private static final int SORT_DESCENDING = 1;
 
     public GuiTransmutationTablet(InventoryPlayer inventoryPlayer, TileEntityTransmutationTablet tileEntityTransmutationTablet)
     {
@@ -128,14 +123,14 @@ public class GuiTransmutationTablet extends GuiBase
             @Override
             public boolean onMouseWheel(int mouseX, int mouseY, int movement)
             {
-                PacketHandler.INSTANCE.sendToServer(new MessageSliderElementUpdated(this));
+                Network.INSTANCE.sendToServer(new MessageSliderElementUpdated(this));
                 return super.onMouseWheel(mouseX, mouseY, movement);
             }
 
             @Override
             public void onStopDragging()
             {
-                PacketHandler.INSTANCE.sendToServer(new MessageSliderElementUpdated(this));
+                Network.INSTANCE.sendToServer(new MessageSliderElementUpdated(this));
             }
 
             @Override
@@ -180,7 +175,7 @@ public class GuiTransmutationTablet extends GuiBase
     {
         if (buttonName.equals("sortOption"))
         {
-            PacketHandler.INSTANCE.sendToServer(new MessageGuiElementClicked(buttonName, mouseButton));
+            Network.INSTANCE.sendToServer(new MessageGuiElementClicked(buttonName, mouseButton));
 
             if (mouseButton == LEFT_MOUSE_BUTTON)
             {
@@ -217,7 +212,7 @@ public class GuiTransmutationTablet extends GuiBase
         }
         else if (buttonName.equals("sortOrder"))
         {
-            PacketHandler.INSTANCE.sendToServer(new MessageGuiElementClicked(buttonName, mouseButton));
+            Network.INSTANCE.sendToServer(new MessageGuiElementClicked(buttonName, mouseButton));
 
             if (sortOrderButton.getState() == SORT_ASCENDING)
             {

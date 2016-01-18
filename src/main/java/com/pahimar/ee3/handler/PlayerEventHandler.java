@@ -2,7 +2,7 @@ package com.pahimar.ee3.handler;
 
 import com.pahimar.ee3.exchange.EnergyValueRegistry;
 import com.pahimar.ee3.knowledge.TransmutationKnowledgeRegistry;
-import com.pahimar.ee3.network.PacketHandler;
+import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.network.message.MessageChalkSettings;
 import com.pahimar.ee3.network.message.MessageSyncEnergyValues;
 import com.pahimar.ee3.settings.ChalkSettings;
@@ -44,10 +44,10 @@ public class PlayerEventHandler
             chalkSettings.readFromNBT(playerCustomData);
             chalkSettings.writeToNBT(playerCustomData);
             EntityHelper.saveCustomEntityData(event.player, playerCustomData);
-            PacketHandler.INSTANCE.sendTo(new MessageChalkSettings(chalkSettings), (EntityPlayerMP) event.player);
+            Network.INSTANCE.sendTo(new MessageChalkSettings(chalkSettings), (EntityPlayerMP) event.player);
 
             TransmutationKnowledgeRegistry.getInstance().loadPlayerFromDiskIfNeeded(event.player);
-            PacketHandler.INSTANCE.sendTo(new MessageSyncEnergyValues(EnergyValueRegistry.getInstance()), (EntityPlayerMP) event.player);
+            Network.INSTANCE.sendTo(new MessageSyncEnergyValues(EnergyValueRegistry.getInstance()), (EntityPlayerMP) event.player);
         }
 
     }

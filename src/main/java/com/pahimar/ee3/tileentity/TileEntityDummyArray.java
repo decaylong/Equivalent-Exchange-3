@@ -1,13 +1,15 @@
 package com.pahimar.ee3.tileentity;
 
-import com.pahimar.ee3.network.PacketHandler;
+import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.network.message.MessageTileEntityDummy;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
+import net.minecraft.util.BlockPos;
 
-public class TileEntityDummyArray extends TileEntityEE
-{
-    private int trueXCoord, trueYCoord, trueZCoord;
+// TODO Replace literals with String constants for NBT tag names
+public class TileEntityDummyArray extends TileEntityEE {
+
+    private BlockPos trueBlockPos;
     private int ticksSinceSync;
 
     public TileEntityDummyArray()
@@ -15,44 +17,48 @@ public class TileEntityDummyArray extends TileEntityEE
         super();
     }
 
-    public int getTrueXCoord()
-    {
-        return trueXCoord;
+    @Deprecated
+    public int getTrueXCoord() {
+        return getTrueBlockPos().getX();
     }
 
-    public int getTrueYCoord()
-    {
-        return trueYCoord;
+    @Deprecated
+    public int getTrueYCoord() {
+        return getTrueBlockPos().getY();
     }
 
-    public int getTrueZCoord()
-    {
-        return trueZCoord;
+    @Deprecated
+    public int getTrueZCoord() {
+        return getTrueBlockPos().getZ();
     }
 
-    public void setTrueCoords(int trueXCoord, int trueYCoord, int trueZCoord)
-    {
-        this.trueXCoord = trueXCoord;
-        this.trueYCoord = trueYCoord;
-        this.trueZCoord = trueZCoord;
+    public BlockPos getTrueBlockPos() {
+        return trueBlockPos;
     }
 
-    public TileEntityAlchemyArray getAssociatedTileEntity()
-    {
-        if (this.worldObj.getTileEntity(trueXCoord, trueYCoord, trueZCoord) instanceof TileEntityAlchemyArray)
-        {
-            return (TileEntityAlchemyArray) this.worldObj.getTileEntity(trueXCoord, trueYCoord, trueZCoord);
+    public void setTrueBlockPos(BlockPos trueBlockPos) {
+        this.trueBlockPos = trueBlockPos;
+    }
+
+    @Deprecated
+    public void setTrueCoords(int trueXCoord, int trueYCoord, int trueZCoord) {
+        this.setTrueBlockPos(new BlockPos(trueXCoord, trueYCoord, trueZCoord));
+    }
+
+    public TileEntityAlchemyArray getAssociatedTileEntity() {
+
+        if (this.worldObj.getTileEntity(trueBlockPos) instanceof TileEntityAlchemyArray) {
+            return (TileEntityAlchemyArray) this.worldObj.getTileEntity(trueBlockPos);
         }
 
         return null;
     }
 
-    public int getLightLevel()
-    {
+    public int getLightLevel() {
+
         TileEntityAlchemyArray tileEntityAlchemyArray = getAssociatedTileEntity();
 
-        if (tileEntityAlchemyArray != null)
-        {
+        if (tileEntityAlchemyArray != null) {
             return tileEntityAlchemyArray.getLightLevel();
         }
 
@@ -60,44 +66,42 @@ public class TileEntityDummyArray extends TileEntityEE
     }
 
     @Override
-    public void updateEntity()
-    {
-        super.updateEntity();
+    public void update() {
 
-        if (++ticksSinceSync % 10 == 0)
-        {
-            if (!worldObj.isRemote && !(worldObj.getTileEntity(trueXCoord, trueYCoord, trueZCoord) instanceof TileEntityAlchemyArray))
-            {
+        super.update();
+
+        if (++ticksSinceSync % 10 == 0) {
+            if (!getWorld().isRemote && !(getWorld().getTileEntity(getTrueBlockPos()) instanceof TileEntityAlchemyArray)) {
                 this.invalidate();
-                worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                getWorld().setBlockToAir(getTrueBlockPos());
+                getWorld().markBlockForUpdate(getTrueBlockPos());
             }
         }
     }
 
     @Override
-    public Packet getDescriptionPacket()
-    {
-        return PacketHandler.INSTANCE.getPacketFrom(new MessageTileEntityDummy(this));
+    public Packet getDescriptionPacket() {
+        return Network.INSTANCE.getPacketFrom(new MessageTileEntityDummy(this));
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbtTagCompound)
-    {
+    public void readFromNBT(NBTTagCompound nbtTagCompound) {
+
         super.readFromNBT(nbtTagCompound);
 
-        this.trueXCoord = nbtTagCompound.getInteger("trueXCoord");
-        this.trueYCoord = nbtTagCompound.getInteger("trueYCoord");
-        this.trueZCoord = nbtTagCompound.getInteger("trueZCoord");
+        int trueXCoord = nbtTagCompound.getInteger("trueXCoord");
+        int trueYCoord = nbtTagCompound.getInteger("trueYCoord");
+        int trueZCoord = nbtTagCompound.getInteger("trueZCoord");
+        setTrueBlockPos(new BlockPos(trueXCoord, trueYCoord, trueZCoord));
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbtTagCompound)
-    {
+    public void writeToNBT(NBTTagCompound nbtTagCompound) {
+
         super.writeToNBT(nbtTagCompound);
 
-        nbtTagCompound.setInteger("trueXCoord", trueXCoord);
-        nbtTagCompound.setInteger("trueYCoord", trueYCoord);
-        nbtTagCompound.setInteger("trueZCoord", trueZCoord);
+        nbtTagCompound.setInteger("trueXCoord", getTrueBlockPos().getX());
+        nbtTagCompound.setInteger("trueYCoord", getTrueBlockPos().getY());
+        nbtTagCompound.setInteger("trueZCoord", getTrueBlockPos().getZ());
     }
 }

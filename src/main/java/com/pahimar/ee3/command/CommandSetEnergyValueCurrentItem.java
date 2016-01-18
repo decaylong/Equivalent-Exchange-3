@@ -3,7 +3,7 @@ package com.pahimar.ee3.command;
 import com.pahimar.ee3.api.exchange.EnergyValue;
 import com.pahimar.ee3.exchange.EnergyValueRegistry;
 import com.pahimar.ee3.exchange.WrappedStack;
-import com.pahimar.ee3.network.PacketHandler;
+import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.network.message.MessageSetEnergyValue;
 import com.pahimar.ee3.reference.Files;
 import com.pahimar.ee3.reference.Messages;
@@ -89,7 +89,7 @@ public class CommandSetEnergyValueCurrentItem extends CommandBase
                         postAssignedValues.put(wrappedStack, newEnergyValue);
                         SerializationHelper.writeEnergyValueStackMapToJsonFile(Files.POST_CALCULATION_ENERGY_VALUES, postAssignedValues);
 
-                        PacketHandler.INSTANCE.sendToAll(new MessageSetEnergyValue(wrappedStack, newEnergyValue));
+                        Network.INSTANCE.sendToAll(new MessageSetEnergyValue(wrappedStack, newEnergyValue));
                     }
                     else if (args[1].equalsIgnoreCase("global-post"))
                     {
@@ -99,7 +99,7 @@ public class CommandSetEnergyValueCurrentItem extends CommandBase
                         postAssignedValues.put(wrappedStack, newEnergyValue);
                         SerializationHelper.writeEnergyValueStackMapToJsonFile(Files.Global.postCalcluationEnergyValueFile, postAssignedValues);
 
-                        PacketHandler.INSTANCE.sendToAll(new MessageSetEnergyValue(wrappedStack, newEnergyValue));
+                        Network.INSTANCE.sendToAll(new MessageSetEnergyValue(wrappedStack, newEnergyValue));
                     }
                     else
                     {

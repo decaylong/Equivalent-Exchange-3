@@ -1,6 +1,6 @@
 package com.pahimar.ee3.tileentity;
 
-import com.pahimar.ee3.network.PacketHandler;
+import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.network.message.MessageTileEntityEE;
 import com.pahimar.ee3.reference.Names;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,12 +8,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.common.UsernameCache;
 
 import java.util.UUID;
 
-public class TileEntityEE extends TileEntity
-{
+public class TileEntityEE extends TileEntity implements ITickable {
+
     protected EnumFacing facing;
     protected byte state;
     protected String customName;
@@ -30,12 +31,12 @@ public class TileEntityEE extends TileEntity
         return facing;
     }
 
-    public void setFacing(int orientation) {
-        this.facing = EnumFacing.getFront(orientation);
-    }
-
     public void setFacing(EnumFacing orientation) {
         this.facing = orientation;
+    }
+
+    public void setFacing(int orientation) {
+        this.facing = EnumFacing.getFront(orientation);
     }
 
     public short getState() {
@@ -130,6 +131,11 @@ public class TileEntityEE extends TileEntity
 
     @Override
     public Packet getDescriptionPacket() {
-        return PacketHandler.INSTANCE.getPacketFrom(new MessageTileEntityEE(this));
+        return Network.INSTANCE.getPacketFrom(new MessageTileEntityEE(this));
+    }
+
+    @Override
+    public void update() {
+        // NOOP
     }
 }

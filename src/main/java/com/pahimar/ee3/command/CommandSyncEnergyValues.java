@@ -1,7 +1,7 @@
 package com.pahimar.ee3.command;
 
 import com.pahimar.ee3.exchange.EnergyValueRegistry;
-import com.pahimar.ee3.network.PacketHandler;
+import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.network.message.MessageSyncEnergyValues;
 import com.pahimar.ee3.reference.Messages;
 import com.pahimar.ee3.reference.Names;
@@ -68,7 +68,7 @@ public class CommandSyncEnergyValues extends CommandBase
         if (shouldSync)
         {
             LogHelper.info(EnergyValueRegistry.ENERGY_VALUE_MARKER, "Syncing energy values with player '{}' at their request", commandSender.getCommandSenderName());
-            PacketHandler.INSTANCE.sendTo(new MessageSyncEnergyValues(EnergyValueRegistry.getInstance()), (EntityPlayerMP) commandSender);
+            Network.INSTANCE.sendTo(new MessageSyncEnergyValues(EnergyValueRegistry.getInstance()), (EntityPlayerMP) commandSender);
             commandSender.addChatMessage(new ChatComponentTranslation(Messages.Commands.SYNC_ENERGY_VALUES_SUCCESS));
         }
         else

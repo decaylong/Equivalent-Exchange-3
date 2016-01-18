@@ -3,17 +3,17 @@ package com.pahimar.ee3.reference;
 import com.pahimar.ee3.util.ResourceLocationHelper;
 import net.minecraft.util.ResourceLocation;
 
-public final class Textures
-{
+public final class Textures {
+
     public static final String RESOURCE_PREFIX = Reference.LOWERCASE_MOD_ID + ":";
 
-    public static final class Armor
-    {
+    public static final class Armor {
+
         private static final String ARMOR_SHEET_LOCATION = "textures/armor/";
     }
 
-    public static final class Model
-    {
+    public static final class Model {
+
         private static final String MODEL_TEXTURE_LOCATION = "textures/models/";
         public static final ResourceLocation CALCINATOR_IDLE = ResourceLocationHelper.getResourceLocation(MODEL_TEXTURE_LOCATION + "calcinator_idle.png");
         public static final ResourceLocation CALCINATOR_ACTIVE = ResourceLocationHelper.getResourceLocation(MODEL_TEXTURE_LOCATION + "calcinator_active.png");
@@ -27,8 +27,9 @@ public final class Textures
         public static final ResourceLocation TRANSMUTATION_TABLET = ResourceLocationHelper.getResourceLocation(MODEL_TEXTURE_LOCATION + "transmutationTablet.png");
     }
 
-    public static final class Gui
-    {
+    public static final class Gui {
+
+        public static final ResourceLocation PORTABLE_CRAFTING = new ResourceLocation("textures/gui/container/crafting_table.png");
         protected static final String GUI_TEXTURE_LOCATION = "textures/gui/";
         public static final ResourceLocation CALCINATOR = ResourceLocationHelper.getResourceLocation(GUI_TEXTURE_LOCATION + "calcinator.png");
         public static final ResourceLocation ALUDEL = ResourceLocationHelper.getResourceLocation(GUI_TEXTURE_LOCATION + "aludel.png");
@@ -43,7 +44,6 @@ public final class Textures
         public static final ResourceLocation RESEARCH_STATION_GYLPH_1 = ResourceLocationHelper.getResourceLocation(GUI_TEXTURE_LOCATION + "researchStation_Glyph1.png");
         public static final ResourceLocation RESEARCH_STATION_GYLPH_2 = ResourceLocationHelper.getResourceLocation(GUI_TEXTURE_LOCATION + "researchStation_Glyph2.png");
         public static final ResourceLocation AUGMENTATION_TABLE = ResourceLocationHelper.getResourceLocation(GUI_TEXTURE_LOCATION + "augmentationTable.png");
-        public static final ResourceLocation PORTABLE_CRAFTING = new ResourceLocation("textures/gui/container/crafting_table.png");
         public static final ResourceLocation ALCHENOMICON = ResourceLocationHelper.getResourceLocation(GUI_TEXTURE_LOCATION + "alchenomicon.png");
         public static final ResourceLocation TRANSMUTATION_ARRAY_1 = ResourceLocationHelper.getResourceLocation(GUI_TEXTURE_LOCATION + "transmutationArray_1.png");
         public static final ResourceLocation TRANSMUTATION_ARRAY_3 = ResourceLocationHelper.getResourceLocation(GUI_TEXTURE_LOCATION + "transmutationArray_3.png");
@@ -51,8 +51,8 @@ public final class Textures
         public static final ResourceLocation TRANSMUTATION_TABLET = ResourceLocationHelper.getResourceLocation(GUI_TEXTURE_LOCATION + "transmutationTablet.png");
         public static final ResourceLocation ADMIN_PANEL = ResourceLocationHelper.getResourceLocation(GUI_TEXTURE_LOCATION + "adminPanel.png");
 
-        public static final class Elements
-        {
+        public static final class Elements {
+
             protected static final String ELEMENT_TEXTURE_LOCATION = GUI_TEXTURE_LOCATION + "elements/";
             public static final ResourceLocation ARROW_LEFT = ResourceLocationHelper.getResourceLocation(ELEMENT_TEXTURE_LOCATION + "arrowLeft.png");
             public static final ResourceLocation ARROW_RIGHT = ResourceLocationHelper.getResourceLocation(ELEMENT_TEXTURE_LOCATION + "arrowRight.png");
@@ -67,14 +67,14 @@ public final class Textures
         }
     }
 
-    public static final class Effect
-    {
+    public static final class Effect {
+
         private static final String EFFECTS_LOCATION = "textures/effects/";
         public static final ResourceLocation WORLD_TRANSMUTATION = ResourceLocationHelper.getResourceLocation(EFFECTS_LOCATION + "noise.png");
     }
 
-    public static final class AlchemyArray
-    {
+    public static final class AlchemyArray {
+
         private static final String SYMBOL_TEXTURE_LOCATION = "textures/arrays/";
 
         public static final ResourceLocation ACCELERANT_ALCHEMY_ARRAY = ResourceLocationHelper.getResourceLocation(SYMBOL_TEXTURE_LOCATION + "arrayAccelerant.png");

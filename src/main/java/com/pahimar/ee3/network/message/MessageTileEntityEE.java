@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import java.util.UUID;
 
-public class MessageTileEntityEE implements IMessage, IMessageHandler<MessageTileEntityEE, IMessage>
+public class MessageTileEntityEE implements IMessage
 {
     public BlockPos blockPos;
     public EnumFacing facing;
@@ -66,23 +66,25 @@ public class MessageTileEntityEE implements IMessage, IMessageHandler<MessageTil
         }
     }
 
-    @Override
-    public IMessage onMessage(MessageTileEntityEE message, MessageContext ctx) {
+    public static class MessageHandler implements IMessageHandler<MessageTileEntityEE, IMessage> {
 
-        TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getTileEntity(message.blockPos);
+        protected static void updateTileEntity(MessageTileEntityEE message, MessageContext ctx) {
 
-        if (tileEntity instanceof TileEntityEE) {
-            ((TileEntityEE) tileEntity).setFacing(message.facing);
-            ((TileEntityEE) tileEntity).setState(message.state);
-            ((TileEntityEE) tileEntity).setCustomName(message.customName);
-            ((TileEntityEE) tileEntity).setOwnerUUID(message.ownerUUID);
+            TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getTileEntity(message.blockPos);
+
+            if (tileEntity instanceof TileEntityEE) {
+                ((TileEntityEE) tileEntity).setFacing(message.facing);
+                ((TileEntityEE) tileEntity).setState(message.state);
+                ((TileEntityEE) tileEntity).setCustomName(message.customName);
+                ((TileEntityEE) tileEntity).setOwnerUUID(message.ownerUUID);
+            }
         }
 
-        return null;
-    }
+        @Override
+        public IMessage onMessage(MessageTileEntityEE message, MessageContext ctx) {
 
-    @Override
-    public String toString() {
-        return String.format("MessageTileEntityEE - x:%s, y:%s, z:%s, facing:%s, state:%s, customName:%s, ownerUUID:%s", blockPos.getX(), blockPos.getY(), blockPos.getZ(), facing, state, customName, ownerUUID);
+            updateTileEntity(message, ctx);
+            return null;
+        }
     }
 }

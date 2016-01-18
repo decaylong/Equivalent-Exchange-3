@@ -1,109 +1,65 @@
 package com.pahimar.ee3.network.message;
 
 import com.pahimar.ee3.tileentity.TileEntityGlassBell;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import java.util.UUID;
+public class MessageTileEntityGlassBell extends MessageTileEntityEE {
 
-public class MessageTileEntityGlassBell implements IMessage, IMessageHandler<MessageTileEntityGlassBell, IMessage>
-{
-    public int x, y, z;
-    public byte orientation;
-    public byte state;
-    public String customName;
-    public UUID ownerUUID;
     public ItemStack outputItemStack;
 
-    public MessageTileEntityGlassBell()
-    {
+    public MessageTileEntityGlassBell() {
     }
 
-    public MessageTileEntityGlassBell(TileEntityGlassBell tileEntityGlassBell, ItemStack outputItemStack)
-    {
-        this.x = tileEntityGlassBell.xCoord;
-        this.y = tileEntityGlassBell.yCoord;
-        this.z = tileEntityGlassBell.zCoord;
-        this.orientation = (byte) tileEntityGlassBell.getFacing().ordinal();
-        this.state = (byte) tileEntityGlassBell.getState();
-        this.customName = tileEntityGlassBell.getCustomName();
-        this.ownerUUID = tileEntityGlassBell.getOwnerUUID();
-        this.outputItemStack = outputItemStack;
+    public MessageTileEntityGlassBell(TileEntityGlassBell tileEntityGlassBell) {
+
+        super(tileEntityGlassBell);
+        this.outputItemStack = tileEntityGlassBell.getStackInSlot(TileEntityGlassBell.DISPLAY_SLOT_INVENTORY_INDEX);
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
-        this.x = buf.readInt();
-        this.y = buf.readInt();
-        this.z = buf.readInt();
-        this.orientation = buf.readByte();
-        this.state = buf.readByte();
-        int customNameLength = buf.readInt();
-        this.customName = new String(buf.readBytes(customNameLength).array());
-        if (buf.readBoolean())
-        {
-            this.ownerUUID = new UUID(buf.readLong(), buf.readLong());
+    public void fromBytes(ByteBuf byteBuf) {
+
+        super.fromBytes(byteBuf);
+        if (byteBuf.readBoolean()) {
+            this.outputItemStack = ByteBufUtils.readItemStack(byteBuf);
+        } else {
+            outputItemStack = null;
         }
-        else
-        {
-            this.ownerUUID = null;
-        }
-        outputItemStack = ByteBufUtils.readItemStack(buf);
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
-        buf.writeInt(x);
-        buf.writeInt(y);
-        buf.writeInt(z);
-        buf.writeByte(orientation);
-        buf.writeByte(state);
-        buf.writeInt(customName.length());
-        buf.writeBytes(customName.getBytes());
-        if (ownerUUID != null)
-        {
-            buf.writeBoolean(true);
-            buf.writeLong(ownerUUID.getMostSignificantBits());
-            buf.writeLong(ownerUUID.getLeastSignificantBits());
+    public void toBytes(ByteBuf byteBuf) {
+
+        super.toBytes(byteBuf);
+
+        if (outputItemStack != null) {
+            byteBuf.writeBoolean(true);
+            ByteBufUtils.writeItemStack(byteBuf, outputItemStack);
+        } else {
+            byteBuf.writeBoolean(false);
         }
-        else
-        {
-            buf.writeBoolean(false);
-        }
-        ByteBufUtils.writeItemStack(buf, outputItemStack);
     }
 
-    @Override
-    public IMessage onMessage(MessageTileEntityGlassBell message, MessageContext ctx)
-    {
-        TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getTileEntity(message.x, message.y, message.z);
+    public static class MessageHandler implements IMessageHandler<MessageTileEntityGlassBell, IMessage> {
 
-        if (tileEntity instanceof TileEntityGlassBell)
-        {
-            ((TileEntityGlassBell) tileEntity).setFacing(message.orientation);
-            ((TileEntityGlassBell) tileEntity).setState(message.state);
-            ((TileEntityGlassBell) tileEntity).setCustomName(message.customName);
-            ((TileEntityGlassBell) tileEntity).setOwnerUUID(message.ownerUUID);
-            ((TileEntityGlassBell) tileEntity).outputItemStack = message.outputItemStack;
+        @Override
+        public IMessage onMessage(MessageTileEntityGlassBell message, MessageContext ctx) {
+            MessageTileEntityEE.MessageHandler.updateTileEntity(message, ctx);
+            TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getTileEntity(message.blockPos);
 
-            //NAME UPDATE
-            FMLClientHandler.instance().getClient().theWorld.func_147451_t(message.x, message.y, message.z);
+            if (tileEntity instanceof TileEntityGlassBell) {
+                ((TileEntityGlassBell) tileEntity).outputItemStack = message.outputItemStack;
+                FMLClientHandler.instance().getClient().theWorld.checkLight(message.blockPos);
+            }
+
+            return null;
         }
-
-        return null;
-    }
-
-    @Override
-    public String toString()
-    {
-        return String.format("MessageTileEntityGlassBell - x:%s, y:%s, z:%s, facing:%s, state:%s, customName:%s, ownerUUID:%s, outputItemStack: %s", x, y, z, orientation, state, customName, ownerUUID, outputItemStack.toString());
     }
 }
