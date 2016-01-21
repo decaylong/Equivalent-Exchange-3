@@ -6,8 +6,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class MessageSingleParticleEvent implements IMessage, IMessageHandler<MessageSingleParticleEvent, IMessage>
-{
+public class MessageSingleParticleEvent implements IMessage {
+
     private String particleName;
     private double xCoord, yCoord, zCoord;
     private double xVelocity, yVelocity, zVelocity;
@@ -52,10 +52,13 @@ public class MessageSingleParticleEvent implements IMessage, IMessageHandler<Mes
         byteBuf.writeDouble(zVelocity);
     }
 
-    @Override
-    public IMessage onMessage(MessageSingleParticleEvent message, MessageContext ctx) {
+    public static class MessageHandler implements IMessageHandler<MessageSingleParticleEvent, IMessage> {
 
-        EquivalentExchange3.proxy.spawnParticle(message.particleName, message.xCoord, message.yCoord, message.zCoord, message.xVelocity, message.yVelocity, message.zVelocity);
-        return null;
+        @Override
+        public IMessage onMessage(MessageSingleParticleEvent message, MessageContext ctx) {
+
+            EquivalentExchange3.proxy.spawnParticle(message.particleName, message.xCoord, message.yCoord, message.zCoord, message.xVelocity, message.yVelocity, message.zVelocity);
+            return null;
+        }
     }
 }

@@ -2,103 +2,92 @@ package com.pahimar.ee3.network.message;
 
 import com.pahimar.ee3.tileentity.TileEntityAlchemyArray;
 import com.pahimar.ee3.tileentity.TileEntityTransmutationTablet;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class MessageTileEntityTransmutationTablet implements IMessage, IMessageHandler<MessageTileEntityTransmutationTablet, IMessage>
-{
+// TODO This likely is a crap implementation for synching Tablet data, revisit this
+public class MessageTileEntityTransmutationTablet implements IMessage {
+
     public NBTTagCompound tileEntityTransmutationTabletNBT;
 
-    public MessageTileEntityTransmutationTablet()
-    {
-
+    public MessageTileEntityTransmutationTablet() {
     }
 
-    public MessageTileEntityTransmutationTablet(TileEntityTransmutationTablet tileEntityTransmutationTablet)
-    {
+    public MessageTileEntityTransmutationTablet(TileEntityTransmutationTablet tileEntityTransmutationTablet) {
+
         tileEntityTransmutationTabletNBT = new NBTTagCompound();
         tileEntityTransmutationTablet.writeToNBT(tileEntityTransmutationTabletNBT);
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
-        byte[] compressedNBT = null;
-        int readableBytes = buf.readInt();
+    public void fromBytes(ByteBuf byteBuf) {
 
-        if (readableBytes > 0)
-        {
-            compressedNBT = buf.readBytes(readableBytes).array();
+        this.tileEntityTransmutationTabletNBT = new NBTTagCompound();
+        byte[] compressedNBT = null;
+        int readableBytes = byteBuf.readInt();
+
+        if (readableBytes > 0) {
+            compressedNBT = byteBuf.readBytes(readableBytes).array();
         }
 
-        if (compressedNBT != null)
-        {
-            try
-            {
+        if (compressedNBT != null && compressedNBT.length > 0) {
+            try {
                 this.tileEntityTransmutationTabletNBT = CompressedStreamTools.readCompressed(new ByteArrayInputStream(compressedNBT));
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
-        byte[] compressedNBT = null;
+    public void toBytes(ByteBuf byteBuf) {
 
-        try
-        {
-            if (tileEntityTransmutationTabletNBT != null)
-            {
-                compressedNBT = CompressedStreamTools.compress(tileEntityTransmutationTabletNBT);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        try {
+            if (tileEntityTransmutationTabletNBT != null) {
+                CompressedStreamTools.writeCompressed(tileEntityTransmutationTabletNBT, byteArrayOutputStream);
             }
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if (compressedNBT != null)
-        {
-            buf.writeInt(compressedNBT.length);
-            buf.writeBytes(compressedNBT);
-        }
-        else
-        {
-            buf.writeInt(0);
+        byteBuf.writeInt(byteArrayOutputStream.size());
+        if (byteArrayOutputStream.size() > 0) {
+            byteBuf.writeBytes(byteArrayOutputStream.toByteArray());
         }
     }
 
-    @Override
-    public IMessage onMessage(MessageTileEntityTransmutationTablet message, MessageContext ctx)
-    {
-        if (message.tileEntityTransmutationTabletNBT != null)
-        {
-            TileEntityAlchemyArray tileEntityAlchemyArray = new TileEntityAlchemyArray();
-            tileEntityAlchemyArray.readFromNBT(message.tileEntityTransmutationTabletNBT);
+    public static class MessageHandler implements IMessageHandler<MessageTileEntityTransmutationTablet, IMessage> {
 
-            TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getTileEntity(tileEntityAlchemyArray.xCoord, tileEntityAlchemyArray.yCoord, tileEntityAlchemyArray.zCoord);
+        @Override
+        public IMessage onMessage(MessageTileEntityTransmutationTablet message, MessageContext ctx) {
 
-            if (tileEntity instanceof TileEntityTransmutationTablet)
-            {
-                tileEntity.readFromNBT(message.tileEntityTransmutationTabletNBT);
-                //NAME UPDATE
-                FMLClientHandler.instance().getClient().theWorld.func_147451_t(tileEntityAlchemyArray.xCoord, tileEntityAlchemyArray.yCoord, tileEntityAlchemyArray.zCoord);
+            if (message.tileEntityTransmutationTabletNBT != null) {
+
+                TileEntityAlchemyArray tileEntityAlchemyArray = new TileEntityAlchemyArray();
+                tileEntityAlchemyArray.readFromNBT(message.tileEntityTransmutationTabletNBT);
+
+                TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getTileEntity(tileEntityAlchemyArray.getPos());
+
+                if (tileEntity instanceof TileEntityTransmutationTablet) {
+
+                    tileEntity.readFromNBT(message.tileEntityTransmutationTabletNBT);
+                    FMLClientHandler.instance().getClient().theWorld.checkLight(tileEntityAlchemyArray.getPos());
+                }
             }
-        }
 
-        return null;
+            return null;
+        }
     }
 }

@@ -23,10 +23,10 @@ public class Network {
         INSTANCE.registerMessage(MessageGuiElementTextFieldUpdate.MessageHandler.class, MessageGuiElementTextFieldUpdate.class, 9, Side.SERVER);
         INSTANCE.registerMessage(MessageChalkSettings.MessageHandler.class, MessageChalkSettings.class, 10, Side.CLIENT);
         INSTANCE.registerMessage(MessageTileEntityDummy.MessageHandler.class, MessageTileEntityDummy.class, 11, Side.CLIENT);
-        INSTANCE.registerMessage(MessageTileEntityAlchemyArray.class, MessageTileEntityAlchemyArray.class, 12, Side.CLIENT);
-        INSTANCE.registerMessage(MessageTileEntityTransmutationTablet.class, MessageTileEntityTransmutationTablet.class, 13, Side.CLIENT);
-        INSTANCE.registerMessage(MessageSingleParticleEvent.class, MessageSingleParticleEvent.class, 14, Side.CLIENT);
-        INSTANCE.registerMessage(MessageSliderElementUpdated.class, MessageSliderElementUpdated.class, 15, Side.SERVER);
+        INSTANCE.registerMessage(MessageTileEntityAlchemyArray.MessageHandler.class, MessageTileEntityAlchemyArray.class, 12, Side.CLIENT);
+        INSTANCE.registerMessage(MessageTileEntityTransmutationTablet.MessageHandler.class, MessageTileEntityTransmutationTablet.class, 13, Side.CLIENT);
+        INSTANCE.registerMessage(MessageSingleParticleEvent.MessageHandler.class, MessageSingleParticleEvent.class, 14, Side.CLIENT);
+        INSTANCE.registerMessage(MessageSliderElementUpdated.MessageHandler.class, MessageSliderElementUpdated.class, 15, Side.SERVER);
         INSTANCE.registerMessage(MessageTransmutationKnowledgeUpdate.class, MessageTransmutationKnowledgeUpdate.class, 16, Side.CLIENT);
         INSTANCE.registerMessage(MessageTileEntityResearchStation.MessageHandler.class, MessageTileEntityResearchStation.class, 17, Side.CLIENT);
     }

@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageTileEntityDummy extends MessageTileEntityEE {
 
-    public int trueXCoord, trueYCoord, trueZCoord;
     public BlockPos trueBlockPos;
 
     public MessageTileEntityDummy() {
@@ -20,27 +19,23 @@ public class MessageTileEntityDummy extends MessageTileEntityEE {
     public MessageTileEntityDummy(TileEntityDummyArray tileEntityDummyArray) {
 
         super(tileEntityDummyArray);
-        this.trueXCoord = tileEntityDummyArray.getTrueXCoord();
-        this.trueYCoord = tileEntityDummyArray.getTrueYCoord();
-        this.trueZCoord = tileEntityDummyArray.getTrueZCoord();
+        this.trueBlockPos = tileEntityDummyArray.getTrueBlockPos();
     }
 
     @Override
     public void fromBytes(ByteBuf byteBuf) {
 
         super.fromBytes(byteBuf);
-        this.trueXCoord = byteBuf.readInt();
-        this.trueYCoord = byteBuf.readInt();
-        this.trueZCoord = byteBuf.readInt();
+        this.trueBlockPos = new BlockPos(byteBuf.readInt(), byteBuf.readInt(), byteBuf.readInt());
     }
 
     @Override
     public void toBytes(ByteBuf byteBuf) {
 
         super.toBytes(byteBuf);
-        byteBuf.writeInt(trueXCoord);
-        byteBuf.writeInt(trueYCoord);
-        byteBuf.writeInt(trueZCoord);
+        byteBuf.writeInt(trueBlockPos.getX());
+        byteBuf.writeInt(trueBlockPos.getY());
+        byteBuf.writeInt(trueBlockPos.getZ());
     }
 
     public static class MessageHandler implements IMessageHandler<MessageTileEntityDummy, IMessage> {
