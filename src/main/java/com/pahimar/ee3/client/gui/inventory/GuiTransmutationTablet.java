@@ -15,10 +15,10 @@ import com.pahimar.repackage.cofh.lib.gui.GuiColor;
 import com.pahimar.repackage.cofh.lib.gui.element.ElementSlider;
 import com.pahimar.repackage.cofh.lib.gui.element.ElementTextField;
 import com.pahimar.repackage.cofh.lib.render.RenderHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.text.DecimalFormat;
 

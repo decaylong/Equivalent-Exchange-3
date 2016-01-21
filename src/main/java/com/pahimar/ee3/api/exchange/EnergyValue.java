@@ -12,23 +12,23 @@ public final class EnergyValue implements Comparable<EnergyValue>, JsonDeseriali
     private static final Gson jsonSerializer = (new GsonBuilder()).registerTypeAdapter(EnergyValue.class, new EnergyValue()).create();
     private float energyValue;
 
-    public EnergyValue()
-    {
+    public EnergyValue() {
         this(0);
     }
 
-    public EnergyValue(float energyValue)
-    {
+    public EnergyValue(float energyValue) {
         this.energyValue = energyValue;
     }
 
     public static NBTTagCompound writeEnergyValueToNBT(EnergyValue energyValue) {
+
         NBTTagCompound nbtTagCompound = new NBTTagCompound();
         energyValue.writeToNBT(nbtTagCompound);
         return nbtTagCompound;
     }
 
     public static EnergyValue loadEnergyValueFromNBT(NBTTagCompound nbtTagCompound) {
+
         if (nbtTagCompound.hasKey("energyValue")) {
             float energyValue = nbtTagCompound.getFloat("energyValue");
 
@@ -46,6 +46,7 @@ public final class EnergyValue implements Comparable<EnergyValue>, JsonDeseriali
      */
     @SuppressWarnings("unused")
     public static EnergyValue createFromJson(String jsonEnergyValue) {
+
         try {
             return jsonSerializer.fromJson(jsonEnergyValue, EnergyValue.class);
         } catch (JsonSyntaxException exception) {
@@ -58,50 +59,42 @@ public final class EnergyValue implements Comparable<EnergyValue>, JsonDeseriali
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         return object instanceof EnergyValue && (compareTo((EnergyValue) object) == 0);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%s", energyValue);
     }
 
     @Override
-    public int compareTo(EnergyValue energyValue)
-    {
-        if (energyValue != null)
-        {
+    public int compareTo(EnergyValue energyValue) {
+
+        if (energyValue != null) {
             return Float.compare(this.energyValue, energyValue.getValue());
-        }
-        else
-        {
+        } else {
             return -1;
         }
     }
 
-    public float getValue()
-    {
+    public float getValue() {
         return this.energyValue;
     }
 
-    public IChatComponent getChatComponent()
-    {
+    public IChatComponent getChatComponent() {
         return new ChatComponentText("" + this.getValue());
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbtTagCompound)
-    {
+    public NBTTagCompound writeToNBT(NBTTagCompound nbtTagCompound) {
+
         nbtTagCompound.setFloat("energyValue", energyValue);
         return nbtTagCompound;
     }
 
-    public void readFromNBT(NBTTagCompound nbtTagCompound)
-    {
-        if (nbtTagCompound.hasKey("energyValue"))
-        {
+    public void readFromNBT(NBTTagCompound nbtTagCompound) {
+
+        if (nbtTagCompound.hasKey("energyValue")) {
             this.energyValue = nbtTagCompound.getFloat("energyValue");
         }
     }
@@ -111,8 +104,7 @@ public final class EnergyValue implements Comparable<EnergyValue>, JsonDeseriali
      *
      * @return Json serialized String of this EmcValue
      */
-    public String toJson()
-    {
+    public String toJson() {
         return jsonSerializer.toJson(this);
     }
 
@@ -132,16 +124,14 @@ public final class EnergyValue implements Comparable<EnergyValue>, JsonDeseriali
      * @throws com.google.gson.JsonParseException if jsonElement is not in the expected format of {@code typeofT}
      */
     @Override
-    public EnergyValue deserialize(JsonElement jsonElement, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
-    {
+    public EnergyValue deserialize(JsonElement jsonElement, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+
         JsonObject jsonEnergyValue = (JsonObject) jsonElement;
 
-        if (jsonEnergyValue.get("value") != null && jsonEnergyValue.get("value").isJsonPrimitive())
-        {
+        if (jsonEnergyValue.get("value") != null && jsonEnergyValue.get("value").isJsonPrimitive()) {
             float energyValue = jsonEnergyValue.get("value").getAsFloat();
 
-            if (Float.compare(energyValue, 0f) >= 0)
-            {
+            if (Float.compare(energyValue, 0f) >= 0) {
                 return new EnergyValue(energyValue);
             }
         }
@@ -165,12 +155,10 @@ public final class EnergyValue implements Comparable<EnergyValue>, JsonDeseriali
      * @return a JsonElement corresponding to the specified object.
      */
     @Override
-    public JsonElement serialize(EnergyValue energyValueObject, Type typeOfSrc, JsonSerializationContext context)
-    {
+    public JsonElement serialize(EnergyValue energyValueObject, Type typeOfSrc, JsonSerializationContext context) {
+
         JsonObject jsonEnergyValue = new JsonObject();
-
         jsonEnergyValue.addProperty("value", energyValueObject.energyValue);
-
         return jsonEnergyValue;
     }
 }

@@ -26,8 +26,13 @@ buildscript {
 repositories {
     maven {
         // Required for JEI
-        name 'DVS1 Maven FS'
+        name 'progwml6'
         url 'http://dvs1.progwml6.com/files/maven'
+    }
+    maven {
+        // Required for WAILA
+        name 'ProfMobius'
+        url 'http://mobiusstrip.eu/maven'
     }
 }
 
@@ -86,6 +91,7 @@ minecraft {
 
 dependencies {
     deobfCompile "mezz.jei:jei_${minecraft_version}:${dep_jei_version}"
+    deobfCompile "mcp.mobius.waila:Waila:${dep_waila_version}"
 }
 
 processResources

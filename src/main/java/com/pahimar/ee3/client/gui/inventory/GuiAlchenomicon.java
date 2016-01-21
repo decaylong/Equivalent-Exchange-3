@@ -10,12 +10,12 @@ import com.pahimar.repackage.cofh.lib.gui.GuiBase;
 import com.pahimar.repackage.cofh.lib.gui.GuiColor;
 import com.pahimar.repackage.cofh.lib.gui.element.ElementButton;
 import com.pahimar.repackage.cofh.lib.gui.element.ElementTextField;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)

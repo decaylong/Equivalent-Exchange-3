@@ -3,19 +3,19 @@ package com.pahimar.ee3.client.gui.inventory;
 import com.pahimar.ee3.inventory.ContainerCalcinator;
 import com.pahimar.ee3.reference.Textures;
 import com.pahimar.ee3.tileentity.TileEntityCalcinator;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class GuiCalcinator extends GuiContainer
-{
+public class GuiCalcinator extends GuiContainer {
+
     private TileEntityCalcinator tileEntityCalcinator;
 
-    public GuiCalcinator(InventoryPlayer inventoryPlayer, TileEntityCalcinator tileEntityCalcinator)
-    {
+    public GuiCalcinator(InventoryPlayer inventoryPlayer, TileEntityCalcinator tileEntityCalcinator) {
+
         super(new ContainerCalcinator(inventoryPlayer, tileEntityCalcinator));
         ySize = 176;
         this.tileEntityCalcinator = tileEntityCalcinator;

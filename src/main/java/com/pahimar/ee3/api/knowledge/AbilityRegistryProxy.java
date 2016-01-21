@@ -4,6 +4,7 @@ import com.pahimar.ee3.EquivalentExchange3;
 import net.minecraftforge.fml.common.Mod;
 
 public final class AbilityRegistryProxy {
+
     @Mod.Instance("EE3")
     private static Object ee3Mod;
 

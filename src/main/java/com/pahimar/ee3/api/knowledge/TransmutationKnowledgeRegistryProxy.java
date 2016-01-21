@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class TransmutationKnowledgeRegistryProxy {
+
     @Mod.Instance("EE3")
     private static Object ee3Mod;
 
