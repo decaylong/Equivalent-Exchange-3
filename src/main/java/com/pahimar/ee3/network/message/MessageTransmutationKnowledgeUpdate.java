@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import java.util.Collection;
 
+// TODO This is a suboptimal way to send transmutation knowledge, revisit this in the future
 public class MessageTransmutationKnowledgeUpdate implements IMessage {
 
     public int xCoord, yCoord, zCoord;
@@ -40,19 +41,21 @@ public class MessageTransmutationKnowledgeUpdate implements IMessage {
     @Override
     public void fromBytes(ByteBuf byteBuf) {
 
-        // TODO Come back here later on, time for bed
+        this.transmutationKnowledge = new TransmutationKnowledge();
         this.blockPos = new BlockPos(byteBuf.readInt(), byteBuf.readInt(), byteBuf.readInt());
 
-        byte[] compressedString = null;
-        int readableBytes = byteBuf.readInt();
+        if (byteBuf.readBoolean()) {
+            byte[] compressedString = null;
+            int readableBytes = byteBuf.readInt();
 
-        if (readableBytes > 0) {
-            compressedString = byteBuf.readBytes(readableBytes).array();
-        }
+            if (readableBytes > 0) {
+                compressedString = byteBuf.readBytes(readableBytes).array();
+            }
 
-        if (compressedString != null) {
-            String uncompressedString = CompressionHelper.decompressStringFromByteArray(compressedString);
-            this.transmutationKnowledge = TransmutationKnowledge.createFromJson(uncompressedString);
+            if (compressedString != null) {
+                String uncompressedString = CompressionHelper.decompressStringFromByteArray(compressedString);
+                this.transmutationKnowledge = TransmutationKnowledge.createFromJson(uncompressedString);
+            }
         }
     }
 
@@ -70,10 +73,9 @@ public class MessageTransmutationKnowledgeUpdate implements IMessage {
         }
 
         if (compressedString != null) {
+            byteBuf.writeBoolean(true);
             byteBuf.writeInt(compressedString.length);
             byteBuf.writeBytes(compressedString);
-        } else {
-            byteBuf.writeInt(0);
         }
     }
 

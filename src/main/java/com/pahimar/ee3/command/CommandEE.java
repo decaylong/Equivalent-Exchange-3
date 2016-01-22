@@ -3,7 +3,9 @@ package com.pahimar.ee3.command;
 import com.pahimar.ee3.reference.Messages;
 import com.pahimar.ee3.reference.Names;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ public class CommandEE extends CommandBase
     }
 
     @Override
-    public void processCommand(ICommandSender commandSender, String[] args)
+    public void processCommand(ICommandSender commandSender, String[] args) throws CommandException
     {
         if (args.length >= 1)
         {
@@ -41,11 +43,11 @@ public class CommandEE extends CommandBase
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender commandSender, String[] args)
+    public List<String> addTabCompletionOptions(ICommandSender commandSender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
-            return getListOfStringsFromIterableMatchingLastWord(args, commands);
+            return getListOfStringsMatchingLastWord(args, commands);
         }
         else if (args.length >= 2)
         {
@@ -53,7 +55,7 @@ public class CommandEE extends CommandBase
             {
                 if (command.getCommandName().equalsIgnoreCase(args[0]))
                 {
-                    return command.addTabCompletionOptions(commandSender, args);
+                    return command.addTabCompletionOptions(commandSender, args, pos);
                 }
             }
         }
@@ -82,7 +84,6 @@ public class CommandEE extends CommandBase
         modCommands.add(new CommandSetItemNotRecoverable());
         modCommands.add(new CommandRunTest());
         modCommands.add(new CommandDebug());
-        modCommands.add(new CommandAdmin());
 
         for (CommandBase commandBase : modCommands)
         {

@@ -2,7 +2,7 @@ package com.pahimar.ee3.init;
 
 import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.tileentity.*;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class TileEntities
 {

@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -51,9 +52,9 @@ public class WrappedStack implements Comparable<WrappedStack>, JsonDeserializer<
             {
                 ItemStack itemStackObject = (ItemStack) object;
                 ItemStack itemStack = new ItemStack(itemStackObject.getItem(), itemStackObject.stackSize, itemStackObject.getItemDamage());
-                if (itemStackObject.stackTagCompound != null)
+                if (itemStackObject.getTagCompound() != null)
                 {
-                    itemStack.stackTagCompound = (NBTTagCompound) itemStackObject.stackTagCompound.copy();
+                    itemStack.setTagCompound((NBTTagCompound) itemStackObject.getTagCompound().copy());
                 }
                 objectType = "itemstack";
                 stackSize = itemStack.stackSize;
@@ -351,13 +352,13 @@ public class WrappedStack implements Comparable<WrappedStack>, JsonDeserializer<
                     {
                         JsonItemStack jsonItemStack = JsonItemStack.jsonSerializer.fromJson(jsonWrappedStack.get("objectData"), JsonItemStack.class);
                         ItemStack itemStack = null;
-                        Item item = (Item) Item.itemRegistry.getObject(jsonItemStack.itemName);
+                        Item item = (Item) Item.itemRegistry.getObject(new ResourceLocation(jsonItemStack.itemName));
                         if (stackSize > 0 && item != null)
                         {
                             itemStack = new ItemStack(item, stackSize, jsonItemStack.itemDamage);
                             if (jsonItemStack.itemNBTTagCompound != null)
                             {
-                                itemStack.stackTagCompound = jsonItemStack.itemNBTTagCompound;
+                                itemStack.setTagCompound(jsonItemStack.itemNBTTagCompound);
                             }
                         }
                         stackObject = itemStack;
@@ -429,11 +430,11 @@ public class WrappedStack implements Comparable<WrappedStack>, JsonDeserializer<
         if (wrappedStack.wrappedStack instanceof ItemStack)
         {
             JsonItemStack jsonItemStack = new JsonItemStack();
-            jsonItemStack.itemName = Item.itemRegistry.getNameForObject(((ItemStack) wrappedStack.wrappedStack).getItem());
+            jsonItemStack.itemName = ((ItemStack) wrappedStack.wrappedStack).getItem().getRegistryName();
             jsonItemStack.itemDamage = ((ItemStack) wrappedStack.wrappedStack).getItemDamage();
-            if (((ItemStack) wrappedStack.wrappedStack).stackTagCompound != null)
+            if (((ItemStack) wrappedStack.wrappedStack).getTagCompound() != null)
             {
-                jsonItemStack.itemNBTTagCompound = ((ItemStack) wrappedStack.wrappedStack).stackTagCompound;
+                jsonItemStack.itemNBTTagCompound = ((ItemStack) wrappedStack.wrappedStack).getTagCompound();
             }
             jsonWrappedStack.add("objectData", JsonItemStack.jsonSerializer.toJsonTree(jsonItemStack, JsonItemStack.class));
         }

@@ -5,10 +5,12 @@ import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.reference.Reference;
 import com.pahimar.ee3.test.EnergyValueMappingsTestSuite;
 import com.pahimar.ee3.util.LogHelper;
-import cpw.mods.fml.common.FMLCommonHandler;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class CommandRunTest extends CommandEE
     }
 
     @Override
-    public void processCommand(ICommandSender commandSender, String[] args)
+    public void processCommand(ICommandSender commandSender, String[] args) throws CommandException
     {
         if (args.length == 2)
         {
@@ -71,7 +73,7 @@ public class CommandRunTest extends CommandEE
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender commandSender, String[] args)
+    public List<String> addTabCompletionOptions(ICommandSender commandSender, String[] args, BlockPos pos)
     {
         if (args.length == 2)
         {

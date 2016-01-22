@@ -8,6 +8,7 @@ import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.reference.Settings;
 import com.pahimar.ee3.util.LogHelper;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,7 +42,7 @@ public class CommandSyncEnergyValues extends CommandBase
     }
 
     @Override
-    public void processCommand(ICommandSender commandSender, String[] args)
+    public void processCommand(ICommandSender commandSender, String[] args) throws CommandException
     {
         boolean shouldSync = true;
         float coolDown = 0f;
@@ -67,7 +68,7 @@ public class CommandSyncEnergyValues extends CommandBase
 
         if (shouldSync)
         {
-            LogHelper.info(EnergyValueRegistry.ENERGY_VALUE_MARKER, "Syncing energy values with player '{}' at their request", commandSender.getCommandSenderName());
+            LogHelper.info(EnergyValueRegistry.ENERGY_VALUE_MARKER, "Syncing energy values with player '{}' at their request", commandSender.getName());
             Network.INSTANCE.sendTo(new MessageSyncEnergyValues(EnergyValueRegistry.getInstance()), (EntityPlayerMP) commandSender);
             commandSender.addChatMessage(new ChatComponentTranslation(Messages.Commands.SYNC_ENERGY_VALUES_SUCCESS));
         }

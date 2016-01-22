@@ -27,7 +27,7 @@ public class Network {
         INSTANCE.registerMessage(MessageTileEntityTransmutationTablet.MessageHandler.class, MessageTileEntityTransmutationTablet.class, 13, Side.CLIENT);
         INSTANCE.registerMessage(MessageSingleParticleEvent.MessageHandler.class, MessageSingleParticleEvent.class, 14, Side.CLIENT);
         INSTANCE.registerMessage(MessageSliderElementUpdated.MessageHandler.class, MessageSliderElementUpdated.class, 15, Side.SERVER);
-        INSTANCE.registerMessage(MessageTransmutationKnowledgeUpdate.class, MessageTransmutationKnowledgeUpdate.class, 16, Side.CLIENT);
+        INSTANCE.registerMessage(MessageTransmutationKnowledgeUpdate.MessageHandler.class, MessageTransmutationKnowledgeUpdate.class, 16, Side.CLIENT);
         INSTANCE.registerMessage(MessageTileEntityResearchStation.MessageHandler.class, MessageTileEntityResearchStation.class, 17, Side.CLIENT);
     }
 }

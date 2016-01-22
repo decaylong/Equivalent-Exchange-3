@@ -14,6 +14,7 @@ import com.pahimar.ee3.reference.RenderIds;
 import com.pahimar.ee3.settings.ChalkSettings;
 import com.pahimar.ee3.tileentity.*;
 import net.minecraft.item.Item;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -49,8 +50,8 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void spawnParticle(String particleName, double xCoord, double yCoord, double zCoord, double xVelocity, double yVelocity, double zVelocity) {
-        ClientParticleHelper.spawnParticleAtLocation(particleName, xCoord, yCoord, zCoord, xVelocity, yVelocity, zVelocity);
+    public void spawnParticle(EnumParticleTypes particle, double xCoord, double yCoord, double zCoord, double xVelocity, double yVelocity, double zVelocity) {
+        ClientParticleHelper.spawnParticleAtLocation(particle, xCoord, yCoord, zCoord, xVelocity, yVelocity, zVelocity);
     }
 
     @Override

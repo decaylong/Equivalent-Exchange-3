@@ -11,9 +11,6 @@ import com.pahimar.ee3.tileentity.TileEntityAlchemyArray;
 import com.pahimar.ee3.tileentity.TileEntityDummyArray;
 import com.pahimar.ee3.tileentity.TileEntityEE;
 import com.pahimar.ee3.util.IModalTool;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -21,12 +18,12 @@ import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
@@ -99,12 +96,11 @@ public class DrawBlockHighlightEventHandler
             {
                 drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
 
-                if (event.target.sideHit == ForgeDirection.NORTH.ordinal() || event.target.sideHit == ForgeDirection.SOUTH.ordinal())
+                if (event.target.sideHit == EnumFacing.NORTH || event.target.sideHit == EnumFacing.SOUTH)
                 {
                     drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX - 1, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
                     drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX + 1, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
-                }
-                else if (event.target.sideHit == ForgeDirection.EAST.ordinal() || event.target.sideHit == ForgeDirection.WEST.ordinal())
+                } else if (event.target.sideHit == EnumFacing.EAST || event.target.sideHit == EnumFacing.WEST)
                 {
                     drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ - 1, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
                     drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ + 1, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
@@ -127,7 +123,7 @@ public class DrawBlockHighlightEventHandler
             {
                 drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
 
-                if (event.target.sideHit == ForgeDirection.NORTH.ordinal() || event.target.sideHit == ForgeDirection.SOUTH.ordinal() || event.target.sideHit == ForgeDirection.EAST.ordinal() || event.target.sideHit == ForgeDirection.WEST.ordinal())
+                if (event.target.sideHit == EnumFacing.NORTH || event.target.sideHit == EnumFacing.SOUTH || event.target.sideHit == EnumFacing.EAST || event.target.sideHit == EnumFacing.WEST)
                 {
                     drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY - 1, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
                     drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY + 1, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
@@ -201,9 +197,9 @@ public class DrawBlockHighlightEventHandler
         ResourceLocation texture = alchemyArray.getTexture();
         int rotation = chalkSettings.getRotation();
 
-        double x = event.target.blockX + 0.5F;
-        double y = event.target.blockY + 0.5F;
-        double z = event.target.blockZ + 0.5F;
+        double x = event.target.getBlockPos().getX() + 0.5F;
+        double y = event.target.getBlockPos().getY() + 0.5F;
+        double z = event.target.getBlockPos().getZ() + 0.5F;
         double iPX = event.player.prevPosX + (event.player.posX - event.player.prevPosX) * event.partialTicks;
         double iPY = event.player.prevPosY + (event.player.posY - event.player.prevPosY) * event.partialTicks;
         double iPZ = event.player.prevPosZ + (event.player.posZ - event.player.prevPosZ) * event.partialTicks;
@@ -222,26 +218,25 @@ public class DrawBlockHighlightEventHandler
 
         int chargeLevel = ((chalkSettings.getSize() - 1) * 2) + 1;
 
-        ForgeDirection sideHit = ForgeDirection.getOrientation(event.target.sideHit);
-        TileEntity tileEntity = event.player.worldObj.getTileEntity(event.target.blockX, event.target.blockY, event.target.blockZ);
+        TileEntity tileEntity = event.player.worldObj.getTileEntity(event.target.getBlockPos());
         boolean shouldRender = true;
 
         if (tileEntity instanceof TileEntityEE)
         {
-            if (((TileEntityEE) tileEntity).getFacing() != sideHit)
+            if (((TileEntityEE) tileEntity).getFacing() != event.target.sideHit)
             {
                 shouldRender = false;
             }
         }
 
-        if (!canPlaceAlchemyArray(event.currentItem, event.player.worldObj, event.target.blockX, event.target.blockY, event.target.blockZ, event.target.sideHit))
+        if (!canPlaceAlchemyArray(event.currentItem, event.player.worldObj, event.target.getBlockPos(), event.target.sideHit))
         {
             shouldRender = false;
         }
 
         if (shouldRender)
         {
-            switch (sideHit)
+            switch (event.target.sideHit)
             {
                 case UP:
                 {
@@ -349,12 +344,11 @@ public class DrawBlockHighlightEventHandler
         }
     }
 
-    private boolean canPlaceAlchemyArray(ItemStack itemStack, World world, int x, int y, int z, int side)
+    private boolean canPlaceAlchemyArray(ItemStack itemStack, World world, BlockPos blockPos, EnumFacing facing)
     {
         ChalkSettings chalkSettings = EquivalentExchange3.proxy.getClientProxy().chalkSettings;
 
         int coordOffset = chalkSettings.getSize() - 1;
-        ForgeDirection orientation = ForgeDirection.getOrientation(side);
         AlchemyArray alchemyArray = AlchemyArrayRegistry.getInstance().getAlchemyArray(chalkSettings.getIndex());
         boolean canPlaceAlchemyArray = isValidForArray(world, x, y, z, side);
 
@@ -371,7 +365,7 @@ public class DrawBlockHighlightEventHandler
 
         if (canPlaceAlchemyArray)
         {
-            if (orientation == ForgeDirection.UP || orientation == ForgeDirection.DOWN)
+            if (facing == EnumFacing.UP || facing == EnumFacing.DOWN)
             {
                 for (int i = x - coordOffset; i <= x + coordOffset; i++)
                 {
@@ -383,8 +377,7 @@ public class DrawBlockHighlightEventHandler
                         }
                     }
                 }
-            }
-            else if (orientation == ForgeDirection.NORTH || orientation == ForgeDirection.SOUTH)
+            } else if (facing == EnumFacing.NORTH || facing == EnumFacing.SOUTH)
             {
                 for (int i = x - coordOffset; i <= x + coordOffset; i++)
                 {
@@ -396,8 +389,7 @@ public class DrawBlockHighlightEventHandler
                         }
                     }
                 }
-            }
-            else if (orientation == ForgeDirection.EAST || orientation == ForgeDirection.WEST)
+            } else if (facing == EnumFacing.EAST || facing == EnumFacing.WEST)
             {
                 for (int i = y - coordOffset; i <= y + coordOffset; i++)
                 {

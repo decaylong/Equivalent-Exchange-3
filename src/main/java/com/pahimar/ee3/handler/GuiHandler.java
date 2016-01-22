@@ -63,14 +63,6 @@ public class GuiHandler implements IGuiHandler
             TileEntityAlchemyArray tileEntityAlchemyArray = (TileEntityAlchemyArray) world.getTileEntity(blockPos);
             return new ContainerTransmutationArray(entityPlayer.inventory, tileEntityAlchemyArray);
         }
-        else if (id == GUIs.SYMBOL_SELECTION.ordinal())
-        {
-            return new ContainerSymbolSelection();
-        }
-        else if (id == GUIs.ADMIN_PANEL.ordinal())
-        {
-            return new ContainerAdminPanel(entityPlayer.inventory);
-        }
 
         return null;
     }
@@ -126,14 +118,6 @@ public class GuiHandler implements IGuiHandler
         {
             TileEntityAlchemyArray tileEntityAlchemyArray = (TileEntityAlchemyArray) world.getTileEntity(blockPos);
             return new GuiTransmutationArray(entityPlayer.inventory, tileEntityAlchemyArray);
-        }
-        else if (id == GUIs.SYMBOL_SELECTION.ordinal())
-        {
-            return new GuiSymbolSelection();
-        }
-        else if (id == GUIs.ADMIN_PANEL.ordinal())
-        {
-            return new GuiAdminPanel(entityPlayer.inventory);
         }
 
         return null;

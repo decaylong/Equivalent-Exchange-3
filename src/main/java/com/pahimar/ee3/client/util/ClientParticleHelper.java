@@ -1,11 +1,12 @@
 package com.pahimar.ee3.client.util;
 
-import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class ClientParticleHelper
 {
-    public static void spawnParticleAtLocation(String particleName, double xCoord, double yCoord, double zCoord, double xVelocity, double yVelocity, double zVelocity)
+    public static void spawnParticleAtLocation(EnumParticleTypes particle, double xCoord, double yCoord, double zCoord, double xVelocity, double yVelocity, double zVelocity)
     {
-        FMLClientHandler.instance().getWorldClient().spawnParticle(particleName, xCoord, yCoord, zCoord, xVelocity, yVelocity, zVelocity);
+        FMLClientHandler.instance().getWorldClient().spawnParticle(particle, xCoord, yCoord, zCoord, xVelocity, yVelocity, zVelocity);
     }
 }

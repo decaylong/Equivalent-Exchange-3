@@ -3,7 +3,9 @@ package com.pahimar.ee3.command;
 import com.pahimar.ee3.api.exchange.EnergyValueRegistryProxy;
 import com.pahimar.ee3.reference.Names;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.BlockPos;
 
 import java.util.List;
 
@@ -28,13 +30,13 @@ public class CommandDebug extends CommandBase
     }
 
     @Override
-    public void processCommand(ICommandSender commandSender, String[] args)
+    public void processCommand(ICommandSender commandSender, String[] args) throws CommandException
     {
         EnergyValueRegistryProxy.dumpEnergyValueRegistryToLog(EnergyValueRegistryProxy.Phase.PRE_CALCULATION);
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender commandSender, String[] args)
+    public List<String> addTabCompletionOptions(ICommandSender commandSender, String[] args, BlockPos pos)
     {
         return null;
     }

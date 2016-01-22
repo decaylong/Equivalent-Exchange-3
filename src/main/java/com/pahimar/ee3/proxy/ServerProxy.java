@@ -1,5 +1,7 @@
 package com.pahimar.ee3.proxy;
 
+import net.minecraft.util.EnumParticleTypes;
+
 public class ServerProxy extends CommonProxy
 {
     @Override
@@ -27,7 +29,7 @@ public class ServerProxy extends CommonProxy
     }
 
     @Override
-    public void spawnParticle(String particleName, double xCoord, double yCoord, double zCoord, double xVelocity, double yVelocity, double zVelocity)
+    public void spawnParticle(EnumParticleTypes particle, double xCoord, double yCoord, double zCoord, double xVelocity, double yVelocity, double zVelocity)
     {
         // NOOP
     }

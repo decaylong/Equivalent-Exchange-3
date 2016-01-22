@@ -1,10 +1,10 @@
 package com.pahimar.ee3.test;
 
 import com.pahimar.ee3.reference.Reference;
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.io.File;
@@ -210,7 +210,13 @@ public class VanillaEnergyValueTest extends EnergyValueMappingsTestSuite
         add(Blocks.snow_layer, 0.125);
         add(Blocks.cactus, 8);
         add(Blocks.jukebox, 8256);
-        add(Blocks.fence, 12);
+        add(Blocks.acacia_fence, 12);
+        add(Blocks.birch_fence, 12);
+        add(Blocks.dark_oak_fence, 12);
+        add(Blocks.jungle_fence, 12);
+        add(Blocks.nether_brick_fence, 4);
+        add(Blocks.oak_fence, 12);
+        add(Blocks.spruce_fence, 12);
         add(new ItemStack(Blocks.monster_egg, 1, 0), null);
         add(new ItemStack(Blocks.monster_egg, 1, 1), null);
         add(new ItemStack(Blocks.monster_egg, 1, 2), null);
@@ -221,7 +227,6 @@ public class VanillaEnergyValueTest extends EnergyValueMappingsTestSuite
         add(Blocks.glass_pane, 0.375);
         add(Blocks.vine, 8);
         add(Blocks.waterlily, 16);
-        add(Blocks.nether_brick_fence, 4);
         add(Blocks.enchanting_table, 16800);
         add(Blocks.end_portal_frame, null);
         add(Blocks.ender_chest, 2304);
@@ -293,7 +298,12 @@ public class VanillaEnergyValueTest extends EnergyValueMappingsTestSuite
         add(Blocks.redstone_torch, 36);
         add(Blocks.stone_button, 1);
         add(Blocks.trapdoor, 24);
-        add(Blocks.fence_gate, 32);
+        add(Blocks.acacia_fence_gate, 32);
+        add(Blocks.birch_fence_gate, 32);
+        add(Blocks.dark_oak_fence_gate, 32);
+        add(Blocks.jungle_fence_gate, 32);
+        add(Blocks.oak_fence_gate, 32);
+        add(Blocks.spruce_fence_gate, 32);
         add(Blocks.redstone_lamp, 1664);
         add(Blocks.tripwire_hook, 134);
         add(Blocks.wooden_button, 8);
@@ -303,7 +313,13 @@ public class VanillaEnergyValueTest extends EnergyValueMappingsTestSuite
         add(Blocks.redstone_block, 288);
         add(Blocks.hopper, 1344);
         add(Blocks.dropper, 39);
-        add(Items.wooden_door, 48);
+        add(Items.acacia_door, 48);
+        add(Items.birch_door, 48);
+        add(Items.dark_oak_door, 48);
+        add(Items.iron_door, 48);
+        add(Items.jungle_door, 48);
+        add(Items.oak_door, 48);
+        add(Items.spruce_door, 48);
         add(Items.iron_door, 1536);
         add(Items.redstone, 32);
         add(Items.repeater, 107);
@@ -400,8 +416,8 @@ public class VanillaEnergyValueTest extends EnergyValueMappingsTestSuite
         add(new ItemStack(Items.fish, 1, 1), 24);
         add(new ItemStack(Items.fish, 1, 2), 24);
         add(new ItemStack(Items.fish, 1, 3), 24);
-        add(new ItemStack(Items.cooked_fished, 1, 0), 24);
-        add(new ItemStack(Items.cooked_fished, 1, 1), 24);
+        add(new ItemStack(Items.cooked_fish, 1, 0), 24);
+        add(new ItemStack(Items.cooked_fish, 1, 1), 24);
         add(Items.cake, 360);
         add(Items.cookie, 8);
         add(Items.melon, 16);

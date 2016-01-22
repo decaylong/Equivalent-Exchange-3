@@ -3,16 +3,16 @@ package com.pahimar.ee3.command;
 import com.pahimar.ee3.api.knowledge.TransmutationKnowledgeRegistryProxy;
 import com.pahimar.ee3.reference.Messages;
 import com.pahimar.ee3.reference.Names;
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class CommandPlayerForgetItem extends CommandBase
     }
 
     @Override
-    public void processCommand(ICommandSender commandSender, String[] args)
+    public void processCommand(ICommandSender commandSender, String[] args) throws CommandException
     {
         if (args.length < 3)
         {
@@ -54,36 +54,24 @@ public class CommandPlayerForgetItem extends CommandBase
 
                 if (args.length >= 4)
                 {
-                    metaData = parseInt(commandSender, args[3]);
+                    metaData = parseInt(args[3]);
                 }
 
                 ItemStack itemStack = new ItemStack(item, 1, metaData);
 
-                if (args.length >= 5)
-                {
-                    String stringNBTData = func_147178_a(commandSender, args, 4).getUnformattedText();
+                if (args.length >= 5) {
 
-                    try
-                    {
-                        NBTBase nbtBase = JsonToNBT.func_150315_a(stringNBTData);
+                    String stringNBTData = getChatComponentFromNthArg(commandSender, args, 4).getUnformattedText();
 
-                        if (!(nbtBase instanceof NBTTagCompound))
-                        {
-                            func_152373_a(commandSender, this, Messages.Commands.INVALID_NBT_TAG_ERROR, new Object[]{"Not a valid tag"});
-                            return;
-                        }
-
-                        itemStack.setTagCompound((NBTTagCompound) nbtBase);
-                    }
-                    catch (Exception exception)
-                    {
-                        func_152373_a(commandSender, this, Messages.Commands.INVALID_NBT_TAG_ERROR, new Object[]{exception.getMessage()});
-                        return;
+                    try {
+                        itemStack.setTagCompound(JsonToNBT.getTagFromJson(stringNBTData));
+                    } catch (Exception exception) {
+                        throw new CommandException(Messages.Commands.INVALID_NBT_TAG_ERROR);
                     }
                 }
 
                 TransmutationKnowledgeRegistryProxy.makePlayerForget(entityPlayer, itemStack);
-                func_152373_a(commandSender, this, Messages.Commands.PLAYER_FORGET_ITEM_SUCCESS, new Object[]{commandSender.getCommandSenderName(), entityPlayer.getCommandSenderName(), itemStack.func_151000_E()});
+                notifyOperators(commandSender, this, Messages.Commands.PLAYER_FORGET_ITEM_SUCCESS, new Object[]{commandSender.getName(), entityPlayer.getName(), itemStack.getChatComponent()});
             }
             else
             {
@@ -93,7 +81,7 @@ public class CommandPlayerForgetItem extends CommandBase
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender commandSender, String[] args)
+    public List<String> addTabCompletionOptions(ICommandSender commandSender, String[] args, BlockPos pos)
     {
         if (args.length == 2)
         {
@@ -101,7 +89,7 @@ public class CommandPlayerForgetItem extends CommandBase
         }
         else if (args.length == 3)
         {
-            return getListOfStringsFromIterableMatchingLastWord(args, Item.itemRegistry.getKeys());
+            return getListOfStringsMatchingLastWord(args, Item.itemRegistry.getKeys());
         }
 
         return null;

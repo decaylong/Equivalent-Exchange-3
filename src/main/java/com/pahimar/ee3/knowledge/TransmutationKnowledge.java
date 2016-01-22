@@ -9,6 +9,7 @@ import com.pahimar.ee3.util.FilterUtils;
 import com.pahimar.ee3.util.ItemHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -160,13 +161,14 @@ public class TransmutationKnowledge implements JsonSerializer<TransmutationKnowl
                             JsonItemStack jsonItemStack = JsonItemStack.jsonSerializer.fromJson(jsonElement, JsonItemStack.class);
 
                             ItemStack itemStack = null;
-                            Item item = (Item) Item.itemRegistry.getObject(jsonItemStack.itemName);
+
+                            Item item = Item.itemRegistry.getObject(new ResourceLocation(jsonItemStack.itemName));
                             if (item != null)
                             {
                                 itemStack = new ItemStack(item, 1, jsonItemStack.itemDamage);
                                 if (jsonItemStack.itemNBTTagCompound != null)
                                 {
-                                    itemStack.stackTagCompound = jsonItemStack.itemNBTTagCompound;
+                                    itemStack.setTagCompound(jsonItemStack.itemNBTTagCompound);
                                 }
                             }
 

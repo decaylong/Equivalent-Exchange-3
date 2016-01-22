@@ -63,7 +63,7 @@ public class JsonFluidStack implements JsonSerializer<JsonFluidStack>, JsonDeser
             {
                 try
                 {
-                    NBTBase nbtBase = JsonToNBT.func_150315_a(jsonObject.get("tag").getAsString());
+                    NBTBase nbtBase = JsonToNBT.getTagFromJson(jsonObject.get("tag").getAsString());
 
                     if (nbtBase instanceof NBTTagCompound)
                     {

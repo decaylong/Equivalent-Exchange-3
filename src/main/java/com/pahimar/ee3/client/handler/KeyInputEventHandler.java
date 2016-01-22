@@ -5,32 +5,29 @@ import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.network.message.MessageKeyPressed;
 import com.pahimar.ee3.reference.Key;
 import com.pahimar.ee3.util.IKeyBound;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class KeyInputEventHandler
 {
     private static Key getPressedKeybinding()
     {
-        if (Keybindings.charge.getIsKeyPressed())
+        if (Keybindings.charge.isKeyDown())
         {
             return Key.CHARGE;
-        }
-        else if (Keybindings.extra.getIsKeyPressed())
+        } else if (Keybindings.extra.isKeyDown())
         {
             return Key.EXTRA;
-        }
-        else if (Keybindings.release.getIsKeyPressed())
+        } else if (Keybindings.release.isKeyDown())
         {
             return Key.RELEASE;
-        }
-        else if (Keybindings.toggle.getIsKeyPressed())
+        } else if (Keybindings.toggle.isKeyDown())
         {
             return Key.TOGGLE;
         }

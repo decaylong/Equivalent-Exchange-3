@@ -10,10 +10,12 @@ import com.pahimar.ee3.reference.Messages;
 import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.util.SerializationHelper;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 
 import java.util.List;
 import java.util.Map;
@@ -39,7 +41,7 @@ public class CommandSetEnergyValueCurrentItem extends CommandBase
     }
 
     @Override
-    public void processCommand(ICommandSender commandSender, String[] args)
+    public void processCommand(ICommandSender commandSender, String[] args) throws CommandException
     {
         if (args.length < 3)
         {
@@ -51,7 +53,7 @@ public class CommandSetEnergyValueCurrentItem extends CommandBase
 
             if (args.length >= 3)
             {
-                energyValue = (float) parseDoubleWithMin(commandSender, args[2], 0);
+                energyValue = (float) parseDouble(args[2], 0);
             }
 
             ItemStack itemStack = ((EntityPlayer) commandSender).getCurrentEquippedItem();
@@ -107,7 +109,7 @@ public class CommandSetEnergyValueCurrentItem extends CommandBase
                     }
 
                     // Notify admins and log the value change
-                    func_152373_a(commandSender, this, Messages.Commands.SET_ENERGY_VALUE_CURRENT_ITEM_SUCCESS, new Object[]{commandSender.getCommandSenderName(), args[1], itemStack.func_151000_E(), newEnergyValue.getChatComponent()});
+                    notifyOperators(commandSender, this, Messages.Commands.SET_ENERGY_VALUE_CURRENT_ITEM_SUCCESS, new Object[]{commandSender.getName(), args[1], itemStack.getChatComponent(), newEnergyValue.getChatComponent()});
                 }
                 else
                 {
@@ -122,7 +124,7 @@ public class CommandSetEnergyValueCurrentItem extends CommandBase
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender commandSender, String[] args)
+    public List<String> addTabCompletionOptions(ICommandSender commandSender, String[] args, BlockPos pos)
     {
         if (args.length == 2)
         {

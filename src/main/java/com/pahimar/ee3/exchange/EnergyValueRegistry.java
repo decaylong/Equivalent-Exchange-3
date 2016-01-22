@@ -13,11 +13,11 @@ import com.pahimar.ee3.util.EnergyValueHelper;
 import com.pahimar.ee3.util.LoaderHelper;
 import com.pahimar.ee3.util.LogHelper;
 import com.pahimar.ee3.util.SerializationHelper;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
@@ -142,11 +142,10 @@ public class EnergyValueRegistry implements JsonSerializer<EnergyValueRegistry>,
 
     public EnergyValue getEnergyValue(EnergyValueRegistryProxy.Phase phase, Object object, boolean strict)
     {
-        if (phase == EnergyValueRegistryProxy.Phase.PRE_ASSIGNMENT || phase == EnergyValueRegistryProxy.Phase.PRE_CALCULATION)
+        if (phase == EnergyValueRegistryProxy.Phase.PRE_CALCULATION || phase == EnergyValueRegistryProxy.Phase.PRE_CALCULATION)
         {
             return getEnergyValueFromMap(preCalculationMappings, object, strict);
-        }
-        else if (phase == EnergyValueRegistryProxy.Phase.POST_ASSIGNMENT || phase == EnergyValueRegistryProxy.Phase.POST_CALCULATION)
+        } else if (phase == EnergyValueRegistryProxy.Phase.POST_CALCULATION || phase == EnergyValueRegistryProxy.Phase.POST_CALCULATION)
         {
             return getEnergyValueFromMap(postCalculationMappings, object, strict);
         }
@@ -802,11 +801,11 @@ public class EnergyValueRegistry implements JsonSerializer<EnergyValueRegistry>,
     public void dumpEnergyValueRegistryToLog(EnergyValueRegistryProxy.Phase phase) {
 
         LogHelper.info(ENERGY_VALUE_MARKER, "BEGIN DUMPING {} ENERGY VALUE MAPPINGS", phase);
-        if (phase == EnergyValueRegistryProxy.Phase.PRE_ASSIGNMENT || phase == EnergyValueRegistryProxy.Phase.PRE_CALCULATION) {
+        if (phase == EnergyValueRegistryProxy.Phase.PRE_CALCULATION || phase == EnergyValueRegistryProxy.Phase.PRE_CALCULATION) {
             for (WrappedStack wrappedStack : this.preCalculationMappings.keySet()) {
                 LogHelper.info(ENERGY_VALUE_MARKER, "Object: {}, Value: {}", wrappedStack, EnergyValueRegistry.getInstance().getStackValueMap().get(wrappedStack));
             }
-        } else if (phase == EnergyValueRegistryProxy.Phase.POST_ASSIGNMENT || phase == EnergyValueRegistryProxy.Phase.POST_CALCULATION) {
+        } else if (phase == EnergyValueRegistryProxy.Phase.POST_CALCULATION || phase == EnergyValueRegistryProxy.Phase.POST_CALCULATION) {
             if (this.postCalculationMappings != null) {
                 for (WrappedStack wrappedStack : this.postCalculationMappings.keySet()) {
                     LogHelper.info(ENERGY_VALUE_MARKER, "Object: {}, Value: {}", wrappedStack, EnergyValueRegistry.getInstance().getStackValueMap().get(wrappedStack));

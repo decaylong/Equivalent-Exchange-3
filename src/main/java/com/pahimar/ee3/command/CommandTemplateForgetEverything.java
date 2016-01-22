@@ -4,6 +4,7 @@ import com.pahimar.ee3.knowledge.TransmutationKnowledgeRegistry;
 import com.pahimar.ee3.reference.Messages;
 import com.pahimar.ee3.reference.Names;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 
 public class CommandTemplateForgetEverything extends CommandBase
@@ -27,9 +28,9 @@ public class CommandTemplateForgetEverything extends CommandBase
     }
 
     @Override
-    public void processCommand(ICommandSender commandSender, String[] args)
+    public void processCommand(ICommandSender commandSender, String[] args) throws CommandException
     {
         TransmutationKnowledgeRegistry.getInstance().makeTemplateForgetEverything();
-        func_152373_a(commandSender, this, Messages.Commands.TEMPLATE_FORGET_EVERYTHING_SUCCESS, new Object[]{commandSender.getCommandSenderName()});
+        notifyOperators(commandSender, this, Messages.Commands.TEMPLATE_FORGET_EVERYTHING_SUCCESS, new Object[]{commandSender.getName()});
     }
 }

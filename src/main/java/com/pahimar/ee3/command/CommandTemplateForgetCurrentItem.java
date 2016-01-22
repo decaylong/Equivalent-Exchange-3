@@ -4,6 +4,7 @@ import com.pahimar.ee3.knowledge.TransmutationKnowledgeRegistry;
 import com.pahimar.ee3.reference.Messages;
 import com.pahimar.ee3.reference.Names;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,7 +31,7 @@ public class CommandTemplateForgetCurrentItem extends CommandBase
     }
 
     @Override
-    public void processCommand(ICommandSender commandSender, String[] args)
+    public void processCommand(ICommandSender commandSender, String[] args) throws CommandException
     {
         if (args.length < 1)
         {
@@ -43,7 +44,7 @@ public class CommandTemplateForgetCurrentItem extends CommandBase
             if (itemStack != null)
             {
                 TransmutationKnowledgeRegistry.getInstance().makeTemplateForget(itemStack);
-                func_152373_a(commandSender, this, Messages.Commands.TEMPLATE_FORGET_CURRENT_ITEM_SUCCESS, new Object[]{commandSender.getCommandSenderName(), itemStack.func_151000_E()});
+                notifyOperators(commandSender, this, Messages.Commands.TEMPLATE_FORGET_CURRENT_ITEM_SUCCESS, new Object[]{commandSender.getName(), itemStack.getChatComponent()});
             }
             else
             {

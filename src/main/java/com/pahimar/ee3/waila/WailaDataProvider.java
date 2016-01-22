@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -27,14 +28,14 @@ public class WailaDataProvider implements IWailaDataProvider
     {
         if (accessor.getTileEntity() instanceof TileEntityAludel)
         {
-            if (accessor.getWorld().getTileEntity(accessor.getPosition().blockX, accessor.getPosition().blockY + 1, accessor.getPosition().blockZ) instanceof TileEntityGlassBell)
+            if (accessor.getWorld().getTileEntity(accessor.getPosition()) instanceof TileEntityGlassBell)
             {
                 currentTip.set(0, String.format("%s%s", SpecialChars.WHITE, StatCollector.translateToLocal(Names.Containers.ALUDEL)));
             }
         }
         else if (accessor.getTileEntity() instanceof TileEntityGlassBell)
         {
-            if (accessor.getWorld().getTileEntity(accessor.getPosition().blockX, accessor.getPosition().blockY - 1, accessor.getPosition().blockZ) instanceof TileEntityAludel)
+            if (accessor.getWorld().getTileEntity(accessor.getPosition()) instanceof TileEntityAludel)
             {
                 currentTip.set(0, String.format("%s%s", SpecialChars.WHITE, StatCollector.translateToLocal(Names.Containers.ALUDEL)));
             }
@@ -67,7 +68,7 @@ public class WailaDataProvider implements IWailaDataProvider
         else if (accessor.getTileEntity() instanceof TileEntityDummyArray)
         {
             TileEntityDummyArray tileEntityDummyArray = (TileEntityDummyArray) accessor.getTileEntity();
-            TileEntityAlchemyArray tileEntityAlchemyArray = (TileEntityAlchemyArray) accessor.getWorld().getTileEntity(tileEntityDummyArray.getTrueXCoord(), tileEntityDummyArray.getTrueYCoord(), tileEntityDummyArray.getTrueZCoord());
+            TileEntityAlchemyArray tileEntityAlchemyArray = (TileEntityAlchemyArray) accessor.getWorld().getTileEntity(tileEntityDummyArray.getTrueBlockPos());
 
             if (tileEntityAlchemyArray != null && tileEntityAlchemyArray.getAlchemyArray() != null && tileEntityAlchemyArray.getAlchemyArray().getDisplayName() != null)
             {
@@ -81,51 +82,45 @@ public class WailaDataProvider implements IWailaDataProvider
         else if (accessor.getBlock() instanceof BlockAshInfusedStoneSlab)
         {
             int metaData = accessor.getMetadata();
-            int x = accessor.getPosition().blockX;
-            int y = accessor.getPosition().blockY;
-            int z = accessor.getPosition().blockZ;
-            String unLocalizedBlockName = accessor.getWorld().getBlock(x, y, z).getUnlocalizedName() + ".name";
+            BlockPos blockPos = accessor.getPosition();
+            String unLocalizedBlockName = accessor.getWorld().getBlockState(blockPos).getBlock().getUnlocalizedName() + ".name";
 
             if (metaData == 1)
             {
-                x++;
-                z++;
+                blockPos.add(1, 0, 1);
             }
             else if (metaData == 2)
             {
-                z++;
+                blockPos.add(0, 0, 1);
             }
             else if (metaData == 3)
             {
-                x--;
-                z++;
+                blockPos.add(-1, 0, 1);
             }
             else if (metaData == 4)
             {
-                x++;
+                blockPos.add(1, 0, 0);
             }
             else if (metaData == 5)
             {
-                x--;
+                blockPos.add(-1, 0, 0);
             }
             else if (metaData == 6)
             {
-                x++;
-                z--;
+                blockPos.add(1, 0, -1);
             }
             else if (metaData == 7)
             {
-                z--;
+                blockPos.add(0, 0, -1);
             }
             else if (metaData == 8)
             {
-                x--;
-                z--;
+                blockPos.add(-1, 0, -1);
             }
 
-            if (metaData != 0 && accessor.getWorld().getTileEntity(x, y, z) instanceof TileEntityTransmutationTablet)
+            if (metaData != 0 && accessor.getWorld().getTileEntity(blockPos) instanceof TileEntityTransmutationTablet)
             {
-                currentTip.set(0, SpecialChars.WHITE + StatCollector.translateToLocal(accessor.getWorld().getBlock(x, y, z).getUnlocalizedName() + ".name"));
+                currentTip.set(0, SpecialChars.WHITE + StatCollector.translateToLocal(accessor.getWorld().getBlockState(blockPos).getBlock().getUnlocalizedName() + ".name"));
             }
             else
             {
@@ -149,8 +144,7 @@ public class WailaDataProvider implements IWailaDataProvider
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z)
-    {
+    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         return null;
     }
 

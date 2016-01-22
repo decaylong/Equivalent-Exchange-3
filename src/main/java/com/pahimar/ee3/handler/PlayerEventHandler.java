@@ -7,10 +7,10 @@ import com.pahimar.ee3.network.message.MessageChalkSettings;
 import com.pahimar.ee3.network.message.MessageSyncEnergyValues;
 import com.pahimar.ee3.settings.ChalkSettings;
 import com.pahimar.ee3.util.EntityHelper;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class PlayerEventHandler
 {
@@ -33,7 +33,7 @@ public class PlayerEventHandler
     }
 
     @SubscribeEvent
-    public void onPlayerLoggedIn(cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent event)
+    public void onPlayerLoggedIn(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent event)
     {
         if (event.player != null)
         {
@@ -53,7 +53,7 @@ public class PlayerEventHandler
     }
 
     @SubscribeEvent
-    public void onPlayerLoggedOut(cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent event)
+    public void onPlayerLoggedOut(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent event)
     {
         if (!event.player.worldObj.isRemote)
         {
