@@ -23,7 +23,10 @@ public class RenderUtils
         return (width - fontRenderer.getStringWidth(string)) / 2;
     }
 
-    public static void renderItemIntoGUI(FontRenderer fontRenderer, ItemStack itemStack, int x, int y, float opacity, float scale, int zLevel)
+    /**
+     * @see net.minecraft.client.renderer.entity.RenderItem#renderItemIntoGUI(ItemStack, int, int)
+     */
+    public static void renderItemIntoGUI(ItemStack itemStack, int x, int y, float opacity, float scale, int zLevel)
     {
         IIcon icon = itemStack.getIconIndex();
         GL11.glDisable(GL11.GL_LIGHTING);

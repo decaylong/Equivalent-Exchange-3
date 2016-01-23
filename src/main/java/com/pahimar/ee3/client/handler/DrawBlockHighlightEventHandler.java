@@ -75,7 +75,7 @@ public class DrawBlockHighlightEventHandler
             event.setCanceled(true);
             if (toolMode == ToolMode.STANDARD)
             {
-                drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
+                drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos()), 0, event.partialTicks);
             }
         }
     }
@@ -88,57 +88,50 @@ public class DrawBlockHighlightEventHandler
         if (toolMode != ToolMode.UNKNOWN)
         {
             event.setCanceled(true);
-            if (toolMode == ToolMode.STANDARD)
+            drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos()), 0, event.partialTicks);
+            if (toolMode == ToolMode.WIDE)
             {
-                drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
-            }
-            else if (toolMode == ToolMode.WIDE)
-            {
-                drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
-
                 if (event.target.sideHit == EnumFacing.NORTH || event.target.sideHit == EnumFacing.SOUTH)
                 {
-                    drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX - 1, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
-                    drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX + 1, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
+                    drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().west()), 0, event.partialTicks);
+                    drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().east()), 0, event.partialTicks);
                 } else if (event.target.sideHit == EnumFacing.EAST || event.target.sideHit == EnumFacing.WEST)
                 {
-                    drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ - 1, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
-                    drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ + 1, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
+                    drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().north()), 0, event.partialTicks);
+                    drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().south()), 0, event.partialTicks);
                 }
                 else
                 {
                     if (facing == 0 || facing == 2)
                     {
-                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX - 1, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
-                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX + 1, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
+                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().west()), 0, event.partialTicks);
+                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().east()), 0, event.partialTicks);
                     }
                     else
                     {
-                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ - 1, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
-                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ + 1, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
+                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().north()), 0, event.partialTicks);
+                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().south()), 0, event.partialTicks);
                     }
                 }
             }
             else if (toolMode == ToolMode.TALL)
             {
-                drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
-
                 if (event.target.sideHit == EnumFacing.NORTH || event.target.sideHit == EnumFacing.SOUTH || event.target.sideHit == EnumFacing.EAST || event.target.sideHit == EnumFacing.WEST)
                 {
-                    drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY - 1, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
-                    drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY + 1, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
+                    drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().up()), 0, event.partialTicks);
+                    drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().down()), 0, event.partialTicks);
                 }
                 else
                 {
                     if (facing == 1 || facing == 3)
                     {
-                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX - 1, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
-                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX + 1, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
+                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().west()), 0, event.partialTicks);
+                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().east()), 0, event.partialTicks);
                     }
                     else
                     {
-                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ - 1, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
-                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ + 1, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
+                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().north()), 0, event.partialTicks);
+                        drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos().south()), 0, event.partialTicks);
                     }
                 }
             }
@@ -155,7 +148,7 @@ public class DrawBlockHighlightEventHandler
             event.setCanceled(true);
             if (toolMode == ToolMode.STANDARD)
             {
-                drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
+                drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos()), 0, event.partialTicks);
             }
         }
     }
@@ -170,7 +163,7 @@ public class DrawBlockHighlightEventHandler
             event.setCanceled(true);
             if (toolMode == ToolMode.STANDARD)
             {
-                drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
+                drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos()), 0, event.partialTicks);
             }
         }
     }
@@ -185,7 +178,7 @@ public class DrawBlockHighlightEventHandler
             event.setCanceled(true);
             if (toolMode == ToolMode.STANDARD)
             {
-                drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.blockX, event.target.blockY, event.target.blockZ, event.target.sideHit, event.target.hitVec), 0, event.partialTicks);
+                drawSelectionBox(event.context, event.player, new MovingObjectPosition(event.target.hitVec, event.target.sideHit, event.target.getBlockPos()), 0, event.partialTicks);
             }
         }
     }
@@ -331,8 +324,8 @@ public class DrawBlockHighlightEventHandler
                 GL11.glPushMatrix();
                 GL11.glTranslated(-iPX + x + xShift, -iPY + y + yShift, -iPZ + z + zShift);
                 GL11.glScalef(1F * xScale, 1F * yScale, 1F * zScale);
-                GL11.glRotatef(rotationAngle, sideHit.offsetX, sideHit.offsetY, sideHit.offsetZ);
-                GL11.glRotatef(facingCorrectionAngle, sideHit.offsetX, sideHit.offsetY, sideHit.offsetZ);
+                GL11.glRotatef(rotationAngle, event.target.sideHit.getFrontOffsetX(), event.target.sideHit.getFrontOffsetY(), event.target.sideHit.getFrontOffsetZ());
+                GL11.glRotatef(facingCorrectionAngle, event.target.sideHit.getFrontOffsetX(), event.target.sideHit.getFrontOffsetY(), event.target.sideHit.getFrontOffsetZ());
                 GL11.glRotatef(90, xRotate, yRotate, zRotate);
                 GL11.glTranslated(0, 0, 0.5f * zCorrection);
                 GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
@@ -350,55 +343,33 @@ public class DrawBlockHighlightEventHandler
 
         int coordOffset = chalkSettings.getSize() - 1;
         AlchemyArray alchemyArray = AlchemyArrayRegistry.getInstance().getAlchemyArray(chalkSettings.getIndex());
-        boolean canPlaceAlchemyArray = isValidForArray(world, x, y, z, side);
+        boolean canPlaceAlchemyArray = isValidForArray(world, blockPos, facing);
 
         int chargeLevel = ((chalkSettings.getSize() - 1) * 2) + 1;
 
-        if (itemStack.getItemDamage() == itemStack.getMaxDamage() && (chargeLevel * chargeLevel) * alchemyArray.getChalkCostPerBlock() == 1)
-        {
+        if (itemStack.getItemDamage() == itemStack.getMaxDamage() && (chargeLevel * chargeLevel) * alchemyArray.getChalkCostPerBlock() == 1) {
             canPlaceAlchemyArray = true;
-        }
-        else if (itemStack.getMaxDamage() - itemStack.getItemDamage() + 1 < (chargeLevel * chargeLevel) * alchemyArray.getChalkCostPerBlock())
-        {
+        } else if (itemStack.getMaxDamage() - itemStack.getItemDamage() + 1 < (chargeLevel * chargeLevel) * alchemyArray.getChalkCostPerBlock()) {
             canPlaceAlchemyArray = false;
         }
 
         if (canPlaceAlchemyArray)
         {
+            Iterable<BlockPos> blocksInPlane = null;
             if (facing == EnumFacing.UP || facing == EnumFacing.DOWN)
             {
-                for (int i = x - coordOffset; i <= x + coordOffset; i++)
-                {
-                    for (int j = z - coordOffset; j <= z + coordOffset; j++)
-                    {
-                        if ((i != x || j != z) && (!isValidForArray(world, i, y, j, side)))
-                        {
-                            canPlaceAlchemyArray = false;
-                        }
-                    }
-                }
+                blocksInPlane = BlockPos.getAllInBox(blockPos.add(-coordOffset, 0, -coordOffset), blockPos.add(coordOffset, 0, coordOffset));
             } else if (facing == EnumFacing.NORTH || facing == EnumFacing.SOUTH)
             {
-                for (int i = x - coordOffset; i <= x + coordOffset; i++)
-                {
-                    for (int j = y - coordOffset; j <= y + coordOffset; j++)
-                    {
-                        if ((i != x || j != y) && (!isValidForArray(world, i, j, z, side)))
-                        {
-                            canPlaceAlchemyArray = false;
-                        }
-                    }
-                }
+                blocksInPlane = BlockPos.getAllInBox(blockPos.add(-coordOffset, -coordOffset, 0), blockPos.add(coordOffset, coordOffset, 0));
             } else if (facing == EnumFacing.EAST || facing == EnumFacing.WEST)
             {
-                for (int i = y - coordOffset; i <= y + coordOffset; i++)
-                {
-                    for (int j = z - coordOffset; j <= z + coordOffset; j++)
-                    {
-                        if ((i != y || j != z) && (!isValidForArray(world, x, i, j, side)))
-                        {
-                            canPlaceAlchemyArray = false;
-                        }
+                blocksInPlane = BlockPos.getAllInBox(blockPos.add(0, -coordOffset, -coordOffset), blockPos.add(0, coordOffset, coordOffset));
+            }
+            if (blocksInPlane != null) {
+                for (BlockPos currentBlockPos : blocksInPlane) {
+                    if (!currentBlockPos.equals(blockPos) && !isValidForArray(world, currentBlockPos, facing)) {
+                        canPlaceAlchemyArray = false;
                     }
                 }
             }
@@ -407,18 +378,24 @@ public class DrawBlockHighlightEventHandler
         return canPlaceAlchemyArray;
     }
 
-    private boolean isValidForArray(World world, int x, int y, int z, int sideHit)
+    private boolean isValidForArray(World world, BlockPos blockPos, EnumFacing sideHit)
     {
-        ForgeDirection side = ForgeDirection.getOrientation(sideHit);
-        return world.isSideSolid(x, y, z, side) && ((side == ForgeDirection.DOWN && world.getBlock(x, y - 1, z).isReplaceable(world, x, y, z)) ||
-                (side == ForgeDirection.UP && world.getBlock(x, y + 1, z).isReplaceable(world, x, y, z)) ||
-                (side == ForgeDirection.NORTH && world.getBlock(x, y, z - 1).isReplaceable(world, x, y, z)) ||
-                (side == ForgeDirection.SOUTH && world.getBlock(x, y, z + 1).isReplaceable(world, x, y, z)) ||
-                (side == ForgeDirection.WEST && world.getBlock(x - 1, y, z).isReplaceable(world, x, y, z)) ||
-                (side == ForgeDirection.EAST && world.getBlock(x + 1, y, z).isReplaceable(world, x, y, z)));
+
+        if (world != null && blockPos != null && sideHit != null) {
+
+            BlockPos placementBlockPos = blockPos.offset(sideHit);
+            if (placementBlockPos != null) {
+                return world.isSideSolid(blockPos, sideHit) && world.getBlockState(placementBlockPos).getBlock().isReplaceable(world, placementBlockPos);
+            }
+        }
+
+        return false;
     }
 
-    private void drawSelectionBox(RenderGlobal context, EntityPlayer entityPlayer, MovingObjectPosition rayTrace, int i, float partialTicks)
+    /**
+     * @see RenderGlobal#drawSelectionBox(EntityPlayer, MovingObjectPosition, int, float)
+     */
+    private void drawSelectionBox(RenderGlobal renderGlobal, EntityPlayer entityPlayer, MovingObjectPosition rayTrace, int i, float partialTicks)
     {
         if (i == 0 && rayTrace.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
         {
@@ -428,16 +405,15 @@ public class DrawBlockHighlightEventHandler
             GL11.glLineWidth(3.0F);
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glDepthMask(false);
-            float f1 = 0.002F;
-            Block block = entityPlayer.worldObj.getBlock(rayTrace.blockX, rayTrace.blockY, rayTrace.blockZ);
+            Block block = entityPlayer.worldObj.getBlockState(rayTrace.getBlockPos()).getBlock();
 
             if (block.getMaterial() != Material.air)
             {
-                block.setBlockBoundsBasedOnState(entityPlayer.worldObj, rayTrace.blockX, rayTrace.blockY, rayTrace.blockZ);
+                block.setBlockBoundsBasedOnState(entityPlayer.worldObj, rayTrace.getBlockPos());
                 double d0 = entityPlayer.lastTickPosX + (entityPlayer.posX - entityPlayer.lastTickPosX) * (double) partialTicks;
                 double d1 = entityPlayer.lastTickPosY + (entityPlayer.posY - entityPlayer.lastTickPosY) * (double) partialTicks;
                 double d2 = entityPlayer.lastTickPosZ + (entityPlayer.posZ - entityPlayer.lastTickPosZ) * (double) partialTicks;
-                context.drawOutlinedBoundingBox(block.getSelectedBoundingBoxFromPool(entityPlayer.worldObj, rayTrace.blockX, rayTrace.blockY, rayTrace.blockZ).expand((double) f1, (double) f1, (double) f1).getOffsetBoundingBox(-d0, -d1, -d2), -1);
+                renderGlobal.drawSelectionBoundingBox(block.getSelectedBoundingBox(entityPlayer.worldObj, rayTrace.getBlockPos()).expand(0.002d, 0.002d, 0.002d).offset(-d0, -d1, -d2));
             }
 
             GL11.glDepthMask(true);
