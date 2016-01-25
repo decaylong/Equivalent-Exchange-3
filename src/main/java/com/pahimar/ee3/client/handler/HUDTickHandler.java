@@ -1,10 +1,8 @@
 package com.pahimar.ee3.client.handler;
 
-import com.pahimar.ee3.client.util.RenderUtils;
 import com.pahimar.ee3.util.IOverlayItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -12,8 +10,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
 public class HUDTickHandler
@@ -43,32 +39,9 @@ public class HUDTickHandler
     private static void renderHUDOverlayItem(Minecraft minecraft, EntityPlayer entityPlayer, ItemStack itemStack)
     {
         float overlayScale = 2f;
-        float overlayOpacity = 1f;
-        GL11.glPushMatrix();
         ScaledResolution sr = new ScaledResolution(minecraft);
-        GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
-        GL11.glMatrixMode(GL11.GL_PROJECTION);
-        GL11.glLoadIdentity();
-        GL11.glOrtho(0.0D, sr.getScaledWidth_double(), sr.getScaledHeight_double(), 0.0D, 1000.0D, 3000.0D);
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        GL11.glLoadIdentity();
-        GL11.glTranslatef(0.0F, 0.0F, -2000.0F);
-        GL11.glPushMatrix();
-        RenderHelper.enableGUIStandardItemLighting();
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-        GL11.glEnable(GL11.GL_LIGHTING);
-        int hudOverlayX = 0;
-        int hudOverlayY = 0;
-
-        hudOverlayX = (int) (sr.getScaledWidth() - 16 * overlayScale);
-        hudOverlayY = (int) (sr.getScaledHeight() - 16 * overlayScale);
-
-        RenderUtils.renderItemIntoGUI(itemStack, hudOverlayX, hudOverlayY, overlayOpacity, overlayScale, -90);
-
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glPopMatrix();
-        GL11.glPopMatrix();
+        int hudOverlayX = (int) (sr.getScaledWidth() - 16 * overlayScale);
+        int hudOverlayY = (int) (sr.getScaledHeight() - 16 * overlayScale);
+        FMLClientHandler.instance().getClient().getRenderItem().renderItemIntoGUI(itemStack, hudOverlayX, hudOverlayY);
     }
 }
