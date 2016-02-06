@@ -1,11 +1,11 @@
 package com.pahimar.repackage.cofh.lib.gui.slot;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * A slot that can only be used to display an item, not edited. Can optionally not highlight when moused over.
@@ -55,7 +55,6 @@ public class SlotViewOnly extends Slot
         return false;
     }
 
-    @Override
     @SideOnly(Side.CLIENT)
     public boolean func_111238_b()
     {

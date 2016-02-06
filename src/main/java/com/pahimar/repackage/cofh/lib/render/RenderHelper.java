@@ -44,7 +44,7 @@ public final class RenderHelper
     public static final Tessellator tessellator()
     {
 
-        return Tessellator.instance;
+        return Tessellator.getInstance();
     }
 
     public static void setColor3ub(int color)

@@ -2,9 +2,7 @@ package com.pahimar.repackage.cofh.lib.gui.element;
 
 import com.pahimar.repackage.cofh.lib.gui.GuiBase;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
@@ -51,13 +49,6 @@ public abstract class ElementBase
         this.sizeY = height;
     }
 
-    public ElementBase setName(String name)
-    {
-
-        this.name = name;
-        return this;
-    }
-
     public ElementBase setPosition(int posX, int posY)
     {
 
@@ -92,6 +83,11 @@ public abstract class ElementBase
         return this;
     }
 
+    public boolean isVisible() {
+
+        return visible;
+    }
+
     public final ElementBase setVisible(boolean visible)
     {
 
@@ -99,10 +95,10 @@ public abstract class ElementBase
         return this;
     }
 
-    public boolean isVisible()
+    public boolean isEnabled()
     {
 
-        return visible;
+        return enabled;
     }
 
     public final ElementBase setEnabled(boolean enabled)
@@ -110,12 +106,6 @@ public abstract class ElementBase
 
         this.enabled = enabled;
         return this;
-    }
-
-    public boolean isEnabled()
-    {
-
-        return enabled;
     }
 
     public void update(int mouseX, int mouseY)
@@ -146,23 +136,23 @@ public abstract class ElementBase
 
     public void drawStencil(int xStart, int yStart, int xEnd, int yEnd, int flag)
     {
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glStencilFunc(GL11.GL_ALWAYS, flag, flag);
-        GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
-        GL11.glStencilMask(1);
-        GL11.glColorMask(false, false, false, false);
-        GL11.glDepthMask(false);
-        Tessellator.instance.startDrawingQuads();
-        Tessellator.instance.addVertex(xStart, yEnd, 0);
-        Tessellator.instance.addVertex(xEnd, yEnd, 0);
-        Tessellator.instance.addVertex(xEnd, yStart, 0);
-        Tessellator.instance.addVertex(xStart, yStart, 0);
-        Tessellator.instance.draw();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glStencilFunc(GL11.GL_EQUAL, flag, flag);
-        GL11.glStencilMask(0);
-        GL11.glColorMask(true, true, true, true);
-        GL11.glDepthMask(true);
+//        GL11.glDisable(GL11.GL_TEXTURE_2D);
+//        GL11.glStencilFunc(GL11.GL_ALWAYS, flag, flag);
+//        GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
+//        GL11.glStencilMask(1);
+//        GL11.glColorMask(false, false, false, false);
+//        GL11.glDepthMask(false);
+//        Tessellator.instance.startDrawingQuads();
+//        Tessellator.instance.addVertex(xStart, yEnd, 0);
+//        Tessellator.instance.addVertex(xEnd, yEnd, 0);
+//        Tessellator.instance.addVertex(xEnd, yStart, 0);
+//        Tessellator.instance.addVertex(xStart, yStart, 0);
+//        Tessellator.instance.draw();
+//        GL11.glEnable(GL11.GL_TEXTURE_2D);
+//        GL11.glStencilFunc(GL11.GL_EQUAL, flag, flag);
+//        GL11.glStencilMask(0);
+//        GL11.glColorMask(true, true, true, true);
+//        GL11.glDepthMask(true);
     }
 
     public void drawTexturedModalRect(int x, int y, int u, int v, int width, int height)
@@ -210,6 +200,12 @@ public abstract class ElementBase
     {
 
         return name;
+    }
+
+    public ElementBase setName(String name) {
+
+        this.name = name;
+        return this;
     }
 
     public final GuiBase getContainerScreen()

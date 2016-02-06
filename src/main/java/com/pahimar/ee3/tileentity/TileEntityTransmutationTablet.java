@@ -2,11 +2,7 @@ package com.pahimar.ee3.tileentity;
 
 import com.pahimar.ee3.api.exchange.EnergyValue;
 import com.pahimar.ee3.api.exchange.EnergyValueRegistryProxy;
-import com.pahimar.ee3.block.BlockAshInfusedStoneSlab;
 import com.pahimar.ee3.exchange.EnergyValueRegistry;
-import com.pahimar.ee3.item.ItemAlchenomicon;
-import com.pahimar.ee3.item.ItemMiniumStone;
-import com.pahimar.ee3.item.ItemPhilosophersStone;
 import com.pahimar.ee3.knowledge.AbilityRegistry;
 import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.network.message.MessageTileEntityTransmutationTablet;

@@ -2,7 +2,6 @@ package com.pahimar.ee3.inventory;
 
 import com.pahimar.ee3.inventory.element.IElementButtonHandler;
 import com.pahimar.ee3.inventory.element.IElementTextFieldHandler;
-import com.pahimar.ee3.item.ItemAlchenomicon;
 import com.pahimar.ee3.knowledge.TransmutationKnowledgeRegistry;
 import com.pahimar.ee3.reference.Comparators;
 import com.pahimar.ee3.util.FilterUtils;
@@ -21,13 +20,12 @@ import java.util.UUID;
 
 public class ContainerAlchenomicon extends ContainerEE implements IElementButtonHandler, IElementTextFieldHandler
 {
+    private final static int MAX_ROW_INDEX = 8;
+    private final static int MAX_COLUMN_INDEX = 5;
     private final InventoryAlchenomicon inventoryAlchenomicon;
     private int pageOffset, maxPageOffset;
     private String searchTerm;
     private boolean requiresUpdate = false;
-
-    private final static int MAX_ROW_INDEX = 8;
-    private final static int MAX_COLUMN_INDEX = 5;
 
     public ContainerAlchenomicon(EntityPlayer entityPlayer, ItemStack itemStack)
     {

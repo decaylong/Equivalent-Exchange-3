@@ -1,6 +1,5 @@
 package com.pahimar.ee3.item.crafting;
 
-import com.pahimar.ee3.item.ItemAlchemicalBag;
 import net.minecraft.block.BlockColored;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.init.Items;

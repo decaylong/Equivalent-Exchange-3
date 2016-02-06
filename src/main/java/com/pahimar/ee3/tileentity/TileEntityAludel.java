@@ -1,6 +1,5 @@
 package com.pahimar.ee3.tileentity;
 
-import com.pahimar.ee3.item.ItemAlchemicalDust;
 import com.pahimar.ee3.item.crafting.RecipeAludel;
 import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.network.message.MessageTileEntityAludel;

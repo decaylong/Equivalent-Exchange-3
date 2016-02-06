@@ -1,6 +1,5 @@
 package com.pahimar.ee3.inventory;
 
-import com.pahimar.ee3.item.ItemAlchenomicon;
 import com.pahimar.ee3.knowledge.AbilityRegistry;
 import com.pahimar.ee3.tileentity.TileEntityResearchStation;
 import cpw.mods.fml.relauncher.Side;

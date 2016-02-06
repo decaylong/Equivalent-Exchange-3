@@ -1,23 +1,14 @@
 package com.pahimar.ee3.init;
 
-import com.pahimar.ee3.recipe.AludelRecipeManager;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
+public class Recipes {
 
-public class Recipes
-{
-    public static void init()
-    {
+    public static void init() {
         initModRecipes();
         initAludelRecipes();
     }
 
-    private static void initModRecipes()
-    {
+    private static void initModRecipes() {
+        /*
         GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.alchemicalFuelBlock, 1, 0), "fff", "fff", "fff", 'f', new ItemStack(ModItems.alchemicalFuel, 1, 0));
         GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.alchemicalFuelBlock, 1, 1), "fff", "fff", "fff", 'f', new ItemStack(ModItems.alchemicalFuel, 1, 1));
         GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.alchemicalFuelBlock, 1, 2), "fff", "fff", "fff", 'f', new ItemStack(ModItems.alchemicalFuel, 1, 2));
@@ -54,10 +45,11 @@ public class Recipes
         GameRegistry.addShapedRecipe(new ItemStack(ModItems.bowDarkMatter), "sm ", "s m", "sm ", 'm', new ItemStack(ModItems.matter, 1, 0), 's', new ItemStack(Items.string));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.arrowDarkMatter, 64), "  m", " s ", "f  ", 'm', new ItemStack(ModItems.matter, 1, 0), 's', "stickWood", 'f', new ItemStack(Items.feather)));
         GameRegistry.addShapedRecipe(new ItemStack(ModItems.swordDarkMatter), "m", "m", "d", 'm', new ItemStack(ModItems.matter, 1, 0), 'd', Items.diamond);
+        */
     }
 
-    private static void initAludelRecipes()
-    {
+    private static void initAludelRecipes() {
+        /*
         // Ash + Verdant = Azure
         AludelRecipeManager.getInstance().addRecipe(new ItemStack(ModItems.alchemicalDust, 1, 2), new ItemStack(ModItems.alchemicalDust, 1, 0), new ItemStack(ModItems.alchemicalDust, 32, 1));
 
@@ -95,5 +87,6 @@ public class Recipes
 
         // Infused Stone
         AludelRecipeManager.getInstance().addRecipe(new ItemStack(ModBlocks.ashInfusedStone), new ItemStack(Blocks.stone), new ItemStack(ModItems.alchemicalDust, 1, 0));
+        */
     }
 }

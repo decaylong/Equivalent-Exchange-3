@@ -1,6 +1,5 @@
 package com.pahimar.ee3.inventory;
 
-import com.pahimar.ee3.item.ItemAlchemicalDust;
 import com.pahimar.ee3.tileentity.TileEntityAludel;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;

@@ -1,6 +1,5 @@
 package com.pahimar.ee3.waila;
 
-import com.pahimar.ee3.block.BlockAshInfusedStoneSlab;
 import com.pahimar.ee3.reference.Messages;
 import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.tileentity.*;
@@ -17,6 +16,17 @@ import java.util.List;
 
 public class WailaDataProvider implements IWailaDataProvider
 {
+    public static void callbackRegister(IWailaRegistrar registrar) {
+        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityAludel.class);
+        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityGlassBell.class);
+        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityAlchemicalChestSmall.class);
+        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityAlchemicalChestMedium.class);
+        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityAlchemicalChestLarge.class);
+        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityAlchemyArray.class);
+        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityDummyArray.class);
+        registrar.registerHeadProvider(new WailaDataProvider(), BlockAshInfusedStoneSlab.class);
+    }
+
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config)
     {
@@ -146,17 +156,5 @@ public class WailaDataProvider implements IWailaDataProvider
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         return null;
-    }
-
-    public static void callbackRegister(IWailaRegistrar registrar)
-    {
-        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityAludel.class);
-        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityGlassBell.class);
-        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityAlchemicalChestSmall.class);
-        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityAlchemicalChestMedium.class);
-        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityAlchemicalChestLarge.class);
-        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityAlchemyArray.class);
-        registrar.registerHeadProvider(new WailaDataProvider(), TileEntityDummyArray.class);
-        registrar.registerHeadProvider(new WailaDataProvider(), BlockAshInfusedStoneSlab.class);
     }
 }

@@ -156,14 +156,14 @@ public class EnergyValues
         /**
          *  Alchemical Dusts
          */
-        EnergyValueRegistryProxy.addPreCalculationEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 0), 1);
-        EnergyValueRegistryProxy.addPreCalculationEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 1), 64);
-        EnergyValueRegistryProxy.addPreCalculationEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 2), 2048);
-        EnergyValueRegistryProxy.addPreCalculationEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 3), 8192);
+//        EnergyValueRegistryProxy.addPreCalculationEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 0), 1);
+//        EnergyValueRegistryProxy.addPreCalculationEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 1), 64);
+//        EnergyValueRegistryProxy.addPreCalculationEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 2), 2048);
+//        EnergyValueRegistryProxy.addPreCalculationEnergyValue(new ItemStack(ModItems.alchemicalDust, 1, 3), 8192);
 
         /**
          *  Minium Shard
          */
-        EnergyValueRegistryProxy.addPreCalculationEnergyValue(new ItemStack(ModItems.shardMinium), 8192);
+//        EnergyValueRegistryProxy.addPreCalculationEnergyValue(new ItemStack(ModItems.shardMinium), 8192);
     }
 }

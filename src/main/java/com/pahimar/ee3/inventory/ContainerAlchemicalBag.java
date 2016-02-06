@@ -1,6 +1,5 @@
 package com.pahimar.ee3.inventory;
 
-import com.pahimar.ee3.item.ItemAlchemicalBag;
 import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.util.NBTHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -23,9 +22,8 @@ public class ContainerAlchemicalBag extends ContainerEE
     // Large Bag
     public static final int LARGE_BAG_INVENTORY_ROWS = 9;
     public static final int LARGE_BAG_INVENTORY_COLUMNS = 13;
-    private final EntityPlayer entityPlayer;
     public final InventoryAlchemicalBag inventoryAlchemicalBag;
-
+    private final EntityPlayer entityPlayer;
     private int bagInventoryRows;
     private int bagInventoryColumns;
 

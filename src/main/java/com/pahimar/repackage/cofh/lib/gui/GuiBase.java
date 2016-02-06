@@ -6,7 +6,6 @@ import com.pahimar.repackage.cofh.lib.gui.element.TabBase;
 import com.pahimar.repackage.cofh.lib.gui.slot.SlotFalseCopy;
 import com.pahimar.repackage.cofh.lib.render.RenderHelper;
 import com.pahimar.repackage.cofh.lib.util.helpers.StringHelper;
-import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -14,14 +13,15 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -36,28 +36,18 @@ public abstract class GuiBase extends GuiContainer
 {
 
     public static final SoundHandler guiSoundManager = FMLClientHandler.instance().getClient().getSoundHandler();
-
+    public ArrayList<TabBase> tabs = new ArrayList<TabBase>();
     protected boolean drawTitle = true;
     protected boolean drawInventory = true;
     protected int mouseX = 0;
     protected int mouseY = 0;
-
     protected int lastIndex = -1;
-
     protected String name;
     protected ResourceLocation texture;
-
-    public ArrayList<TabBase> tabs = new ArrayList<TabBase>();
     protected ArrayList<ElementBase> elements = new ArrayList<ElementBase>();
 
     protected List<String> tooltip = new LinkedList<String>();
     protected boolean tooltips = true;
-
-    public static void playSound(String name, float volume, float pitch)
-    {
-
-        guiSoundManager.playSound(new SoundBase(name, volume, pitch));
-    }
 
     public GuiBase(Container container)
     {
@@ -70,6 +60,11 @@ public abstract class GuiBase extends GuiContainer
 
         super(container);
         this.texture = texture;
+    }
+
+    public static void playSound(String name, float volume, float pitch) {
+
+        guiSoundManager.playSound(new SoundBase(name, volume, pitch));
     }
 
     @Override
@@ -135,7 +130,7 @@ public abstract class GuiBase extends GuiContainer
     }
 
     @Override
-    protected void keyTyped(char characterTyped, int keyPressed)
+    protected void keyTyped(char characterTyped, int keyPressed) throws IOException
     {
 
         for (int i = elements.size(); i-- > 0; )
@@ -154,7 +149,7 @@ public abstract class GuiBase extends GuiContainer
     }
 
     @Override
-    public void handleMouseInput()
+    public void handleMouseInput() throws IOException
     {
 
         int x = Mouse.getEventX() * width / mc.displayWidth;
@@ -190,7 +185,7 @@ public abstract class GuiBase extends GuiContainer
     }
 
     @Override
-    protected void mouseClicked(int mX, int mY, int mouseButton)
+    protected void mouseClicked(int mX, int mY, int mouseButton) throws IOException
     {
 
         mX -= guiLeft;
