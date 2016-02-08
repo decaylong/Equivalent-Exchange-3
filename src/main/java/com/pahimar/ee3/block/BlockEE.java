@@ -1,10 +1,10 @@
 package com.pahimar.ee3.block;
 
 import com.pahimar.ee3.creativetab.CreativeTab;
-import com.pahimar.ee3.reference.Textures;
 import com.pahimar.ee3.tileentity.TileEntityEE;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
@@ -12,10 +12,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
@@ -26,88 +25,63 @@ public class BlockEE extends Block {
     }
 
     public BlockEE(Material material) {
+
         super(material);
         this.setCreativeTab(CreativeTab.EE3_TAB);
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return String.format("tile.%s%s", Textures.RESOURCE_PREFIX, getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+    public void breakBlock(World world, BlockPos blockPos, IBlockState blockState) {
+        dropInventory(world, blockPos);
+        super.breakBlock(world, blockPos, blockState);
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister) {
-        blockIcon = iconRegister.registerIcon(String.format("%s", getUnwrappedUnlocalizedName(this.getUnlocalizedName())));
-    }
+    public void onBlockPlacedBy(World world, BlockPos blockPos, IBlockState blockState, EntityLivingBase placer, ItemStack itemStack) {
 
-    protected String getUnwrappedUnlocalizedName(String unlocalizedName)
-    {
-        return unlocalizedName.substring(unlocalizedName.indexOf(".") + 1);
-    }
+        super.onBlockPlacedBy(world, blockPos, blockState, placer, itemStack);
+        if (world.getTileEntity(blockPos) instanceof TileEntityEE) {
 
-    @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int meta)
-    {
-        dropInventory(world, x, y, z);
-        super.breakBlock(world, x, y, z, block, meta);
-    }
-
-    @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
-    {
-        super.onBlockPlacedBy(world, x, y, z, entityLiving, itemStack);
-        if (world.getTileEntity(x, y, z) instanceof TileEntityEE)
-        {
             int direction = 0;
-            int facing = MathHelper.floor_double(entityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+            int facing = MathHelper.floor_double(placer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
-            if (facing == 0)
-            {
+            if (facing == 0) {
                 direction = ForgeDirection.NORTH.ordinal();
-            }
-            else if (facing == 1)
-            {
+            } else if (facing == 1) {
                 direction = ForgeDirection.EAST.ordinal();
-            }
-            else if (facing == 2)
-            {
+            } else if (facing == 2) {
                 direction = ForgeDirection.SOUTH.ordinal();
-            }
-            else if (facing == 3)
-            {
+            } else if (facing == 3) {
                 direction = ForgeDirection.WEST.ordinal();
             }
 
-            if (itemStack.hasDisplayName())
-            {
-                ((TileEntityEE) world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
+            if (itemStack.hasDisplayName()) {
+                ((TileEntityEE) world.getTileEntity(blockPos)).setCustomName(itemStack.getDisplayName());
             }
 
-            ((TileEntityEE) world.getTileEntity(x, y, z)).setFacing(direction);
+            ((TileEntityEE) world.getTileEntity(blockPos)).setFacing(direction);
         }
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
-        this.setBlockBoundsBasedOnState(world, x, y, z);
-        return super.getCollisionBoundingBoxFromPool(world, x, y, z);
+    public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos blockPos, IBlockState blockState) {
+
+        this.setBlockBoundsBasedOnState(world, blockPos);
+        return super.getCollisionBoundingBox(world, blockPos, blockState);
     }
 
-    protected void dropInventory(World world, int x, int y, int z)
-    {
-        TileEntity tileEntity = world.getTileEntity(x, y, z);
+    protected void dropInventory(World world, BlockPos blockPos) {
 
-        if (!(tileEntity instanceof IInventory))
-        {
+        TileEntity tileEntity = world.getTileEntity(blockPos);
+
+        if (!(tileEntity instanceof IInventory)) {
             return;
         }
 
         IInventory inventory = (IInventory) tileEntity;
 
-        for (int i = 0; i < inventory.getSizeInventory(); i++)
-        {
+        for (int i = 0; i < inventory.getSizeInventory(); i++) {
+
             ItemStack itemStack = inventory.getStackInSlot(i);
 
             if (itemStack != null && itemStack.stackSize > 0)

@@ -4,8 +4,6 @@ import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.network.message.MessageTileCalcinator;
 import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.util.CalcinationHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -15,7 +13,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.tileentity.TileEntityHopper;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCalcinator extends TileEntityEE implements ISidedInventory
 {
