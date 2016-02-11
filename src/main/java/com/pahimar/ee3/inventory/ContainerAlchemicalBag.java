@@ -2,12 +2,12 @@ package com.pahimar.ee3.inventory;
 
 import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.util.NBTHelper;
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.UUID;
 
@@ -205,22 +205,23 @@ public class ContainerAlchemicalBag extends ContainerEE
                 }
             }
             // Special case if we are dealing with an Alchemical Bag being shift clicked
-            else if (itemStack.getItem() instanceof ItemAlchemicalBag)
-            {
-                // Attempt to shift click a bag from the player inventory into the hot bar inventory
-                if (slotIndex < (bagInventoryRows * bagInventoryColumns) + (PLAYER_INVENTORY_ROWS * PLAYER_INVENTORY_COLUMNS))
-                {
-                    if (!this.mergeItemStack(itemStack, (bagInventoryRows * bagInventoryColumns) + (PLAYER_INVENTORY_ROWS * PLAYER_INVENTORY_COLUMNS), inventorySlots.size(), false))
-                    {
-                        return null;
-                    }
-                }
-                // Attempt to shift click a bag from the hot bar inventory into the player inventory
-                else if (!this.mergeItemStack(itemStack, bagInventoryRows * bagInventoryColumns, (bagInventoryRows * bagInventoryColumns) + (PLAYER_INVENTORY_ROWS * PLAYER_INVENTORY_COLUMNS), false))
-                {
-                    return null;
-                }
-            }
+            // TODO
+//            else if (itemStack.getItem() instanceof ItemAlchemicalBag)
+//            {
+//                // Attempt to shift click a bag from the player inventory into the hot bar inventory
+//                if (slotIndex < (bagInventoryRows * bagInventoryColumns) + (PLAYER_INVENTORY_ROWS * PLAYER_INVENTORY_COLUMNS))
+//                {
+//                    if (!this.mergeItemStack(itemStack, (bagInventoryRows * bagInventoryColumns) + (PLAYER_INVENTORY_ROWS * PLAYER_INVENTORY_COLUMNS), inventorySlots.size(), false))
+//                    {
+//                        return null;
+//                    }
+//                }
+//                // Attempt to shift click a bag from the hot bar inventory into the player inventory
+//                else if (!this.mergeItemStack(itemStack, bagInventoryRows * bagInventoryColumns, (bagInventoryRows * bagInventoryColumns) + (PLAYER_INVENTORY_ROWS * PLAYER_INVENTORY_COLUMNS), false))
+//                {
+//                    return null;
+//                }
+//            }
             // Attempt to shift click a non-Alchemical Bag into the bag inventory
             else if (!this.mergeItemStack(itemStack, 0, bagInventoryRows * bagInventoryColumns, false))
             {
@@ -275,7 +276,9 @@ public class ContainerAlchemicalBag extends ContainerEE
         @Override
         public boolean isItemValid(ItemStack itemStack)
         {
-            return !(itemStack.getItem() instanceof ItemAlchemicalBag);
+            // TODO
+//            return !(itemStack.getItem() instanceof ItemAlchemicalBag);
+            return super.isItemValid(itemStack);
         }
     }
 }

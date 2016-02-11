@@ -58,11 +58,6 @@ public class GuiHandler implements IGuiHandler
             TileEntityTransmutationTablet tileEntityTransmutationTablet = (TileEntityTransmutationTablet) world.getTileEntity(blockPos);
             return new ContainerTransmutationTablet(entityPlayer.inventory, tileEntityTransmutationTablet);
         }
-        else if (id == GUIs.TRANSMUTATION_ARRAY.ordinal())
-        {
-            TileEntityAlchemyArray tileEntityAlchemyArray = (TileEntityAlchemyArray) world.getTileEntity(blockPos);
-            return new ContainerTransmutationArray(entityPlayer.inventory, tileEntityAlchemyArray);
-        }
 
         return null;
     }
@@ -109,15 +104,9 @@ public class GuiHandler implements IGuiHandler
             TileEntityAugmentationTable tileEntityAugmentationTable = (TileEntityAugmentationTable) world.getTileEntity(blockPos);
             return new GuiAugmentationTable(entityPlayer.inventory, tileEntityAugmentationTable);
         }
-        else if (id == GUIs.TRANSMUTATION_TABLET.ordinal())
-        {
+        else if (id == GUIs.TRANSMUTATION_TABLET.ordinal()) {
             TileEntityTransmutationTablet tileEntityTransmutationTablet = (TileEntityTransmutationTablet) world.getTileEntity(blockPos);
             return new GuiTransmutationTablet(entityPlayer.inventory, tileEntityTransmutationTablet);
-        }
-        else if (id == GUIs.TRANSMUTATION_ARRAY.ordinal())
-        {
-            TileEntityAlchemyArray tileEntityAlchemyArray = (TileEntityAlchemyArray) world.getTileEntity(blockPos);
-            return new GuiTransmutationArray(entityPlayer.inventory, tileEntityAlchemyArray);
         }
 
         return null;

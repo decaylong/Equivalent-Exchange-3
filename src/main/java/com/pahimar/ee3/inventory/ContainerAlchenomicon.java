@@ -6,12 +6,12 @@ import com.pahimar.ee3.knowledge.TransmutationKnowledgeRegistry;
 import com.pahimar.ee3.reference.Comparators;
 import com.pahimar.ee3.util.FilterUtils;
 import com.pahimar.ee3.util.ItemHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
