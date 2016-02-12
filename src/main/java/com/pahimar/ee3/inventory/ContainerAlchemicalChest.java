@@ -28,7 +28,7 @@ public class ContainerAlchemicalChest extends ContainerEE
     public ContainerAlchemicalChest(InventoryPlayer inventoryPlayer, TileEntityAlchemicalChest tileEntityAlchemicalChest)
     {
         this.tileEntityAlchemicalChest = tileEntityAlchemicalChest;
-        tileEntityAlchemicalChest.openInventory();
+        tileEntityAlchemicalChest.openInventory(inventoryPlayer.player);
 
         if (this.tileEntityAlchemicalChest.getState() == 0)
         {
@@ -111,7 +111,7 @@ public class ContainerAlchemicalChest extends ContainerEE
     public void onContainerClosed(EntityPlayer entityPlayer)
     {
         super.onContainerClosed(entityPlayer);
-        tileEntityAlchemicalChest.closeInventory();
+        tileEntityAlchemicalChest.closeInventory(entityPlayer);
     }
 
     @Override

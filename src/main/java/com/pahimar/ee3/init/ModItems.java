@@ -1,5 +1,8 @@
 package com.pahimar.ee3.init;
 
+import com.pahimar.ee3.item.ItemAlchemicalDust;
+import com.pahimar.ee3.item.ItemAlchenomicon;
+import com.pahimar.ee3.item.ItemEE;
 import com.pahimar.ee3.reference.Reference;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -7,7 +10,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ModItems {
 
 //    public static final ItemEE alchemicalBag = new ItemAlchemicalBag();
-//    public static final ItemEE alchemicalDust = new ItemAlchemicalDust();
+    public static final ItemEE alchemicalDust = new ItemAlchemicalDust();
 //    public static final ItemEE alchemicalFuel = new ItemAlchemicalFuel();
 //    public static final ItemEE stoneInert = new ItemInertStone();
 //    public static final ItemEE shardMinium = new ItemMiniumShard();
@@ -16,7 +19,7 @@ public class ModItems {
 //    public static final ItemEE alchemicalUpgrade = new ItemAlchemicalInventoryUpgrade();
 //    public static final ItemEE chalk = new ItemChalk();
 //    public static final ItemEE diviningRod = new ItemDiviningRod();
-//    public static final ItemEE alchenomicon = new ItemAlchenomicon();
+    public static final ItemEE alchenomicon = new ItemAlchenomicon();
 //    public static final ItemEE matter = new ItemMatter();
 //    public static final ItemEE gem = new ItemGem();
 //    public static final ItemEE lootBall = new ItemLootBall();
@@ -38,7 +41,7 @@ public class ModItems {
     public static void init() {
 
 //        GameRegistry.registerItem(alchemicalBag, Names.Items.ALCHEMICAL_BAG);
-//        GameRegistry.registerItem(alchemicalDust, Names.Items.ALCHEMICAL_DUST);
+        GameRegistry.registerItem(alchemicalDust);
 //        GameRegistry.registerItem(alchemicalFuel, Names.Items.ALCHEMICAL_FUEL);
 //        GameRegistry.registerItem(stoneInert, Names.Items.INERT_STONE);
 //        GameRegistry.registerItem(shardMinium, Names.Items.MINIUM_SHARD);
@@ -47,7 +50,7 @@ public class ModItems {
 //        GameRegistry.registerItem(chalk, Names.Items.CHALK);
 //        GameRegistry.registerItem(alchemicalUpgrade, Names.Items.ALCHEMICAL_UPGRADE);
 //        GameRegistry.registerItem(diviningRod, Names.Items.DIVINING_ROD);
-//        GameRegistry.registerItem(alchenomicon, Names.Items.ALCHENOMICON, Names.Items.ALCHEMICAL_TOME);
+        GameRegistry.registerItem(alchenomicon);
 //        GameRegistry.registerItem(matter, Names.Items.MATTER);
 //        GameRegistry.registerItem(gem, Names.Items.GEM);
 //        GameRegistry.registerItem(lootBall, Names.Items.LOOT_BALL);

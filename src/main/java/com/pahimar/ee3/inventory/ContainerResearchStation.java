@@ -1,14 +1,15 @@
 package com.pahimar.ee3.inventory;
 
+import com.pahimar.ee3.item.ItemAlchenomicon;
 import com.pahimar.ee3.knowledge.AbilityRegistry;
 import com.pahimar.ee3.tileentity.TileEntityResearchStation;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerResearchStation extends ContainerEE
 {
@@ -67,9 +68,9 @@ public class ContainerResearchStation extends ContainerEE
     }
 
     @Override
-    public void addCraftingToCrafters(ICrafting iCrafting)
+    public void onCraftGuiOpened(ICrafting iCrafting)
     {
-        super.addCraftingToCrafters(iCrafting);
+        super.onCraftGuiOpened(iCrafting);
         iCrafting.sendProgressBarUpdate(this, 0, this.tileEntityResearchStation.itemLearnTime);
         if (this.tileEntityResearchStation.isItemKnown)
         {

@@ -5,6 +5,9 @@ import com.pahimar.ee3.exchange.EnergyValueRegistry;
 import com.pahimar.ee3.inventory.element.IElementButtonHandler;
 import com.pahimar.ee3.inventory.element.IElementSliderHandler;
 import com.pahimar.ee3.inventory.element.IElementTextFieldHandler;
+import com.pahimar.ee3.item.ItemAlchenomicon;
+import com.pahimar.ee3.item.ItemMiniumStone;
+import com.pahimar.ee3.item.ItemPhilosophersStone;
 import com.pahimar.ee3.knowledge.AbilityRegistry;
 import com.pahimar.ee3.knowledge.TransmutationKnowledge;
 import com.pahimar.ee3.knowledge.TransmutationKnowledgeRegistry;
@@ -14,16 +17,16 @@ import com.pahimar.ee3.reference.Comparators;
 import com.pahimar.ee3.tileentity.TileEntityTransmutationTablet;
 import com.pahimar.ee3.util.FilterUtils;
 import com.pahimar.ee3.util.ItemHelper;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.*;
 
@@ -500,9 +503,9 @@ public class ContainerTransmutationTablet extends ContainerEE implements IElemen
             this.containerTransmutationTablet.inventoryTransmutationTablet = new InventoryTransmutationTablet();
             this.containerTransmutationTablet.updateInventory();
 
-            if (!this.tileEntityTransmutationTablet.getWorldObj().isRemote && itemStack != null && itemStack.getItem() instanceof ItemAlchenomicon && ItemHelper.hasOwnerUUID(itemStack))
+            if (!this.tileEntityTransmutationTablet.getWorld().isRemote && itemStack != null && itemStack.getItem() instanceof ItemAlchenomicon && ItemHelper.hasOwnerUUID(itemStack))
             {
-                Network.INSTANCE.sendToAllAround(new MessageTransmutationKnowledgeUpdate(this.containerTransmutationTablet.tileEntityTransmutationTablet, null), new NetworkRegistry.TargetPoint(this.tileEntityTransmutationTablet.getWorldObj().provider.dimensionId, (double) this.tileEntityTransmutationTablet.xCoord, (double) this.tileEntityTransmutationTablet.yCoord, (double) this.tileEntityTransmutationTablet.zCoord, 5d));
+                Network.INSTANCE.sendToAllAround(new MessageTransmutationKnowledgeUpdate(this.containerTransmutationTablet.tileEntityTransmutationTablet, null), new NetworkRegistry.TargetPoint(this.tileEntityTransmutationTablet.getWorld().provider.getDimensionId(), (double) this.tileEntityTransmutationTablet.getPos().getX(), (double) this.tileEntityTransmutationTablet.getPos().getY(), (double) this.tileEntityTransmutationTablet.getPos().getZ(), 5d));
             }
         }
 
@@ -511,12 +514,12 @@ public class ContainerTransmutationTablet extends ContainerEE implements IElemen
         {
             super.putStack(itemStack);
 
-            if (!this.tileEntityTransmutationTablet.getWorldObj().isRemote && itemStack != null && itemStack.getItem() instanceof ItemAlchenomicon && ItemHelper.hasOwnerUUID(itemStack))
+            if (!this.tileEntityTransmutationTablet.getWorld().isRemote && itemStack != null && itemStack.getItem() instanceof ItemAlchenomicon && ItemHelper.hasOwnerUUID(itemStack))
             {
                 Set<ItemStack> knownTransmutations = TransmutationKnowledgeRegistry.getInstance().getPlayersKnownTransmutations(ItemHelper.getOwnerUUID(itemStack));
                 this.containerTransmutationTablet.inventoryTransmutationTablet = new InventoryTransmutationTablet(knownTransmutations);
                 this.containerTransmutationTablet.updateInventory();
-                Network.INSTANCE.sendToAllAround(new MessageTransmutationKnowledgeUpdate(this.containerTransmutationTablet.tileEntityTransmutationTablet, knownTransmutations), new NetworkRegistry.TargetPoint(this.tileEntityTransmutationTablet.getWorldObj().provider.dimensionId, (double) this.tileEntityTransmutationTablet.xCoord, (double) this.tileEntityTransmutationTablet.yCoord, (double) this.tileEntityTransmutationTablet.zCoord, 5d));
+                Network.INSTANCE.sendToAllAround(new MessageTransmutationKnowledgeUpdate(this.containerTransmutationTablet.tileEntityTransmutationTablet, knownTransmutations), new NetworkRegistry.TargetPoint(this.tileEntityTransmutationTablet.getWorld().provider.getDimensionId(), (double) this.tileEntityTransmutationTablet.getPos().getX(), (double) this.tileEntityTransmutationTablet.getPos().getY(), (double) this.tileEntityTransmutationTablet.getPos().getZ(), 5d));
             }
         }
     }
@@ -567,7 +570,7 @@ public class ContainerTransmutationTablet extends ContainerEE implements IElemen
 
         @Override
         @SideOnly(Side.CLIENT)
-        public boolean func_111238_b()
+        public boolean canBeHovered()
         {
             return this.getHasStack();
         }

@@ -245,9 +245,9 @@ public class DrawBlockHighlightEventHandler
 
                     if (tileEntity instanceof TileEntityDummyArray)
                     {
-                        x = ((TileEntityDummyArray) tileEntity).getTrueXCoord() + 0.5f;
-                        y = ((TileEntityDummyArray) tileEntity).getTrueYCoord() + 0.5f - 1;
-                        z = ((TileEntityDummyArray) tileEntity).getTrueXCoord() + 0.5f;
+                        x = ((TileEntityDummyArray) tileEntity).getTrueBlockPos().getX() + 0.5f;
+                        y = ((TileEntityDummyArray) tileEntity).getTrueBlockPos().getY() + 0.5f - 1;
+                        z = ((TileEntityDummyArray) tileEntity).getTrueBlockPos().getZ() + 0.5f;
                     }
                     break;
                 }

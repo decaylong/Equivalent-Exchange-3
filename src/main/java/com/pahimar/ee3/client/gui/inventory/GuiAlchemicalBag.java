@@ -49,7 +49,7 @@ public class GuiAlchemicalBag extends GuiContainer
     {
         if (this.parentItemStack.getItemDamage() == 0 || this.parentItemStack.getItemDamage() == 1)
         {
-            fontRendererObj.drawString(StatCollector.translateToLocal(inventoryAlchemicalBag.getInventoryName()), 8, 6, Integer.parseInt(Colors.PURE_WHITE, 16));
+            fontRendererObj.drawString(StatCollector.translateToLocal(inventoryAlchemicalBag.getName()), 8, 6, Integer.parseInt(Colors.PURE_WHITE, 16));
             fontRendererObj.drawString(StatCollector.translateToLocal(Names.Containers.VANILLA_INVENTORY), 35, ySize - 95 + 2, Integer.parseInt(Colors.PURE_WHITE, 16));
         }
     }

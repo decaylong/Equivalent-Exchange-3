@@ -1,5 +1,6 @@
 package com.pahimar.ee3.item.crafting;
 
+import com.pahimar.ee3.item.ItemAlchemicalBag;
 import net.minecraft.block.BlockColored;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.init.Items;
@@ -10,33 +11,24 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 
-public class RecipesAlchemicalBagDyes implements IRecipe
-{
+public class RecipesAlchemicalBagDyes implements IRecipe {
     @Override
-    public boolean matches(InventoryCrafting inventoryCrafting, World world)
-    {
+    public boolean matches(InventoryCrafting inventoryCrafting, World world) {
         ItemStack itemStack = null;
         ArrayList<ItemStack> arrayList = new ArrayList<ItemStack>();
 
-        for (int i = 0; i < inventoryCrafting.getSizeInventory(); ++i)
-        {
+        for (int i = 0; i < inventoryCrafting.getSizeInventory(); ++i) {
             ItemStack currentStack = inventoryCrafting.getStackInSlot(i);
 
-            if (currentStack != null)
-            {
-                if (currentStack.getItem() instanceof ItemAlchemicalBag)
-                {
-                    if (itemStack != null)
-                    {
+            if (currentStack != null) {
+                if (currentStack.getItem() instanceof ItemAlchemicalBag) {
+                    if (itemStack != null) {
                         return false;
                     }
 
                     itemStack = currentStack;
-                }
-                else
-                {
-                    if (currentStack.getItem() != Items.dye)
-                    {
+                } else {
+                    if (currentStack.getItem() != Items.dye) {
                         return false;
                     }
 
@@ -49,8 +41,7 @@ public class RecipesAlchemicalBagDyes implements IRecipe
     }
 
     @Override
-    public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting)
-    {
+    public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting) {
         ItemStack itemStack = null;
         ItemAlchemicalBag itemAlchemicalBag = null;
         int[] colorChannels = new int[3];
@@ -60,26 +51,21 @@ public class RecipesAlchemicalBagDyes implements IRecipe
         int currentColor, newColor;
         float red, green, blue;
 
-        for (k = 0; k < inventoryCrafting.getSizeInventory(); ++k)
-        {
+        for (k = 0; k < inventoryCrafting.getSizeInventory(); ++k) {
             ItemStack currentStack = inventoryCrafting.getStackInSlot(k);
 
-            if (currentStack != null)
-            {
-                if (currentStack.getItem() instanceof ItemAlchemicalBag)
-                {
+            if (currentStack != null) {
+                if (currentStack.getItem() instanceof ItemAlchemicalBag) {
                     itemAlchemicalBag = (ItemAlchemicalBag) currentStack.getItem();
 
-                    if (itemStack != null)
-                    {
+                    if (itemStack != null) {
                         return null;
                     }
 
                     itemStack = currentStack.copy();
                     itemStack.stackSize = 1;
 
-                    if (itemAlchemicalBag.hasColor(currentStack))
-                    {
+                    if (itemAlchemicalBag.hasColor(currentStack)) {
                         currentColor = itemAlchemicalBag.getColor(itemStack);
                         red = (currentColor >> 16 & 255) / 255.0F;
                         green = (currentColor >> 8 & 255) / 255.0F;
@@ -90,11 +76,8 @@ public class RecipesAlchemicalBagDyes implements IRecipe
                         colorChannels[2] = (int) (colorChannels[2] + blue * 255.0F);
                         ++j;
                     }
-                }
-                else
-                {
-                    if (currentStack.getItem() != Items.dye)
-                    {
+                } else {
+                    if (currentStack.getItem() != Items.dye) {
                         return null;
                     }
 
@@ -111,12 +94,9 @@ public class RecipesAlchemicalBagDyes implements IRecipe
             }
         }
 
-        if (itemAlchemicalBag == null)
-        {
+        if (itemAlchemicalBag == null) {
             return null;
-        }
-        else
-        {
+        } else {
             k = colorChannels[0] / j;
             l1 = colorChannels[1] / j;
             currentColor = colorChannels[2] / j;
@@ -133,14 +113,12 @@ public class RecipesAlchemicalBagDyes implements IRecipe
     }
 
     @Override
-    public int getRecipeSize()
-    {
+    public int getRecipeSize() {
         return 10;
     }
 
     @Override
-    public ItemStack getRecipeOutput()
-    {
+    public ItemStack getRecipeOutput() {
         return null;
     }
 }

@@ -7,8 +7,18 @@ public class ItemEE extends Item {
 
     public ItemEE() {
         super();
-        this.maxStackSize = 1;
-        this.setCreativeTab(CreativeTab.EE3_TAB);
-        this.setNoRepair();
+        setMaxStackSize(1);
+        setCreativeTab(CreativeTab.EE3_TAB);
+        setNoRepair();
+    }
+
+    public ItemEE(String itemName) {
+        this();
+        setRegistryName(itemName);
+        setUnlocalizedName(itemName);
+    }
+
+    public void setCanRepair(boolean canRepair) {
+        this.canRepair = canRepair;
     }
 }

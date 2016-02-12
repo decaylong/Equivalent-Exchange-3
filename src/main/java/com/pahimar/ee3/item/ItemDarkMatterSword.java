@@ -1,24 +1,19 @@
 package com.pahimar.ee3.item;
 
 import com.pahimar.ee3.creativetab.CreativeTab;
+import com.pahimar.ee3.reference.Material;
+import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.util.IChargeable;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
+import net.minecraft.item.ItemSword;
 
-import java.util.Set;
-
-public class ItemToolEE extends ItemTool {
-
-    public ItemToolEE(String itemName, float damageVsEntity, Item.ToolMaterial toolMaterial, Set<Block> blocksEffectiveAgainst) {
-
-        super(damageVsEntity, toolMaterial, blocksEffectiveAgainst);
+public class ItemDarkMatterSword extends ItemSword {
+    public ItemDarkMatterSword() {
+        super(Material.Tools.DARK_MATTER);
         this.setCreativeTab(CreativeTab.EE3_TAB);
         this.setNoRepair();
         this.maxStackSize = 1;
-        setRegistryName(itemName);
-        setUnlocalizedName(itemName);
+        this.setUnlocalizedName(Names.Weapons.DARK_MATTER_SWORD);
     }
 
     @Override
@@ -28,7 +23,6 @@ public class ItemToolEE extends ItemTool {
 
     @Override
     public boolean showDurabilityBar(ItemStack itemStack) {
-
         if (itemStack.getItem() instanceof IChargeable) {
             return ((IChargeable) itemStack.getItem()).getChargeLevel(itemStack) > 0;
         }
@@ -38,7 +32,6 @@ public class ItemToolEE extends ItemTool {
 
     @Override
     public double getDurabilityForDisplay(ItemStack itemStack) {
-
         if (itemStack.getItem() instanceof IChargeable) {
             return (double) (((IChargeable) itemStack.getItem()).getMaxChargeLevel() - ((IChargeable) itemStack.getItem()).getChargeLevel(itemStack)) / (double) ((IChargeable) itemStack.getItem()).getMaxChargeLevel();
         }

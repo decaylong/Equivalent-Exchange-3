@@ -8,6 +8,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 
 import java.util.UUID;
 
@@ -130,7 +132,7 @@ public class InventoryAlchemicalBag implements IInventory, INBTTaggable
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int slotIndex)
+    public ItemStack removeStackFromSlot(int slotIndex)
     {
         if (inventory[slotIndex] != null)
         {
@@ -148,18 +150,6 @@ public class InventoryAlchemicalBag implements IInventory, INBTTaggable
     public void setInventorySlotContents(int slotIndex, ItemStack itemStack)
     {
         inventory[slotIndex] = itemStack;
-    }
-
-    @Override
-    public String getInventoryName()
-    {
-        return this.hasCustomName() ? this.getCustomName() : Names.Containers.ALCHEMICAL_BAG;
-    }
-
-    @Override
-    public boolean hasCustomInventoryName()
-    {
-        return false;
     }
 
     @Override
@@ -181,13 +171,13 @@ public class InventoryAlchemicalBag implements IInventory, INBTTaggable
     }
 
     @Override
-    public void openInventory()
+    public void openInventory(EntityPlayer player)
     {
         // NOOP
     }
 
     @Override
-    public void closeInventory()
+    public void closeInventory(EntityPlayer player)
     {
         // NOOP
     }
@@ -196,6 +186,28 @@ public class InventoryAlchemicalBag implements IInventory, INBTTaggable
     public boolean isItemValidForSlot(int slotIndex, ItemStack itemStack)
     {
         return true;
+    }
+
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i < inventory.length; i++) {
+            this.inventory[i] = null;
+        }
     }
 
     @Override
@@ -262,5 +274,15 @@ public class InventoryAlchemicalBag implements IInventory, INBTTaggable
     public String getCustomName()
     {
         return customName;
+    }
+
+    @Override
+    public String getName() {
+        return this.hasCustomName() ? this.getCustomName() : Names.Containers.ALCHEMICAL_BAG;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return new ChatComponentText(this.getName());
     }
 }

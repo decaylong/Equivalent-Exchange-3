@@ -13,7 +13,7 @@ import net.minecraftforge.common.UsernameCache;
 
 import java.util.UUID;
 
-public class TileEntityEE extends TileEntity implements ITickable {
+public abstract class TileEntityEE extends TileEntity implements ITickable {
 
     protected EnumFacing facing;
     protected byte state;

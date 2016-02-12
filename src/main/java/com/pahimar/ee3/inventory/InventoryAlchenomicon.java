@@ -5,6 +5,7 @@ import com.pahimar.ee3.reference.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IChatComponent;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -69,7 +70,7 @@ public class InventoryAlchenomicon implements IInventory
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int slotIndex)
+    public ItemStack removeStackFromSlot(int slotIndex)
     {
         if (getStackInSlot(slotIndex) != null)
         {
@@ -93,15 +94,19 @@ public class InventoryAlchenomicon implements IInventory
     }
 
     @Override
-    public String getInventoryName()
+    public String getName()
     {
         return Names.Containers.ALCHENOMICON;
     }
 
     @Override
-    public boolean hasCustomInventoryName()
-    {
+    public boolean hasCustomName() {
         return false;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
     }
 
     @Override
@@ -123,13 +128,13 @@ public class InventoryAlchenomicon implements IInventory
     }
 
     @Override
-    public void openInventory()
+    public void openInventory(EntityPlayer entityPlayer)
     {
         // NOOP
     }
 
     @Override
-    public void closeInventory()
+    public void closeInventory(EntityPlayer entityPlayer)
     {
         // NOOP
     }
@@ -138,6 +143,26 @@ public class InventoryAlchenomicon implements IInventory
     public boolean isItemValidForSlot(int slotIndex, ItemStack itemStack)
     {
         return false;
+    }
+
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
     }
 
     public Set<ItemStack> getKnownTransmutations()

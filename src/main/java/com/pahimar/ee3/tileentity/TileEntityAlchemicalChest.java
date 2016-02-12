@@ -4,13 +4,14 @@ import com.pahimar.ee3.init.ModBlocks;
 import com.pahimar.ee3.inventory.ContainerAlchemicalChest;
 import com.pahimar.ee3.reference.Names;
 import com.pahimar.ee3.reference.Sounds;
+import net.minecraft.block.BlockChest;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.ILockableContainer;
 
-public class TileEntityAlchemicalChest extends TileEntityEE implements IInventory
+public class TileEntityAlchemicalChest extends TileEntityEE implements ILockableContainer
 {
     /**
      * The current angle of the chest lid (between 0 and 1)
@@ -25,7 +26,7 @@ public class TileEntityAlchemicalChest extends TileEntityEE implements IInventor
     /**
      * The number of players currently using this chest
      */
-    public int numUsingPlayers;
+    public int numPlayersUsingInventory;
 
     /**
      * Server sync counter (once per 20 ticks)
@@ -92,7 +93,7 @@ public class TileEntityAlchemicalChest extends TileEntityEE implements IInventor
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int slotIndex)
+    public ItemStack removeStackFromSlot(int slotIndex)
     {
         if (inventory[slotIndex] != null)
         {
@@ -121,15 +122,9 @@ public class TileEntityAlchemicalChest extends TileEntityEE implements IInventor
     }
 
     @Override
-    public String getInventoryName()
+    public String getName()
     {
         return this.hasCustomName() ? this.getCustomName() : Names.Containers.ALCHEMICAL_CHEST;
-    }
-
-    @Override
-    public boolean hasCustomInventoryName()
-    {
-        return this.hasCustomName();
     }
 
     @Override
@@ -146,21 +141,35 @@ public class TileEntityAlchemicalChest extends TileEntityEE implements IInventor
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer)
     {
-        return this.worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && entityplayer.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64D;
+        return this.worldObj.getTileEntity(pos) == this && entityplayer.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64D;
     }
 
     @Override
-    public void openInventory()
-    {
-        ++numUsingPlayers;
-        worldObj.addBlockEvent(xCoord, yCoord, zCoord, ModBlocks.alchemicalChest, 1, numUsingPlayers);
+    public void openInventory(EntityPlayer entityPlayer) {
+
+        if (!entityPlayer.isSpectator()) {
+
+            if (this.numPlayersUsingInventory < 0) {
+                this.numPlayersUsingInventory = 0;
+            }
+
+            ++this.numPlayersUsingInventory;
+            this.worldObj.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsingInventory);
+            this.worldObj.notifyNeighborsOfStateChange(this.pos, this.getBlockType());
+            this.worldObj.notifyNeighborsOfStateChange(this.pos.down(), this.getBlockType());
+        }
     }
 
     @Override
-    public void closeInventory()
-    {
-        --numUsingPlayers;
-        worldObj.addBlockEvent(xCoord, yCoord, zCoord, ModBlocks.alchemicalChest, 1, numUsingPlayers);
+    public void closeInventory(EntityPlayer entityPlayer) {
+
+        if (!entityPlayer.isSpectator() && this.getBlockType() instanceof BlockChest) {
+
+            --this.numPlayersUsingInventory;
+            this.worldObj.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsingInventory);
+            this.worldObj.notifyNeighborsOfStateChange(this.pos, this.getBlockType());
+            this.worldObj.notifyNeighborsOfStateChange(this.pos.down(), this.getBlockType());
+        }
     }
 
     @Override
@@ -174,31 +183,31 @@ public class TileEntityAlchemicalChest extends TileEntityEE implements IInventor
      * ticks and creates a new spawn inside its implementation.
      */
     @Override
-    public void updateEntity()
+    public void update()
     {
-        super.updateEntity();
+        super.update();
 
         if (++ticksSinceSync % 20 * 4 == 0)
         {
-            worldObj.addBlockEvent(xCoord, yCoord, zCoord, ModBlocks.alchemicalChest, 1, numUsingPlayers);
+            worldObj.addBlockEvent(xCoord, yCoord, zCoord, ModBlocks.alchemicalChest, 1, numPlayersUsingInventory);
         }
 
         prevLidAngle = lidAngle;
         float angleIncrement = 0.1F;
         double adjustedXCoord, adjustedZCoord;
 
-        if (numUsingPlayers > 0 && lidAngle == 0.0F)
+        if (numPlayersUsingInventory > 0 && lidAngle == 0.0F)
         {
             adjustedXCoord = xCoord + 0.5D;
             adjustedZCoord = zCoord + 0.5D;
             worldObj.playSoundEffect(adjustedXCoord, yCoord + 0.5D, adjustedZCoord, Sounds.CHEST_OPEN, 0.5F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
         }
 
-        if (numUsingPlayers == 0 && lidAngle > 0.0F || numUsingPlayers > 0 && lidAngle < 1.0F)
+        if (numPlayersUsingInventory == 0 && lidAngle > 0.0F || numPlayersUsingInventory > 0 && lidAngle < 1.0F)
         {
             float var8 = lidAngle;
 
-            if (numUsingPlayers > 0)
+            if (numPlayersUsingInventory > 0)
             {
                 lidAngle += angleIncrement;
             }
@@ -234,7 +243,7 @@ public class TileEntityAlchemicalChest extends TileEntityEE implements IInventor
     {
         if (eventID == 1)
         {
-            this.numUsingPlayers = numUsingPlayers;
+            this.numPlayersUsingInventory = numUsingPlayers;
             return true;
         }
         else

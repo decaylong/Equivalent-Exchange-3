@@ -3,9 +3,6 @@ package com.pahimar.ee3.tileentity;
 import com.pahimar.ee3.api.array.AlchemyArray;
 import com.pahimar.ee3.network.Network;
 import com.pahimar.ee3.network.message.MessageTileEntityAlchemyArray;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +14,6 @@ import net.minecraft.network.Packet;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityAlchemyArray extends TileEntityEE implements ISidedInventory
 {

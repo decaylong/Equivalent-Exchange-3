@@ -5,6 +5,7 @@ import com.pahimar.ee3.reference.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IChatComponent;
 
 import java.util.*;
 
@@ -95,7 +96,7 @@ public class InventoryTransmutationTablet implements IInventory
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int slotIndex)
+    public ItemStack removeStackFromSlot(int slotIndex)
     {
         if (getStackInSlot(slotIndex) != null)
         {
@@ -128,15 +129,19 @@ public class InventoryTransmutationTablet implements IInventory
     }
 
     @Override
-    public String getInventoryName()
+    public String getName()
     {
         return Names.Containers.TRANSMUTATION_TABLET;
     }
 
     @Override
-    public boolean hasCustomInventoryName()
-    {
+    public boolean hasCustomName() {
         return false;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
     }
 
     @Override
@@ -158,13 +163,13 @@ public class InventoryTransmutationTablet implements IInventory
     }
 
     @Override
-    public void openInventory()
+    public void openInventory(EntityPlayer entityPlayer)
     {
         // NOOP
     }
 
     @Override
-    public void closeInventory()
+    public void closeInventory(EntityPlayer entityPlayer)
     {
         // NOOP
     }
@@ -173,6 +178,26 @@ public class InventoryTransmutationTablet implements IInventory
     public boolean isItemValidForSlot(int slotIndex, ItemStack itemStack)
     {
         return false;
+    }
+
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
     }
 
     public Set<ItemStack> getKnownTransmutations()

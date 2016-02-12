@@ -1,7 +1,6 @@
 package com.pahimar.ee3.proxy;
 
 import com.pahimar.ee3.client.handler.DrawBlockHighlightEventHandler;
-import com.pahimar.ee3.client.handler.HUDTickHandler;
 import com.pahimar.ee3.client.handler.ItemTooltipEventHandler;
 import com.pahimar.ee3.client.handler.KeyInputEventHandler;
 import com.pahimar.ee3.client.settings.Keybindings;
@@ -11,7 +10,6 @@ import com.pahimar.ee3.settings.ChalkSettings;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class ClientProxy extends CommonProxy {
 
@@ -21,8 +19,7 @@ public class ClientProxy extends CommonProxy {
     public void registerEventHandlers() {
 
         super.registerEventHandlers();
-        FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
-        FMLCommonHandler.instance().bus().register(new HUDTickHandler());
+        MinecraftForge.EVENT_BUS.register(new KeyInputEventHandler());
         MinecraftForge.EVENT_BUS.register(new ItemTooltipEventHandler());
         MinecraftForge.EVENT_BUS.register(new DrawBlockHighlightEventHandler());
     }
